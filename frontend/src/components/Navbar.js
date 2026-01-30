@@ -25,7 +25,7 @@ const Navbar = () => {
   const navItems = [
     { path: '/', label: 'Início', icon: Home },
     { path: '/surveys', label: 'Sondagens', icon: ClipboardList },
-    { path: '/responses', label: 'Respostas', icon: MessageCircle, requiresAuth: true },
+    { path: '/results', label: 'Resultados', icon: BarChart3 },
     { path: '/suggest', label: 'Sugerir', icon: Lightbulb, requiresAuth: true },
     { path: '/about', label: 'Sobre', icon: Info },
   ];
