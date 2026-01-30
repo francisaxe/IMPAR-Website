@@ -156,6 +156,17 @@ const AdminPage = () => {
     }
   };
 
+  const getQuestionTypeLabel = (type) => {
+    const types = {
+      'multiple_choice': 'Escolha Múltipla',
+      'text': 'Texto Livre',
+      'rating': 'Escala de Avaliação',
+      'yes_no': 'Sim/Não',
+      'checkbox': 'Múltipla Seleção'
+    };
+    return types[type] || type;
+  };
+
   const getRoleBadge = (role) => {
     switch (role) {
       case 'owner':
