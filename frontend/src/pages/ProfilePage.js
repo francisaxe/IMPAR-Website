@@ -168,22 +168,6 @@ const ProfilePage = () => {
           </CardContent>
         </Card>
 
-        {/* Join Team CTA */}
-        <Card className="rounded-lg border-0 shadow-sm bg-white mb-6">
-          <CardContent className="py-16 text-center">
-            <Users className="w-12 h-12 mx-auto mb-4 text-zinc-600" />
-            <h2 className="font-serif text-xl font-medium text-zinc-900 mb-6">
-              Quer fazer parte da equipa IMPAR?
-            </h2>
-            <Button
-              onClick={() => setShowTeamDialog(true)}
-              className="rounded-none bg-zinc-900 text-white hover:bg-zinc-800 px-8"
-            >
-              Clique aqui
-            </Button>
-          </CardContent>
-        </Card>
-
         {/* Logout Button */}
         <div className="text-center">
           <Button
