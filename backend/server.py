@@ -24,7 +24,7 @@ db = client[os.environ['DB_NAME']]
 # JWT Settings
 JWT_SECRET = os.environ.get('JWT_SECRET', 'impar-super-secret-key-change-in-production')
 JWT_ALGORITHM = "HS256"
-JWT_EXPIRATION_HOURS = 24
+JWT_EXPIRATION_HOURS = 168  # 7 days
 
 # Create the main app
 app = FastAPI(title="IMPAR Survey API")
