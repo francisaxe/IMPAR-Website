@@ -23,10 +23,10 @@ const LoginPage = () => {
     setLoading(true);
     try {
       await login(formData.email, formData.password);
-      toast.success('Welcome back!');
+      toast.success('Bem-vindo de volta!');
       navigate('/dashboard');
     } catch (error) {
-      toast.error(error.response?.data?.detail || 'Login failed');
+      toast.error(error.response?.data?.detail || 'Falha ao entrar');
     } finally {
       setLoading(false);
     }
@@ -43,8 +43,8 @@ const LoginPage = () => {
 
         <Card className="rounded-none border border-zinc-200 dark:border-zinc-800 shadow-none">
           <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="font-serif text-2xl font-medium">Welcome back</CardTitle>
-            <CardDescription>Enter your credentials to access your account</CardDescription>
+            <CardTitle className="font-serif text-2xl font-medium">Bem-vindo de volta</CardTitle>
+            <CardDescription>Introduza as suas credenciais para aceder à sua conta</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -53,7 +53,7 @@ const LoginPage = () => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder="voce@exemplo.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
@@ -62,7 +62,7 @@ const LoginPage = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                <Label htmlFor="password" className="text-sm font-medium">Palavra-passe</Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -89,19 +89,19 @@ const LoginPage = () => {
                 disabled={loading}
                 data-testid="login-submit"
               >
-                {loading ? 'Signing in...' : 'Sign In'}
+                {loading ? 'A entrar...' : 'Entrar'}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </form>
 
             <div className="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
-              Don't have an account?{' '}
+              Não tem uma conta?{' '}
               <Link
                 to="/register"
                 className="font-medium text-black dark:text-white hover:underline"
                 data-testid="register-link"
               >
-                Create one
+                Criar uma
               </Link>
             </div>
           </CardContent>
