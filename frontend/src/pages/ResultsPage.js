@@ -259,10 +259,15 @@ const ResultsPage = () => {
                       )}
                     </div>
                     <div className="flex items-center gap-4 mt-4 text-sm text-zinc-500">
-                      <span className="flex items-center gap-1">
-                        <Users className="w-4 h-4" />
-                        {analytics?.total_responses || 0} respostas
-                      </span>
+                      {isAdmin && (
+                        <>
+                          <span className="flex items-center gap-1">
+                            <Users className="w-4 h-4" />
+                            {analytics?.total_responses || 0} respostas
+                          </span>
+                          <span>•</span>
+                        </>
+                      )}
                       <span className="flex items-center gap-1">
                         <ClipboardList className="w-4 h-4" />
                         {selectedSurvey.questions?.length || 0} perguntas
