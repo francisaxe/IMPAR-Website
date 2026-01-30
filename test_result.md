@@ -228,6 +228,42 @@ frontend:
         agent: "testing"
         comment: "✅ TESTED SUCCESSFULLY - Visual design excellent with proper #f5f5f5 background color, rounded-lg cards with subtle shadows, serif typography for titles (IMPAR, headings), proper spacing and responsive layout, lucide-react icons working perfectly. Clean minimalist design achieved as requested."
 
+  - task: "Team Application - User Profile"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/ProfilePage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Needs testing - verify team application card with 'Quer fazer parte da equipa IMPAR?' title, 'Clique aqui' button, dialog modal with form, textarea, and submission functionality"
+
+  - task: "Team Application - Admin Panel"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/AdminPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Needs testing - verify admin panel third tab 'Candidaturas', application cards display, status management dropdown, delete functionality, statistics counter"
+
+  - task: "Team Application - Backend Integration"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Needs testing - verify API endpoints for creating, listing, updating status, and deleting team applications. Test duplicate application prevention."
+
 metadata:
   created_by: "testing_agent"
   version: "1.0"
