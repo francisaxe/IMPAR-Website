@@ -75,6 +75,30 @@ const DashboardPage = () => {
     }
   };
 
+  const handleTeamApplication = async () => {
+    if (!teamMessage.trim()) {
+      toast.error('Por favor, escreva uma mensagem');
+      return;
+    }
+
+    setSubmittingTeam(true);
+    try {
+      const token = localStorage.getItem('impar_token');
+      await axios.post(
+        `${API_URL}/team-applications`,
+        { message: teamMessage },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      toast.success('Candidatura enviada com sucesso!');
+      setShowTeamDialog(false);
+      setTeamMessage('');
+    } catch (error) {
+      toast.error(error.response?.data?.detail || 'Erro ao enviar candidatura');
+    } finally {
+      setSubmittingTeam(false);
+    }
+  };
+
   const stats = {
     totalSurveys: surveys.length,
     publishedSurveys: surveys.filter((s) => s.is_published).length,
