@@ -197,6 +197,20 @@ const CreateSurveyPage = () => {
                 data-testid="survey-description"
               />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="end_date">Data Limite (opcional)</Label>
+              <Input
+                id="end_date"
+                type="date"
+                value={survey.end_date}
+                onChange={(e) => setSurvey({ ...survey, end_date: e.target.value })}
+                className="rounded-none border-zinc-300 dark:border-zinc-700"
+                data-testid="survey-end-date"
+              />
+              <p className="text-xs text-zinc-500">
+                Após esta data, os utilizadores não poderão mais responder a esta sondagem.
+              </p>
+            </div>
             {isAdmin && (
               <div className="flex items-center gap-3 pt-2">
                 <Switch
