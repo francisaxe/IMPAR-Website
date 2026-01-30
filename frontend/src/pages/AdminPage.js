@@ -6,6 +6,13 @@ import { Badge } from '../components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Textarea } from '../components/ui/textarea';
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '../components/ui/dialog';
+import {
   Table,
   TableBody,
   TableCell,
@@ -31,7 +38,7 @@ import {
   AlertDialogTitle,
 } from '../components/ui/alert-dialog';
 import { toast } from 'sonner';
-import { Users, MessageSquare, Shield, Trash2, Send } from 'lucide-react';
+import { Users, MessageSquare, Shield, Trash2, Send, Eye, FileText, HelpCircle, Tag } from 'lucide-react';
 
 const AdminPage = () => {
   const { api, isOwner } = useAuth();
