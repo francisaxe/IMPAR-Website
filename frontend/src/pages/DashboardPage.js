@@ -18,15 +18,19 @@ import { toast } from 'sonner';
 import { PlusCircle, BarChart3, ClipboardList, Users } from 'lucide-react';
 
 const DashboardPage = () => {
-  const { user, api } = useAuth();
+  const { user, api, isAdmin } = useAuth();
   const navigate = useNavigate();
   const [surveys, setSurveys] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deleteDialog, setDeleteDialog] = useState({ open: false, survey: null });
 
   useEffect(() => {
-    fetchSurveys();
-  }, []);
+    if (isAdmin) {
+      fetchSurveys();
+    } else {
+      setLoading(false);
+    }
+  }, [isAdmin]);
 
   const fetchSurveys = async () => {
     try {
