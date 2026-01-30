@@ -248,7 +248,7 @@ const ResultsPage = () => {
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <h2 className="font-serif text-xl font-medium text-zinc-900 mb-2">
-                          {selectedSurvey.title}
+                          {selectedSurvey.survey_number}. {selectedSurvey.title}
                         </h2>
                         {selectedSurvey.description && (
                           <p className="text-sm text-zinc-500">
