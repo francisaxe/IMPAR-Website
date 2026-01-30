@@ -543,6 +543,161 @@ const AdminPage = () => {
         </Tabs>
       </div>
 
+      {/* Suggestion Details Dialog */}
+      <Dialog open={suggestionDialog.open} onOpenChange={(open) => setSuggestionDialog({ ...suggestionDialog, open })}>
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto rounded-lg">
+          <DialogHeader>
+            <DialogTitle className="font-serif text-2xl font-medium text-zinc-900 dark:text-white pr-8">
+              {suggestionDialog.suggestion?.survey_title || 'Detalhes da Sugestão'}
+            </DialogTitle>
+            <DialogDescription className="text-zinc-600 dark:text-zinc-400">
+              Submetida por {suggestionDialog.suggestion?.user_name} em{' '}
+              {suggestionDialog.suggestion?.created_at && new Date(suggestionDialog.suggestion.created_at).toLocaleDateString('pt-PT')}
+            </DialogDescription>
+          </DialogHeader>
+
+          {suggestionDialog.suggestion && (
+            <div className="space-y-6 mt-4">
+              {/* Status */}
+              <div>
+                <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2 block">
+                  Estado
+                </label>
+                {getStatusBadge(suggestionDialog.suggestion.status)}
+              </div>
+
+              {/* Category */}
+              {suggestionDialog.suggestion.category && (
+                <div>
+                  <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2 block flex items-center gap-2">
+                    <Tag className="w-4 h-4" />
+                    Categoria
+                  </label>
+                  <Badge variant="outline" className="text-sm py-1 px-3">
+                    {suggestionDialog.suggestion.category}
+                  </Badge>
+                </div>
+              )}
+
+              {/* Description */}
+              {suggestionDialog.suggestion.survey_description && (
+                <div>
+                  <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2 block flex items-center gap-2">
+                    <FileText className="w-4 h-4" />
+                    Descrição
+                  </label>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900 p-4 rounded-md">
+                    {suggestionDialog.suggestion.survey_description}
+                  </p>
+                </div>
+              )}
+
+              {/* Questions */}
+              {suggestionDialog.suggestion.questions && suggestionDialog.suggestion.questions.length > 0 && (
+                <div>
+                  <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-3 block flex items-center gap-2">
+                    <HelpCircle className="w-4 h-4" />
+                    Perguntas Sugeridas ({suggestionDialog.suggestion.questions.length})
+                  </label>
+                  <div className="space-y-3">
+                    {suggestionDialog.suggestion.questions.map((question, index) => (
+                      <Card key={question.id || index} className="bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
+                        <CardContent className="p-4">
+                          <div className="flex items-start gap-3">
+                            <div className="w-6 h-6 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-black flex items-center justify-center text-xs font-medium flex-shrink-0 mt-0.5">
+                              {index + 1}
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2">
+                                <Badge variant="secondary" className="text-xs">
+                                  {getQuestionTypeLabel(question.type)}
+                                </Badge>
+                              </div>
+                              <p className="text-sm text-zinc-900 dark:text-white font-medium">
+                                {question.text}
+                              </p>
+                              {question.options && question.options.length > 0 && (
+                                <div className="mt-3 pl-4 border-l-2 border-zinc-300 dark:border-zinc-700">
+                                  <p className="text-xs text-zinc-500 mb-2">Opções de resposta:</p>
+                                  <ul className="space-y-1">
+                                    {question.options.map((option, optIndex) => (
+                                      <li key={optIndex} className="text-xs text-zinc-600 dark:text-zinc-400">
+                                        • {option}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Additional Notes */}
+              {suggestionDialog.suggestion.additional_notes && (
+                <div>
+                  <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2 block flex items-center gap-2">
+                    <MessageSquare className="w-4 h-4" />
+                    Notas Adicionais
+                  </label>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900 p-4 rounded-md whitespace-pre-wrap">
+                    {suggestionDialog.suggestion.additional_notes}
+                  </p>
+                </div>
+              )}
+
+              {/* Original Content (fallback) */}
+              {!suggestionDialog.suggestion.questions && (
+                <div>
+                  <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2 block">
+                    Conteúdo Original
+                  </label>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900 p-4 rounded-md whitespace-pre-wrap">
+                    {suggestionDialog.suggestion.content}
+                  </p>
+                </div>
+              )}
+
+              {/* Actions */}
+              <div className="flex items-center justify-between pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                <Select
+                  value={suggestionDialog.suggestion.status}
+                  onValueChange={(value) => {
+                    handleSuggestionStatus(suggestionDialog.suggestion.id, value);
+                    setSuggestionDialog({ 
+                      open: true, 
+                      suggestion: { ...suggestionDialog.suggestion, status: value } 
+                    });
+                  }}
+                >
+                  <SelectTrigger className="w-48 rounded-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="pending">Pendente</SelectItem>
+                    <SelectItem value="reviewed">Revisto</SelectItem>
+                    <SelectItem value="implemented">Implementado</SelectItem>
+                    <SelectItem value="rejected">Rejeitado</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Button
+                  variant="ghost"
+                  onClick={() => setSuggestionDialog({ open: false, suggestion: null })}
+                  className="rounded-sm"
+                >
+                  Fechar
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteDialog.open} onOpenChange={(open) => setDeleteDialog({ ...deleteDialog, open })}>
         <AlertDialogContent className="rounded-none">
