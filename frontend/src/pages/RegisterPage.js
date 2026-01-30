@@ -362,28 +362,48 @@ const RegisterPage = () => {
                     <Label htmlFor="municipality" className="text-sm text-zinc-600">
                       Concelho
                     </Label>
-                    <Input
-                      id="municipality"
-                      type="text"
-                      placeholder="Concelho"
+                    <Select
                       value={formData.municipality}
-                      onChange={(e) => setFormData({ ...formData, municipality: e.target.value })}
-                      className="rounded-sm border-zinc-300"
-                    />
+                      onValueChange={(value) => setFormData({ ...formData, municipality: value })}
+                    >
+                      <SelectTrigger className="rounded-sm border-zinc-300">
+                        <SelectValue placeholder="Selecione o concelho" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {formData.district && concelhosPorDistrito[formData.district] ? (
+                          concelhosPorDistrito[formData.district].map((concelho) => (
+                            <SelectItem key={concelho} value={concelho}>
+                              {concelho}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem value="outro" disabled>
+                            Selecione primeiro o distrito
+                          </SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="parish" className="text-sm text-zinc-600">
                       Freguesia
                     </Label>
-                    <Input
-                      id="parish"
-                      type="text"
-                      placeholder="Freguesia"
+                    <Select
                       value={formData.parish}
-                      onChange={(e) => setFormData({ ...formData, parish: e.target.value })}
-                      className="rounded-sm border-zinc-300"
-                    />
+                      onValueChange={(value) => setFormData({ ...formData, parish: value })}
+                    >
+                      <SelectTrigger className="rounded-sm border-zinc-300">
+                        <SelectValue placeholder="Selecione a freguesia" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {freguesiasComuns.map((freguesia) => (
+                          <SelectItem key={freguesia} value={freguesia}>
+                            {freguesia}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
               </div>
