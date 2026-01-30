@@ -203,6 +203,15 @@ const AdminPage = () => {
           </Card>
           <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
             <CardContent className="p-4 flex items-center gap-3">
+              <Users className="w-5 h-5 text-zinc-500" />
+              <div>
+                <p className="text-2xl font-medium">{teamApplications.length}</p>
+                <p className="text-xs text-zinc-500">Candidaturas</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
+            <CardContent className="p-4 flex items-center gap-3">
               <MessageSquare className="w-5 h-5 text-zinc-500" />
               <div>
                 <p className="text-2xl font-medium">
@@ -224,6 +233,10 @@ const AdminPage = () => {
             <TabsTrigger value="suggestions" className="rounded-none data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-950">
               <MessageSquare className="w-4 h-4 mr-2" />
               Sugestões
+            </TabsTrigger>
+            <TabsTrigger value="team-applications" className="rounded-none data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-950">
+              <Shield className="w-4 h-4 mr-2" />
+              Candidaturas
             </TabsTrigger>
           </TabsList>
 
