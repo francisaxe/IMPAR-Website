@@ -189,6 +189,67 @@ const TakeSurveyPage = () => {
           </div>
         );
 
+      case 'yes_no':
+        return (
+          <div className="flex gap-4 justify-center">
+            <button
+              onClick={() => setAnswer(question.id, 'Sim')}
+              className={`flex-1 max-w-[200px] py-4 px-6 border transition-all ${
+                answers[question.id] === 'Sim'
+                  ? 'bg-emerald-600 text-white border-emerald-600'
+                  : 'border-zinc-300 dark:border-zinc-700 hover:border-emerald-600'
+              }`}
+              data-testid="yes-button"
+            >
+              Sim
+            </button>
+            <button
+              onClick={() => setAnswer(question.id, 'Não')}
+              className={`flex-1 max-w-[200px] py-4 px-6 border transition-all ${
+                answers[question.id] === 'Não'
+                  ? 'bg-red-600 text-white border-red-600'
+                  : 'border-zinc-300 dark:border-zinc-700 hover:border-red-600'
+              }`}
+              data-testid="no-button"
+            >
+              Não
+            </button>
+          </div>
+        );
+
+      case 'checkbox':
+        const selectedCheckboxes = answers[question.id] ? answers[question.id].split(',') : [];
+        return (
+          <div className="space-y-3">
+            {question.options?.map((option) => {
+              const isChecked = selectedCheckboxes.includes(option.id);
+              return (
+                <label
+                  key={option.id}
+                  className="flex items-center gap-3 p-4 border border-zinc-200 dark:border-zinc-800 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+                >
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={(e) => {
+                      let newSelected;
+                      if (e.target.checked) {
+                        newSelected = [...selectedCheckboxes, option.id];
+                      } else {
+                        newSelected = selectedCheckboxes.filter(id => id !== option.id);
+                      }
+                      setAnswer(question.id, newSelected.join(','));
+                    }}
+                    className="w-5 h-5 rounded border-zinc-300"
+                    data-testid={`checkbox-${option.id}`}
+                  />
+                  <span className="text-zinc-900 dark:text-white">{option.text}</span>
+                </label>
+              );
+            })}
+          </div>
+        );
+
       default:
         return null;
     }
