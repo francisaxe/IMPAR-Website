@@ -815,20 +815,30 @@ const AdminPage = () => {
         <AlertDialogContent className="rounded-none">
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Eliminar {deleteDialog.type === 'user' ? 'Utilizador' : deleteDialog.type === 'application' ? 'Candidatura' : 'Sugestão'}
+              Eliminar {deleteDialog.type === 'user' ? 'Utilizador' : deleteDialog.type === 'application' ? 'Candidatura' : deleteDialog.type === 'survey' ? 'Sondagem' : 'Sugestão'}
             </AlertDialogTitle>
             <AlertDialogDescription>
               {deleteDialog.type === 'user'
                 ? `Tem a certeza que quer eliminar ${deleteDialog.item?.name}? Esta ação não pode ser revertida.`
                 : deleteDialog.type === 'application'
                 ? 'Tem a certeza de que deseja eliminar esta candidatura? Esta ação não pode ser desfeita.'
+                : deleteDialog.type === 'survey'
+                ? `Tem a certeza que quer eliminar a sondagem "${deleteDialog.item?.title}"? Esta ação irá eliminar todas as respostas associadas e não pode ser revertida.`
                 : 'Tem a certeza que quer eliminar esta sugestão? Esta ação não pode ser revertida.'}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel className="rounded-none">Cancelar</AlertDialogCancel>
             <AlertDialogAction
-              onClick={deleteDialog.type === 'user' ? handleDeleteUser : deleteDialog.type === 'application' ? handleDeleteTeamApplication : handleDeleteSuggestion}
+              onClick={
+                deleteDialog.type === 'user' 
+                  ? handleDeleteUser 
+                  : deleteDialog.type === 'application' 
+                  ? handleDeleteTeamApplication 
+                  : deleteDialog.type === 'survey'
+                  ? handleDeleteSurvey
+                  : handleDeleteSuggestion
+              }
               className="rounded-none bg-red-600 hover:bg-red-700"
               data-testid="confirm-delete"
             >
