@@ -38,15 +38,15 @@ const SurveysListPage = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="mb-12">
-          <p className="label-caps mb-4">Browse</p>
+          <p className="label-caps mb-4">Explorar</p>
           <h1 className="font-serif text-4xl md:text-5xl font-light text-zinc-900 dark:text-white mb-6">
-            All Surveys
+            Todos os Inquéritos
           </h1>
           <div className="relative max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
             <Input
               type="text"
-              placeholder="Search surveys..."
+              placeholder="Pesquisar inquéritos..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="rounded-none pl-10 border-zinc-300 dark:border-zinc-700"
@@ -63,7 +63,7 @@ const SurveysListPage = () => {
           </div>
         ) : filteredSurveys.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-zinc-500 text-lg">No surveys found</p>
+            <p className="text-zinc-500 text-lg">Nenhum inquérito encontrado</p>
           </div>
         ) : (
           <>
@@ -71,7 +71,7 @@ const SurveysListPage = () => {
             {featuredSurveys.length > 0 && (
               <div className="mb-12">
                 <h2 className="font-serif text-2xl font-normal text-zinc-900 dark:text-white mb-6">
-                  Featured Surveys
+                  Inquéritos em Destaque
                 </h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {featuredSurveys.map((survey) => (
@@ -85,7 +85,7 @@ const SurveysListPage = () => {
             {regularSurveys.length > 0 && (
               <div>
                 <h2 className="font-serif text-2xl font-normal text-zinc-900 dark:text-white mb-6">
-                  All Surveys
+                  Todos os Inquéritos
                 </h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {regularSurveys.map((survey) => (
