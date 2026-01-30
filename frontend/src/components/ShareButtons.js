@@ -19,42 +19,57 @@ const ShareButtons = ({ surveyId, surveyTitle }) => {
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
-      toast.success('Link copiado!');
+      toast.success('Link copiado para a área de transferência!');
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      toast.error('Falha ao copiar link');
+      // Fallback for older browsers
+      try {
+        const textArea = document.createElement('textarea');
+        textArea.value = shareUrl;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        setCopied(true);
+        toast.success('Link copiado!');
+        setTimeout(() => setCopied(false), 2000);
+      } catch (fallbackErr) {
+        toast.error('Falha ao copiar link');
+      }
     }
   };
 
   const shareViaEmail = () => {
-    window.open(
-      `mailto:?subject=${encodedTitle}&body=Responda a este inquérito: ${encodedUrl}`,
-      '_blank'
-    );
+    const subject = `Responda a este inquérito: ${surveyTitle}`;
+    const body = `Olá,\n\nConvido-o(a) a responder a este inquérito do IMPAR:\n\n"${surveyTitle}"\n\n${shareUrl}\n\nObrigado!`;
+    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   const shareToFacebook = () => {
-    window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-      '_blank',
-      'width=600,height=400'
-    );
+    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+    const newWindow = window.open(fbUrl, 'facebook-share', 'width=600,height=400');
+    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+      // Popup blocked, open in new tab
+      window.open(fbUrl, '_blank');
+    }
   };
 
   const shareToTwitter = () => {
-    window.open(
-      `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
-      '_blank',
-      'width=600,height=400'
-    );
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
+    const newWindow = window.open(twitterUrl, 'twitter-share', 'width=600,height=400');
+    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+      window.open(twitterUrl, '_blank');
+    }
   };
 
   const shareToLinkedin = () => {
-    window.open(
-      `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-      '_blank',
-      'width=600,height=400'
-    );
+    const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+    const newWindow = window.open(linkedinUrl, 'linkedin-share', 'width=600,height=400');
+    if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+      window.open(linkedinUrl, '_blank');
+    }
   };
 
   return (
