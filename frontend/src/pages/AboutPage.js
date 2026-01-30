@@ -87,13 +87,13 @@ const AboutPage = () => {
           </CardContent>
         </Card>
 
-        {/* Participa nas Nossas Sondagens */}
+        {/* Participe nas Nossas Sondagens */}
         <Card className="rounded-lg border-0 shadow-sm bg-white mb-6">
           <CardContent className="p-8">
             <div className="flex items-start gap-3 mb-6">
               <Lightbulb className="w-6 h-6 text-amber-500 flex-shrink-0 mt-1" />
               <h2 className="font-serif text-2xl font-medium text-zinc-900">
-                Participa nas Nossas Sondagens
+                Participe nas Nossas Sondagens
               </h2>
             </div>
             <div className="space-y-4">

@@ -144,7 +144,7 @@ const LandingPage = () => {
               <div className="flex items-center gap-2 mb-6">
                 <Lightbulb className="w-5 h-5 text-amber-500" />
                 <h2 className="font-serif text-xl font-medium text-zinc-900">
-                  Participa nas Nossas Sondagens
+                  Participe nas Nossas Sondagens
                 </h2>
               </div>
 
