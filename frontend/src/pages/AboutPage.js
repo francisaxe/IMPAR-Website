@@ -45,9 +45,34 @@ const AboutPage = () => {
         </Card>
 
         {/* Disclaimer sobre sondagens */}
-        <p className="text-center text-sm text-zinc-500 italic mb-8">
+        <p className="text-center text-sm text-zinc-500 italic mb-4">
           Estes são resultados de algumas sondagens que nos foram apresentadas antes da primeira volta das eleições presidenciais de 2026.
         </p>
+
+        {/* Imagens de Sondagens */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div className="overflow-hidden rounded-lg">
+            <img 
+              src="https://customer-assets.emergentagent.com/job_d622eac5-8b90-415c-aee7-6f465827f0bc/artifacts/ai6l5vn0_1.jpg" 
+              alt="Sondagem 1 - Intenção de Voto Presidenciais 2026"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+          <div className="overflow-hidden rounded-lg">
+            <img 
+              src="https://customer-assets.emergentagent.com/job_d622eac5-8b90-415c-aee7-6f465827f0bc/artifacts/edbg9h3l_2.jpg" 
+              alt="Sondagem 2 - Intenção de Voto"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+          <div className="overflow-hidden rounded-lg">
+            <img 
+              src="https://customer-assets.emergentagent.com/job_d622eac5-8b90-415c-aee7-6f465827f0bc/artifacts/voktfdv7_3.jpg" 
+              alt="Sondagem 3 - Maioria dos Concelhos"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        </div>
 
         {/* A Nossa Resposta */}
         <Card className="rounded-lg border-0 shadow-sm bg-white mb-6">
