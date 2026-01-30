@@ -176,7 +176,7 @@ const ProfilePage = () => {
               Quer fazer parte da equipa IMPAR?
             </h2>
             <Button
-              onClick={() => toast.info('Em breve: Página de carreiras')}
+              onClick={() => setShowTeamDialog(true)}
               className="rounded-none bg-zinc-900 text-white hover:bg-zinc-800 px-8"
             >
               Clique aqui
@@ -197,6 +197,37 @@ const ProfilePage = () => {
           </Button>
         </div>
       </div>
+
+      {/* Team Application Dialog */}
+      <Dialog open={showTeamDialog} onOpenChange={setShowTeamDialog}>
+        <DialogContent className="sm:max-w-[500px] rounded-lg">
+          <DialogHeader>
+            <DialogTitle className="font-serif text-2xl font-medium text-zinc-900">
+              Juntar-se à Equipa IMPAR
+            </DialogTitle>
+            <DialogDescription className="text-zinc-600 pt-2">
+              Fale-nos um pouco sobre si, e porque se quer juntar à nossa equipa.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <Textarea
+              placeholder="Escreva aqui a sua mensagem..."
+              value={teamMessage}
+              onChange={(e) => setTeamMessage(e.target.value)}
+              className="min-h-[200px] rounded-sm border-zinc-300 resize-none"
+            />
+          </div>
+          <DialogFooter>
+            <Button
+              onClick={handleTeamApplication}
+              disabled={submittingTeam}
+              className="w-full rounded-none bg-zinc-900 text-white hover:bg-zinc-800 py-6"
+            >
+              {submittingTeam ? 'A enviar...' : 'Enviar Candidatura'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
