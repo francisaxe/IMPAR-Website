@@ -54,7 +54,7 @@ const AdminPage = () => {
       setUsers(usersRes.data);
       setSuggestions(suggestionsRes.data);
     } catch (error) {
-      toast.error('Failed to load admin data');
+      toast.error('Falha ao carregar dados de administração');
     } finally {
       setLoading(false);
     }
@@ -64,9 +64,9 @@ const AdminPage = () => {
     try {
       await api.put(`/admin/users/${userId}/role?role=${newRole}`);
       setUsers(users.map((u) => (u.id === userId ? { ...u, role: newRole } : u)));
-      toast.success('User role updated');
+      toast.success('Função do utilizador atualizada');
     } catch (error) {
-      toast.error(error.response?.data?.detail || 'Failed to update role');
+      toast.error(error.response?.data?.detail || 'Falha ao atualizar função');
     }
   };
 
@@ -75,9 +75,9 @@ const AdminPage = () => {
     try {
       await api.delete(`/admin/users/${deleteDialog.item.id}`);
       setUsers(users.filter((u) => u.id !== deleteDialog.item.id));
-      toast.success('User deleted');
+      toast.success('Utilizador eliminado');
     } catch (error) {
-      toast.error(error.response?.data?.detail || 'Failed to delete user');
+      toast.error(error.response?.data?.detail || 'Falha ao eliminar utilizador');
     } finally {
       setDeleteDialog({ open: false, type: '', item: null });
     }
@@ -89,9 +89,9 @@ const AdminPage = () => {
       setSuggestions(
         suggestions.map((s) => (s.id === suggestionId ? { ...s, status } : s))
       );
-      toast.success('Suggestion status updated');
+      toast.success('Estado da sugestão atualizado');
     } catch (error) {
-      toast.error('Failed to update suggestion');
+      toast.error('Falha ao atualizar sugestão');
     }
   };
 
@@ -100,9 +100,9 @@ const AdminPage = () => {
     try {
       await api.delete(`/suggestions/${deleteDialog.item.id}`);
       setSuggestions(suggestions.filter((s) => s.id !== deleteDialog.item.id));
-      toast.success('Suggestion deleted');
+      toast.success('Sugestão eliminada');
     } catch (error) {
-      toast.error('Failed to delete suggestion');
+      toast.error('Falha ao eliminar sugestão');
     } finally {
       setDeleteDialog({ open: false, type: '', item: null });
     }
@@ -114,33 +114,33 @@ const AdminPage = () => {
       const response = await api.post('/suggestions', { content: newSuggestion });
       setSuggestions([response.data, ...suggestions]);
       setNewSuggestion('');
-      toast.success('Suggestion submitted');
+      toast.success('Sugestão submetida');
     } catch (error) {
-      toast.error('Failed to submit suggestion');
+      toast.error('Falha ao submeter sugestão');
     }
   };
 
   const getRoleBadge = (role) => {
     switch (role) {
       case 'owner':
-        return <Badge className="rounded-none bg-black text-white">Owner</Badge>;
+        return <Badge className="rounded-none bg-black text-white">Proprietário</Badge>;
       case 'admin':
-        return <Badge className="rounded-none bg-zinc-700 text-white">Admin</Badge>;
+        return <Badge className="rounded-none bg-zinc-700 text-white">Administrador</Badge>;
       default:
-        return <Badge variant="outline" className="rounded-none">User</Badge>;
+        return <Badge variant="outline" className="rounded-none">Utilizador</Badge>;
     }
   };
 
   const getStatusBadge = (status) => {
     switch (status) {
       case 'pending':
-        return <Badge variant="outline" className="rounded-none text-yellow-600 border-yellow-600">Pending</Badge>;
+        return <Badge variant="outline" className="rounded-none text-yellow-600 border-yellow-600">Pendente</Badge>;
       case 'reviewed':
-        return <Badge variant="outline" className="rounded-none text-blue-600 border-blue-600">Reviewed</Badge>;
+        return <Badge variant="outline" className="rounded-none text-blue-600 border-blue-600">Revisto</Badge>;
       case 'implemented':
-        return <Badge variant="outline" className="rounded-none text-green-600 border-green-600">Implemented</Badge>;
+        return <Badge variant="outline" className="rounded-none text-green-600 border-green-600">Implementado</Badge>;
       case 'rejected':
-        return <Badge variant="outline" className="rounded-none text-red-600 border-red-600">Rejected</Badge>;
+        return <Badge variant="outline" className="rounded-none text-red-600 border-red-600">Rejeitado</Badge>;
       default:
         return <Badge variant="outline" className="rounded-none">{status}</Badge>;
     }
@@ -149,7 +149,7 @@ const AdminPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
-        <div className="text-zinc-500">Loading...</div>
+        <div className="text-zinc-500">A carregar...</div>
       </div>
     );
   }
@@ -159,9 +159,9 @@ const AdminPage = () => {
       <div className="max-w-6xl mx-auto px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="mb-8">
-          <p className="label-caps mb-2">Administration</p>
+          <p className="label-caps mb-2">Administração</p>
           <h1 className="font-serif text-3xl font-light text-zinc-900 dark:text-white">
-            Admin Panel
+            Painel de Administração
           </h1>
         </div>
 
@@ -172,7 +172,7 @@ const AdminPage = () => {
               <Users className="w-5 h-5 text-zinc-500" />
               <div>
                 <p className="text-2xl font-medium">{users.length}</p>
-                <p className="text-xs text-zinc-500">Total Users</p>
+                <p className="text-xs text-zinc-500">Total de Utilizadores</p>
               </div>
             </CardContent>
           </Card>
@@ -183,7 +183,7 @@ const AdminPage = () => {
                 <p className="text-2xl font-medium">
                   {users.filter((u) => u.role === 'admin' || u.role === 'owner').length}
                 </p>
-                <p className="text-xs text-zinc-500">Admins</p>
+                <p className="text-xs text-zinc-500">Administradores</p>
               </div>
             </CardContent>
           </Card>
@@ -192,7 +192,7 @@ const AdminPage = () => {
               <MessageSquare className="w-5 h-5 text-zinc-500" />
               <div>
                 <p className="text-2xl font-medium">{suggestions.length}</p>
-                <p className="text-xs text-zinc-500">Suggestions</p>
+                <p className="text-xs text-zinc-500">Sugestões</p>
               </div>
             </CardContent>
           </Card>
@@ -203,7 +203,7 @@ const AdminPage = () => {
                 <p className="text-2xl font-medium">
                   {suggestions.filter((s) => s.status === 'pending').length}
                 </p>
-                <p className="text-xs text-zinc-500">Pending</p>
+                <p className="text-xs text-zinc-500">Pendentes</p>
               </div>
             </CardContent>
           </Card>
@@ -214,11 +214,11 @@ const AdminPage = () => {
           <TabsList className="rounded-none bg-zinc-100 dark:bg-zinc-800 p-1">
             <TabsTrigger value="users" className="rounded-none data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-950">
               <Users className="w-4 h-4 mr-2" />
-              Users
+              Utilizadores
             </TabsTrigger>
             <TabsTrigger value="suggestions" className="rounded-none data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-950">
               <MessageSquare className="w-4 h-4 mr-2" />
-              Suggestions
+              Sugestões
             </TabsTrigger>
           </TabsList>
 
@@ -226,18 +226,18 @@ const AdminPage = () => {
           <TabsContent value="users">
             <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
               <CardHeader>
-                <CardTitle className="font-serif text-xl">User Management</CardTitle>
-                <CardDescription>Manage user accounts and roles</CardDescription>
+                <CardTitle className="font-serif text-xl">Gestão de Utilizadores</CardTitle>
+                <CardDescription>Gerir contas e funções de utilizadores</CardDescription>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Name</TableHead>
+                      <TableHead>Nome</TableHead>
                       <TableHead>Email</TableHead>
-                      <TableHead>Role</TableHead>
-                      <TableHead>Joined</TableHead>
-                      {isOwner && <TableHead className="text-right">Actions</TableHead>}
+                      <TableHead>Função</TableHead>
+                      <TableHead>Registo</TableHead>
+                      {isOwner && <TableHead className="text-right">Ações</TableHead>}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -251,12 +251,12 @@ const AdminPage = () => {
                               value={user.role}
                               onValueChange={(value) => handleRoleChange(user.id, value)}
                             >
-                              <SelectTrigger className="w-28 rounded-none h-8">
+                              <SelectTrigger className="w-32 rounded-none h-8">
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="user">User</SelectItem>
-                                <SelectItem value="admin">Admin</SelectItem>
+                                <SelectItem value="user">Utilizador</SelectItem>
+                                <SelectItem value="admin">Administrador</SelectItem>
                               </SelectContent>
                             </Select>
                           ) : (
@@ -264,7 +264,7 @@ const AdminPage = () => {
                           )}
                         </TableCell>
                         <TableCell className="text-sm text-zinc-500">
-                          {new Date(user.created_at).toLocaleDateString()}
+                          {new Date(user.created_at).toLocaleDateString('pt-PT')}
                         </TableCell>
                         {isOwner && (
                           <TableCell className="text-right">
@@ -295,15 +295,15 @@ const AdminPage = () => {
               {/* Submit Suggestion */}
               <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
                 <CardHeader>
-                  <CardTitle className="font-serif text-xl">Submit Suggestion</CardTitle>
-                  <CardDescription>Share your ideas to improve the platform</CardDescription>
+                  <CardTitle className="font-serif text-xl">Submeter Sugestão</CardTitle>
+                  <CardDescription>Partilhe as suas ideias para melhorar a plataforma</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex gap-4">
                     <Textarea
                       value={newSuggestion}
                       onChange={(e) => setNewSuggestion(e.target.value)}
-                      placeholder="Your suggestion..."
+                      placeholder="A sua sugestão..."
                       className="rounded-none border-zinc-300 dark:border-zinc-700 flex-1"
                       data-testid="suggestion-input"
                     />
@@ -314,7 +314,7 @@ const AdminPage = () => {
                       data-testid="submit-suggestion"
                     >
                       <Send className="w-4 h-4 mr-2" />
-                      Submit
+                      Submeter
                     </Button>
                   </div>
                 </CardContent>
@@ -323,12 +323,12 @@ const AdminPage = () => {
               {/* Suggestions List */}
               <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
                 <CardHeader>
-                  <CardTitle className="font-serif text-xl">All Suggestions</CardTitle>
-                  <CardDescription>Review and manage user suggestions</CardDescription>
+                  <CardTitle className="font-serif text-xl">Todas as Sugestões</CardTitle>
+                  <CardDescription>Rever e gerir sugestões dos utilizadores</CardDescription>
                 </CardHeader>
                 <CardContent>
                   {suggestions.length === 0 ? (
-                    <p className="text-center text-zinc-500 py-8">No suggestions yet</p>
+                    <p className="text-center text-zinc-500 py-8">Ainda não há sugestões</p>
                   ) : (
                     <div className="space-y-4">
                       {suggestions.map((suggestion) => (
@@ -340,8 +340,8 @@ const AdminPage = () => {
                             <div className="flex-1">
                               <p className="text-sm mb-2">{suggestion.content}</p>
                               <div className="flex items-center gap-4 text-xs text-zinc-500">
-                                <span>By {suggestion.user_name}</span>
-                                <span>{new Date(suggestion.created_at).toLocaleDateString()}</span>
+                                <span>Por {suggestion.user_name}</span>
+                                <span>{new Date(suggestion.created_at).toLocaleDateString('pt-PT')}</span>
                                 {getStatusBadge(suggestion.status)}
                               </div>
                             </div>
@@ -354,10 +354,10 @@ const AdminPage = () => {
                                   <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="pending">Pending</SelectItem>
-                                  <SelectItem value="reviewed">Reviewed</SelectItem>
-                                  <SelectItem value="implemented">Implemented</SelectItem>
-                                  <SelectItem value="rejected">Rejected</SelectItem>
+                                  <SelectItem value="pending">Pendente</SelectItem>
+                                  <SelectItem value="reviewed">Revisto</SelectItem>
+                                  <SelectItem value="implemented">Implementado</SelectItem>
+                                  <SelectItem value="rejected">Rejeitado</SelectItem>
                                 </SelectContent>
                               </Select>
                               <Button
@@ -386,22 +386,22 @@ const AdminPage = () => {
         <AlertDialogContent className="rounded-none">
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Delete {deleteDialog.type === 'user' ? 'User' : 'Suggestion'}
+              Eliminar {deleteDialog.type === 'user' ? 'Utilizador' : 'Sugestão'}
             </AlertDialogTitle>
             <AlertDialogDescription>
               {deleteDialog.type === 'user'
-                ? `Are you sure you want to delete ${deleteDialog.item?.name}? This action cannot be undone.`
-                : 'Are you sure you want to delete this suggestion? This action cannot be undone.'}
+                ? `Tem a certeza que quer eliminar ${deleteDialog.item?.name}? Esta ação não pode ser revertida.`
+                : 'Tem a certeza que quer eliminar esta sugestão? Esta ação não pode ser revertida.'}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="rounded-none">Cancel</AlertDialogCancel>
+            <AlertDialogCancel className="rounded-none">Cancelar</AlertDialogCancel>
             <AlertDialogAction
               onClick={deleteDialog.type === 'user' ? handleDeleteUser : handleDeleteSuggestion}
               className="rounded-none bg-red-600 hover:bg-red-700"
               data-testid="confirm-delete"
             >
-              Delete
+              Eliminar
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
