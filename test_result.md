@@ -382,7 +382,7 @@ frontend:
     implemented: true
     working: false
     file: "/app/frontend/src/pages/ResultsPage.js, /app/frontend/src/pages/ResponsesPage.js"
-    stuck_count: 1
+    stuck_count: 2
     priority: "high"
     needs_retesting: false
     status_history:
@@ -392,6 +392,9 @@ frontend:
       - working: false
         agent: "testing"
         comment: "❌ CANNOT TEST DUE TO AUTHENTICATION ISSUE: Unable to verify vote count visibility differences between admin and regular users because authentication sessions are not persisting. ResultsPage loads successfully and shows surveys with results, but cannot test admin vs user permissions without working login. Code review shows proper isAdmin checks in ResponsesPage (lines 94-96, 158-162, 214-216) for hiding vote counts from regular users. Authentication system needs fixing before this can be properly tested."
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL PRIVACY ISSUE FOUND - Vote count visibility is INCONSISTENT across endpoints: ✅ /api/my-responses correctly shows ONLY percentages to regular users, ❌ /api/surveys/{id}/public-results INCORRECTLY exposes vote counts ('count': 1) to public/regular users, ✅ /api/surveys/{id}/analytics correctly shows vote counts to admins only. SECURITY CONCERN: Public results endpoint violates privacy requirement by showing actual vote counts instead of percentages only. This needs immediate fix in backend server.py lines 717-785."
 
   - task: "Survey Taking - All Question Types"
     implemented: true
