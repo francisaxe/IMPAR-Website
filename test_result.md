@@ -484,12 +484,7 @@ test_plan:
     - "Survey Taking - All Question Types"
     - "Surveys List - Response Status Indicator"
   stuck_tasks:
-    - "Survey Creation - 5 Question Types"
-    - "Survey Creation - Admin Only Restriction"
-    - "My Responses Page - User View with Global Results"
     - "Vote Counts - Admin Only Visibility"
-    - "Survey Taking - All Question Types"
-    - "Surveys List - Response Status Indicator"
   test_all: true
   test_priority: "high_first"
 
