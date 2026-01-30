@@ -708,6 +708,57 @@ async def delete_suggestion(suggestion_id: str, admin: dict = Depends(get_admin_
         raise HTTPException(status_code=404, detail="Suggestion not found")
     return {"message": "Suggestion deleted"}
 
+# ===================== TEAM APPLICATIONS =====================
+
+@api_router.post("/team-applications", response_model=TeamApplication)
+async def create_team_application(data: TeamApplicationCreate, current_user: dict = Depends(get_current_user)):
+    # Check if user already has a pending application
+    existing = await db.team_applications.find_one({
+        "user_id": current_user["id"],
+        "status": "pending"
+    }, {"_id": 0})
+    
+    if existing:
+        raise HTTPException(
+            status_code=400, 
+            detail="Já tem uma candidatura pendente. Aguarde a análise do administrador."
+        )
+    
+    application = TeamApplication(
+        user_id=current_user["id"],
+        user_name=current_user["name"],
+        user_email=current_user["email"],
+        message=data.message
+    )
+    await db.team_applications.insert_one(application.model_dump())
+    return application
+
+@api_router.get("/team-applications", response_model=List[TeamApplication])
+async def get_team_applications(admin: dict = Depends(get_admin_user)):
+    applications = await db.team_applications.find({}, {"_id": 0}).sort("created_at", -1).to_list(1000)
+    return [TeamApplication(**app) for app in applications]
+
+@api_router.put("/team-applications/{application_id}/status")
+async def update_team_application_status(
+    application_id: str,
+    status: Literal["pending", "reviewed", "accepted", "rejected"],
+    admin: dict = Depends(get_admin_user)
+):
+    application = await db.team_applications.find_one({"id": application_id}, {"_id": 0})
+    if not application:
+        raise HTTPException(status_code=404, detail="Application not found")
+    
+    await db.team_applications.update_one({"id": application_id}, {"$set": {"status": status}})
+    return {"message": f"Application status updated to {status}"}
+
+@api_router.delete("/team-applications/{application_id}")
+async def delete_team_application(application_id: str, admin: dict = Depends(get_admin_user)):
+    result = await db.team_applications.delete_one({"id": application_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Application not found")
+    return {"message": "Application deleted"}
+
+
 # ===================== HEALTH CHECK =====================
 
 @api_router.get("/")
