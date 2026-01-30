@@ -205,9 +205,11 @@ const ResultsPage = () => {
                             <p className="font-medium text-zinc-900 truncate">
                               {survey.title}
                             </p>
-                            <p className="text-xs text-zinc-500 mt-1">
-                              {survey.response_count} resposta{survey.response_count !== 1 ? 's' : ''}
-                            </p>
+                            {isAdmin && (
+                              <p className="text-xs text-zinc-500 mt-1">
+                                {survey.response_count} resposta{survey.response_count !== 1 ? 's' : ''}
+                              </p>
+                            )}
                           </div>
                           {survey.is_featured && (
                             <Star className="w-3 h-3 fill-amber-400 text-amber-400 flex-shrink-0" />
