@@ -271,16 +271,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Landing Page"
-    - "Sondagens Page"
-    - "About Page"
-    - "Suggest Page"
-    - "Login Page"
-    - "Register Page"
-    - "Navbar Component"
-    - "Visual Design"
+    - "Team Application - User Profile"
+    - "Team Application - Admin Panel"
+    - "Team Application - Backend Integration"
   stuck_tasks: []
-  test_all: true
+  test_all: false
   test_priority: "high_first"
 
 agent_communication:
