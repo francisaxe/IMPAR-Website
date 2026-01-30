@@ -97,7 +97,11 @@ const TakeSurveyPage = () => {
       }
 
       setSubmitted(true);
-      toast.success('Obrigado por completar o inquérito!');
+      if (hasExistingResponse) {
+        toast.success('Resposta atualizada com sucesso!');
+      } else {
+        toast.success('Obrigado por completar o inquérito!');
+      }
     } catch (error) {
       toast.error(error.response?.data?.detail || 'Falha ao submeter inquérito');
     } finally {
