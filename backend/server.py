@@ -429,13 +429,22 @@ async def get_surveys(
     if owner_id:
         query["owner_id"] = owner_id
     
-    # Ordenar por data de criação (mais recente primeiro)
+    # Buscar todas as sondagens para calcular números
+    all_surveys = await db.surveys.find({}, {"_id": 0, "id": 1, "created_at": 1}).sort("created_at", 1).to_list(10000)
+    
+    # Criar mapeamento de id para número (ordem cronológica)
+    survey_numbers = {s["id"]: idx + 1 for idx, s in enumerate(all_surveys)}
+    
+    # Buscar sondagens filtradas e ordenadas (mais recente primeiro)
     surveys = await db.surveys.find(query, {"_id": 0}).sort("created_at", -1).to_list(100)
     
     result = []
     for s in surveys:
         owner = await db.users.find_one({"id": s["owner_id"]}, {"_id": 0, "name": 1})
         s["owner_name"] = owner["name"] if owner else None
+        
+        # Adicionar número da sondagem
+        s["survey_number"] = survey_numbers.get(s["id"], 0)
         
         # Adicionar flag se o utilizador já respondeu
         if current_user:
