@@ -78,72 +78,76 @@ const DashboardPage = () => {
               Bem-vindo, {user?.name}
             </h1>
           </div>
-          <Link to="/surveys/create">
-            <Button
-              className="rounded-none bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 btn-hover-lift"
-              data-testid="dashboard-create-survey"
-            >
-              <PlusCircle className="w-4 h-4 mr-2" />
-              Criar Inquérito
-            </Button>
-          </Link>
+          {isAdmin && (
+            <Link to="/surveys/create">
+              <Button
+                className="rounded-none bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 btn-hover-lift"
+                data-testid="dashboard-create-survey"
+              >
+                <PlusCircle className="w-4 h-4 mr-2" />
+                Criar Inquérito
+              </Button>
+            </Link>
+          )}
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-          <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800">
-                  <ClipboardList className="w-6 h-6" />
+        {/* Stats Grid - Apenas Admin */}
+        {isAdmin && (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+            <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800">
+                    <ClipboardList className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-medium">{stats.totalSurveys}</p>
+                    <p className="text-sm text-zinc-500">Total de Inquéritos</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-2xl font-medium">{stats.totalSurveys}</p>
-                  <p className="text-sm text-zinc-500">Total de Inquéritos</p>
+              </CardContent>
+            </Card>
+            <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800">
+                    <BarChart3 className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-medium">{stats.publishedSurveys}</p>
+                    <p className="text-sm text-zinc-500">Publicados</p>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800">
-                  <BarChart3 className="w-6 h-6" />
+              </CardContent>
+            </Card>
+            <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800">
+                    <Users className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-medium">{stats.totalResponses}</p>
+                    <p className="text-sm text-zinc-500">Total de Respostas</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-2xl font-medium">{stats.publishedSurveys}</p>
-                  <p className="text-sm text-zinc-500">Publicados</p>
+              </CardContent>
+            </Card>
+            <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800">
+                    <ClipboardList className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-medium">{stats.totalQuestions}</p>
+                    <p className="text-sm text-zinc-500">Total de Perguntas</p>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800">
-                  <Users className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-2xl font-medium">{stats.totalResponses}</p>
-                  <p className="text-sm text-zinc-500">Total de Respostas</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800">
-                  <ClipboardList className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-2xl font-medium">{stats.totalQuestions}</p>
-                  <p className="text-sm text-zinc-500">Total de Perguntas</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         {/* Surveys List */}
         <div>
