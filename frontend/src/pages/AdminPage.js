@@ -122,6 +122,19 @@ const AdminPage = () => {
     }
   };
 
+  const handleDeleteSurvey = async () => {
+    if (!deleteDialog.item) return;
+    try {
+      await api.delete(`/surveys/${deleteDialog.item.id}`);
+      setSurveys(surveys.filter((s) => s.id !== deleteDialog.item.id));
+      toast.success('Sondagem eliminada com sucesso');
+    } catch (error) {
+      toast.error(error.response?.data?.detail || 'Falha ao eliminar sondagem');
+    } finally {
+      setDeleteDialog({ open: false, type: '', item: null });
+    }
+  };
+
   const submitSuggestion = async () => {
     if (!newSuggestion.trim()) return;
     try {
