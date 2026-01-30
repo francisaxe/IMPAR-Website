@@ -281,9 +281,9 @@ frontend:
 
   - task: "Survey Creation - 5 Question Types"
     implemented: true
-    working: false
+    working: true
     file: "/app/frontend/src/pages/CreateSurveyPage.js"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
@@ -293,6 +293,9 @@ frontend:
       - working: false
         agent: "testing"
         comment: "❌ CRITICAL AUTHENTICATION ISSUE: Survey creation page accessible but authentication session management failing. All 5 question type buttons present (add-multiple-choice, add-text, add-rating, add-yes-no, add-checkbox) ✅ CONFIRMED. Optional end date field ✅ WORKING. Featured toggle ✅ AVAILABLE. However, login sessions not persisting - both admin (owner@test.com) and user (user@test.com) login requests return 200 OK from backend but frontend redirects back to login page. This blocks complete survey creation testing. Backend API working correctly, issue is frontend session/JWT token management."
+      - working: true
+        agent: "testing"
+        comment: "✅ RETESTED SUCCESSFULLY - Survey creation working perfectly for admin. All 5 question type buttons visible and functional: Escolha Múltipla, Texto Livre, Escala de Avaliação, Sim/Não, Múltipla Seleção. Optional end date field working, featured toggle available for admin. Successfully created test survey with multiple choice question, added options, saved as draft. Authentication issues resolved."
 
   - task: "Survey Creation - Admin Only Restriction"
     implemented: true
