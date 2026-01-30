@@ -153,10 +153,12 @@ const ResponsesPage = () => {
                             <CheckCircle className="w-3 h-3 mr-1" />
                             Respondida
                           </Badge>
-                          <Badge variant="outline" className="rounded-sm text-zinc-600 text-xs">
-                            <Users className="w-3 h-3 mr-1" />
-                            {item.total_responses} respostas
-                          </Badge>
+                          {isAdmin && (
+                            <Badge variant="outline" className="rounded-sm text-zinc-600 text-xs">
+                              <Users className="w-3 h-3 mr-1" />
+                              {item.total_responses} respostas
+                            </Badge>
+                          )}
                         </div>
                         <CardTitle className="font-serif text-xl font-medium text-zinc-900">
                           {item.survey.survey_number || responses.length - index}. {item.survey.title}
