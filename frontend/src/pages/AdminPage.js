@@ -45,6 +45,7 @@ const AdminPage = () => {
   const [users, setUsers] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [teamApplications, setTeamApplications] = useState([]);
+  const [surveys, setSurveys] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newSuggestion, setNewSuggestion] = useState('');
   const [deleteDialog, setDeleteDialog] = useState({ open: false, type: '', item: null });
