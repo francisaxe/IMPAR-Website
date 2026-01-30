@@ -396,6 +396,75 @@ const AdminPage = () => {
               </Card>
             </div>
           </TabsContent>
+
+          {/* Team Applications Tab */}
+          <TabsContent value="team-applications">
+            <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
+              <CardHeader>
+                <CardTitle className="font-serif text-xl">Candidaturas à Equipa</CardTitle>
+                <CardDescription>Analisar candidaturas de utilizadores</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {teamApplications.length === 0 ? (
+                  <div className="text-center py-12 text-zinc-500">
+                    <Users className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                    <p>Nenhuma candidatura recebida</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {teamApplications.map((application) => (
+                      <div
+                        key={application.id}
+                        className="p-6 border border-zinc-200 dark:border-zinc-800 rounded-none"
+                      >
+                        <div className="flex items-start justify-between gap-4 mb-4">
+                          <div>
+                            <h3 className="font-medium text-zinc-900 dark:text-white">
+                              {application.user_name}
+                            </h3>
+                            <p className="text-sm text-zinc-500">{application.user_email}</p>
+                            <div className="flex items-center gap-3 mt-2 text-xs text-zinc-500">
+                              <span>{new Date(application.created_at).toLocaleDateString('pt-PT')}</span>
+                              {getStatusBadge(application.status)}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Select
+                              value={application.status}
+                              onValueChange={(value) => handleTeamApplicationStatusChange(application.id, value)}
+                            >
+                              <SelectTrigger className="w-32 rounded-none h-8">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="pending">Pendente</SelectItem>
+                                <SelectItem value="reviewed">Revisto</SelectItem>
+                                <SelectItem value="accepted">Aceite</SelectItem>
+                                <SelectItem value="rejected">Rejeitado</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setDeleteDialog({ open: true, type: 'application', item: application })}
+                              className="rounded-none h-8 text-red-600 hover:text-red-700 hover:bg-red-50"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                        <div className="bg-zinc-50 dark:bg-zinc-900 p-4 rounded-sm">
+                          <p className="text-sm text-zinc-700 dark:text-zinc-300 whitespace-pre-wrap">
+                            {application.message}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
         </Tabs>
       </div>
 
