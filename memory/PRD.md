@@ -9,6 +9,7 @@ Build a survey website branded "IMPAR" allowing owners to create/manage surveys 
 - **Content highlighting**: Featured surveys on homepage + important text/questions within surveys
 - **Social sharing**: All platforms (Facebook, Twitter/X, LinkedIn, copy link, email)
 - **Design**: Black & White brand colors (primary: #000000), Source Serif 4 for headings, Inter for body, clean professional design
+- **Language**: Portuguese (Portugal) - All UI text translated to PT-PT
 
 ## Architecture
 
