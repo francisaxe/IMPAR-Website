@@ -172,6 +172,39 @@ const AdminPage = () => {
     }
   };
 
+  const handleExportUsersCSV = async () => {
+    try {
+      const response = await api.get('/admin/users/export/csv', {
+        responseType: 'blob'
+      });
+      
+      // Create blob link to download
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      
+      // Extract filename from response headers or use default
+      const contentDisposition = response.headers['content-disposition'];
+      let filename = 'impar_utilizadores.csv';
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+        if (filenameMatch) {
+          filename = filenameMatch[1];
+        }
+      }
+      
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      
+      toast.success('Ficheiro CSV exportado com sucesso!');
+    } catch (error) {
+      toast.error('Falha ao exportar dados dos utilizadores');
+    }
+  };
+
   const getQuestionTypeLabel = (type) => {
     const types = {
       'multiple_choice': 'Escolha Múltipla',
