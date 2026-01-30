@@ -140,7 +140,13 @@ const SuggestPage = () => {
               <Button
                 onClick={() => {
                   setSubmitted(false);
-                  setFormData({ title: '', description: '', context: '' });
+                  setFormData({ 
+                    surveyTitle: '', 
+                    surveyDescription: '', 
+                    category: '',
+                    questions: [],
+                    additionalNotes: ''
+                  });
                 }}
                 variant="outline"
                 className="rounded-none"
@@ -156,7 +162,7 @@ const SuggestPage = () => {
 
   return (
     <div className="min-h-screen bg-[#f5f5f5]" data-testid="suggest-page">
-      <div className="max-w-2xl mx-auto px-6 py-16">
+      <div className="max-w-3xl mx-auto px-6 py-16">
         {/* Header */}
         <div className="text-center mb-12">
           <div className="w-16 h-16 bg-amber-100 mx-auto mb-4 flex items-center justify-center rounded-sm">
@@ -166,7 +172,7 @@ const SuggestPage = () => {
             Sugerir Sondagem
           </h1>
           <p className="text-zinc-500">
-            Tem uma ideia para uma sondagem? Partilhe connosco.
+            Tem uma ideia para uma sondagem? Partilhe connosco as perguntas que gostaria de ver respondidas.
           </p>
         </div>
 
@@ -174,58 +180,154 @@ const SuggestPage = () => {
         <Card className="rounded-lg border-0 shadow-sm bg-white">
           <CardContent className="p-8">
             {!user && (
-              <div className="bg-amber-50 border border-amber-200 p-4 mb-6 text-sm text-amber-800">
+              <div className="bg-amber-50 border border-amber-200 rounded-sm p-4 mb-6 text-sm text-amber-800">
                 Precisa de <button onClick={() => navigate('/login')} className="underline font-medium">iniciar sessão</button> para submeter uma sugestão.
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Título da Sondagem */}
               <div className="space-y-2">
-                <Label htmlFor="title" className="text-sm font-medium text-zinc-700">
-                  Título da Sondagem *
+                <Label htmlFor="surveyTitle" className="text-sm font-medium text-zinc-700">
+                  Título da Sondagem <span className="text-red-500">*</span>
                 </Label>
                 <Input
-                  id="title"
-                  placeholder="Ex: Eleições autárquicas 2025"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="rounded-none border-zinc-300"
+                  id="surveyTitle"
+                  placeholder="Ex: Eleições Autárquicas 2025"
+                  value={formData.surveyTitle}
+                  onChange={(e) => setFormData({ ...formData, surveyTitle: e.target.value })}
+                  className="rounded-sm border-zinc-300"
                   data-testid="suggest-title"
                 />
               </div>
 
+              {/* Descrição da Sondagem */}
               <div className="space-y-2">
-                <Label htmlFor="description" className="text-sm font-medium text-zinc-700">
-                  Descrição *
+                <Label htmlFor="surveyDescription" className="text-sm font-medium text-zinc-700">
+                  Descrição da Sondagem (opcional)
                 </Label>
                 <Textarea
-                  id="description"
-                  placeholder="Descreva o que gostaria de saber através desta sondagem..."
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="rounded-none border-zinc-300 min-h-[120px]"
-                  data-testid="suggest-description"
+                  id="surveyDescription"
+                  placeholder="Breve descrição sobre o tema desta sondagem..."
+                  value={formData.surveyDescription}
+                  onChange={(e) => setFormData({ ...formData, surveyDescription: e.target.value })}
+                  className="rounded-sm border-zinc-300 min-h-[80px]"
                 />
               </div>
 
+              {/* Categoria */}
               <div className="space-y-2">
-                <Label htmlFor="context" className="text-sm font-medium text-zinc-700">
-                  Contexto (opcional)
+                <Label htmlFor="category" className="text-sm font-medium text-zinc-700">
+                  Categoria (opcional)
+                </Label>
+                <Input
+                  id="category"
+                  placeholder="Ex: Política, Economia, Sociedade"
+                  value={formData.category}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  className="rounded-sm border-zinc-300"
+                />
+              </div>
+
+              {/* Questões */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <Label className="text-sm font-medium text-zinc-700">
+                    Questões Sugeridas <span className="text-red-500">*</span>
+                  </Label>
+                  <Button
+                    type="button"
+                    onClick={addQuestion}
+                    variant="outline"
+                    size="sm"
+                    className="rounded-sm"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Adicionar Questão
+                  </Button>
+                </div>
+
+                {formData.questions.length === 0 ? (
+                  <div className="text-center py-8 border-2 border-dashed border-zinc-200 rounded-sm">
+                    <p className="text-zinc-500 text-sm">
+                      Nenhuma questão adicionada. Clique em "Adicionar Questão" para começar.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {formData.questions.map((question, index) => (
+                      <div key={question.id} className="border border-zinc-200 rounded-sm p-4 space-y-3">
+                        <div className="flex items-start justify-between gap-4">
+                          <span className="text-sm font-medium text-zinc-700">
+                            Questão {index + 1}
+                          </span>
+                          <Button
+                            type="button"
+                            onClick={() => removeQuestion(question.id)}
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 text-red-600 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label className="text-xs text-zinc-600">
+                            Tipo de Questão <span className="text-red-500">*</span>
+                          </Label>
+                          <Select
+                            value={question.type}
+                            onValueChange={(value) => updateQuestion(question.id, 'type', value)}
+                          >
+                            <SelectTrigger className="rounded-sm border-zinc-300">
+                              <SelectValue placeholder="Selecione o tipo" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {questionTypes.map((type) => (
+                                <SelectItem key={type.value} value={type.value}>
+                                  {type.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label className="text-xs text-zinc-600">
+                            Texto da Questão <span className="text-red-500">*</span>
+                          </Label>
+                          <Textarea
+                            placeholder="Escreva a pergunta que gostaria de ver na sondagem..."
+                            value={question.text}
+                            onChange={(e) => updateQuestion(question.id, 'text', e.target.value)}
+                            className="rounded-sm border-zinc-300 min-h-[80px]"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Notas Adicionais */}
+              <div className="space-y-2">
+                <Label htmlFor="additionalNotes" className="text-sm font-medium text-zinc-700">
+                  Notas Adicionais (opcional)
                 </Label>
                 <Textarea
-                  id="context"
-                  placeholder="Porquê esta sondagem é relevante? Qual o contexto atual?"
-                  value={formData.context}
-                  onChange={(e) => setFormData({ ...formData, context: e.target.value })}
-                  className="rounded-none border-zinc-300 min-h-[100px]"
-                  data-testid="suggest-context"
+                  id="additionalNotes"
+                  placeholder="Contexto adicional, justificação ou observações sobre esta sugestão..."
+                  value={formData.additionalNotes}
+                  onChange={(e) => setFormData({ ...formData, additionalNotes: e.target.value })}
+                  className="rounded-sm border-zinc-300 min-h-[100px]"
                 />
               </div>
 
               <Button
                 type="submit"
                 disabled={loading || !user}
-                className="w-full rounded-none bg-zinc-900 text-white hover:bg-zinc-800"
+                className="w-full rounded-none bg-zinc-900 text-white hover:bg-zinc-800 py-6"
                 data-testid="submit-suggestion"
               >
                 {loading ? (
@@ -244,7 +346,7 @@ const SuggestPage = () => {
         {/* Info */}
         <p className="text-center text-sm text-zinc-500 mt-6">
           Todas as sugestões são analisadas pela nossa equipa editorial. Nem todas as sugestões 
-          serão transformadas em sondagens, mas todas são consideradas.
+          serão transformadas em sondagens, mas todas são consideradas com atenção.
         </p>
       </div>
     </div>
