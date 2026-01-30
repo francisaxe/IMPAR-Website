@@ -500,6 +500,60 @@ async def get_survey_analytics(survey_id: str, current_user: dict = Depends(get_
     
     return analytics
 
+# Public endpoint for viewing results (percentages only, no text responses)
+@api_router.get("/surveys/{survey_id}/public-results")
+async def get_public_survey_results(survey_id: str):
+    survey = await db.surveys.find_one({"id": survey_id}, {"_id": 0})
+    if not survey:
+        raise HTTPException(status_code=404, detail="Survey not found")
+    
+    if not survey.get("is_published"):
+        raise HTTPException(status_code=400, detail="Survey is not published")
+    
+    responses = await db.responses.find({"survey_id": survey_id}, {"_id": 0}).to_list(1000)
+    
+    analytics = {
+        "total_responses": len(responses),
+        "questions": {}
+    }
+    
+    for question in survey.get("questions", []):
+        q_id = question["id"]
+        q_type = question["type"]
+        total_answers = 0
+        q_analytics = {"type": q_type}
+        
+        answer_values = []
+        for resp in responses:
+            for ans in resp.get("answers", []):
+                if ans["question_id"] == q_id:
+                    answer_values.append(ans["value"])
+                    total_answers += 1
+        
+        q_analytics["total_answers"] = total_answers
+        
+        if q_type == "multiple_choice":
+            option_counts = {}
+            for opt in question.get("options", []):
+                option_counts[opt["id"]] = {"text": opt["text"], "count": 0}
+            for val in answer_values:
+                if val in option_counts:
+                    option_counts[val]["count"] += 1
+            q_analytics["option_breakdown"] = option_counts
+        elif q_type == "rating":
+            ratings = [int(r) for r in answer_values if r.isdigit()]
+            q_analytics["average"] = sum(ratings) / len(ratings) if ratings else 0
+            max_rating = question.get("max_rating", 5)
+            min_rating = question.get("min_rating", 1)
+            q_analytics["distribution"] = {str(i): ratings.count(i) for i in range(min_rating, max_rating + 1)}
+        elif q_type == "text":
+            # Don't expose text responses, just count
+            q_analytics["response_count"] = total_answers
+        
+        analytics["questions"][q_id] = q_analytics
+    
+    return analytics
+
 # ===================== ADMIN ROUTES =====================
 
 @api_router.get("/admin/users", response_model=List[UserResponse])
