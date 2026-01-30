@@ -260,6 +260,9 @@ frontend:
       - working: true
         agent: "main"
         comment: "✅ Dashboard role permissions fully implemented. User role (non-admin) correctly hides: 1) 'Criar Inquérito' button, 2) Statistics cards (Total Inquéritos, Publicados, Respostas, Perguntas), 3) 'Os Seus Inquéritos' section. Shows alternative content: 'Painel de Utilizador' with welcome message and 3 quick access cards (Sondagens Disponíveis, Minhas Respostas, Sugerir Sondagem). Tested with user@test.com - all working correctly."
+      - working: true
+        agent: "testing"
+        comment: "✅ RETESTED SUCCESSFULLY - User dashboard permissions working perfectly. User (user@test.com) shows 'Painel de Utilizador' text, NO 'Criar Inquérito' button visible, NO admin statistics visible, and proper quick access cards for user functions. Authentication working correctly."
 
   - task: "Dashboard Permissions - Admin Role"
     implemented: true
