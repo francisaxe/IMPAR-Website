@@ -194,6 +194,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "✅ TESTED SUCCESSFULLY - Registration form complete with all 4 fields (Nome, Email, Palavra-passe, Confirmar palavra-passe), 'Criar conta' button functional, login page link working. All form elements properly styled and accessible."
+      - working: true
+        agent: "testing"
+        comment: "✅ COMPREHENSIVE DEMOGRAPHIC FORM TESTING COMPLETED - Updated RegisterPage now includes ALL 14 demographic fields as requested: 1) Nome Completo, 2) Email/Telemóvel (grid), 3) Palavra-passe with toggle, 4) Confirmar Palavra-passe (FIXED - was missing), 5) Data de Nascimento/Género (grid), 6) Nacionalidade (default 'Portuguesa'), 7) Onde Vive (Distrito dropdown + Concelho/Freguesia text), 8) Estado Civil/Religião (grid), 9) Nível Escolaridade/Profissão (grid), 10) Já viveu no estrangeiro (Sim/Não), 11) Checkbox notificações (optional), 12) Registar button, 13) Login link. Form submission tested successfully - user registered and redirected to dashboard. All dropdowns, text fields, password toggle, navigation working perfectly. Fixed missing confirm password field bug."
 
   - task: "Navbar Component"
     implemented: true
