@@ -91,6 +91,44 @@ const RegisterPage = () => {
     'Outro'
   ];
 
+  // Freguesias principais por concelho (para os concelhos mais populosos)
+  const freguesiasPorConcelho = {
+    // Lisboa (principais)
+    'Lisboa': ['Santa Maria Maior', 'Misericórdia', 'São Vicente', 'Santo António', 'Avenidas Novas', 'Arroios', 'Penha de França', 'São Domingos de Benfica', 'Benfica', 'Carnide', 'Lumiar', 'Santa Clara', 'Marvila', 'Beato', 'Olivais', 'Parque das Nações', 'Alcântara', 'Ajuda', 'Belém', 'Campo de Ourique', 'Estrela', 'Campolide', 'Outro'],
+    'Sintra': ['Sintra (Santa Maria e São Miguel)', 'São Martinho', 'São Pedro de Penaferrim', 'Algueirão-Mem Martins', 'Queluz e Belas', 'Massamá e Monte Abraão', 'Cacém e São Marcos', 'Agualva e Mira-Sintra', 'Rio de Mouro', 'Colares', 'Terrugem', 'Outro'],
+    'Cascais': ['Cascais e Estoril', 'Carcavelos e Parede', 'São Domingos de Rana', 'Alcabideche', 'Outro'],
+    'Loures': ['Loures', 'Sacavém e Prior Velho', 'Moscavide e Portela', 'Odivelas', 'Pontinha e Famões', 'Santo António dos Cavaleiros', 'Apelação', 'Bucelas', 'Outro'],
+    'Amadora': ['Águas Livres', 'Alfragide', 'Buraca', 'Falagueira-Venda Nova', 'Mina de Água', 'Reboleira', 'Venteira', 'Outro'],
+    'Oeiras': ['Oeiras e São Julião da Barra', 'Paço de Arcos', 'Caxias', 'Barcarena', 'Carnaxide e Queijas', 'Linda-a-Velha e Cruz Quebrada', 'Porto Salvo', 'Algés', 'Outro'],
+    
+    // Porto (principais)
+    'Porto': ['Cedofeita, Santo Ildefonso, Sé, Miragaia, São Nicolau e Vitória', 'Bonfim', 'Campanhã', 'Paranhos', 'Ramalde', 'Lordelo do Ouro e Massarelos', 'Aldoar, Foz do Douro e Nevogilde', 'Outro'],
+    'Vila Nova de Gaia': ['Santa Marinha e São Pedro da Afurada', 'Mafamude e Vilar do Paraíso', 'Canidelo', 'Oliveira do Douro', 'Sandim, Olival, Lever e Crestuma', 'Valadares', 'Madalena', 'Arcozelo', 'Gulpilhares e Valadares', 'Outro'],
+    'Matosinhos': ['Matosinhos e Leça da Palmeira', 'São Mamede de Infesta e Senhora da Hora', 'Custóias, Leça do Balio e Guifões', 'Perafita, Lavra e Santa Cruz do Bispo', 'Outro'],
+    'Gondomar': ['Gondomar (São Cosme), Valbom e Jovim', 'Rio Tinto', 'Baguim do Monte', 'Fânzeres e São Pedro da Cova', 'Lomba', 'Melres e Medas', 'Outro'],
+    
+    // Braga (principais)
+    'Braga': ['São José de São Lázaro e São João do Souto', 'Sé', 'Maximinos, Sé e Cividade', 'São Vicente', 'Fraião e Lamaçães', 'Nogueira, Fraião e Lamaçães', 'Ferreiros e Gondizalves', 'Outro'],
+    'Guimarães': ['Oliveira, São Paio e São Sebastião', 'Costa', 'Creixomil', 'Azurém', 'Caldas das Taipas', 'Pevidém', 'Outro'],
+    
+    // Aveiro (principais)  
+    'Aveiro': ['Glória e Vera Cruz', 'Aradas', 'Esgueira', 'São Bernardo', 'Santa Joana', 'Cacia', 'Eixo e Eirol', 'Outro'],
+    
+    // Coimbra (principais)
+    'Coimbra': ['Sé Nova, Santa Cruz, Almedina e São Bartolomeu', 'Santo António dos Olivais', 'São Martinho do Bispo e Ribeira de Frades', 'Eiras e São Paulo de Frades', 'Taveiro, Ameal e Arzila', 'Outro'],
+    
+    // Setúbal (principais)
+    'Setúbal': ['São Sebastião', 'Nossa Senhora da Anunciada', 'São Julião', 'Santa Maria da Graça', 'Outro'],
+    'Almada': ['Almada, Cova da Piedade, Pragal e Cacilhas', 'Laranjeiro e Feijó', 'Costa da Caparica e Trafaria', 'Charneca de Caparica e Sobreda', 'Outro'],
+    
+    // Faro (principais)
+    'Faro': ['Sé', 'São Pedro', 'Santa Bárbara de Nexe', 'Conceição e Estoi', 'Montenegro', 'Outro'],
+    'Loulé': ['Loulé (São Clemente)', 'Loulé (São Sebastião)', 'Almancil', 'Quarteira', 'Vilamoura', 'Outro'],
+    'Portimão': ['Portimão', 'Alvor', 'Mexilhoeira Grande', 'Outro'],
+    
+    // Para outros concelhos, usar freguesias genéricas
+  };
+
   const generos = ['Masculino', 'Feminino', 'Outro'];
   
   const estadosCivis = ['Solteiro(a)', 'Casado(a)', 'União de Facto', 'Divorciado(a)', 'Viúvo(a)'];
