@@ -37,6 +37,7 @@ const AdminPage = () => {
   const { api, isOwner } = useAuth();
   const [users, setUsers] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
+  const [teamApplications, setTeamApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newSuggestion, setNewSuggestion] = useState('');
   const [deleteDialog, setDeleteDialog] = useState({ open: false, type: '', item: null });
@@ -47,12 +48,14 @@ const AdminPage = () => {
 
   const fetchData = async () => {
     try {
-      const [usersRes, suggestionsRes] = await Promise.all([
+      const [usersRes, suggestionsRes, teamAppsRes] = await Promise.all([
         api.get('/admin/users'),
         api.get('/suggestions'),
+        api.get('/team-applications'),
       ]);
       setUsers(usersRes.data);
       setSuggestions(suggestionsRes.data);
+      setTeamApplications(teamAppsRes.data);
     } catch (error) {
       toast.error('Falha ao carregar dados de administração');
     } finally {
