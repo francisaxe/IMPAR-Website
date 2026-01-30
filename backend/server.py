@@ -369,7 +369,8 @@ async def update_profile(update: ProfileUpdate, current_user: dict = Depends(get
 # ===================== SURVEY ROUTES =====================
 
 @api_router.post("/surveys", response_model=SurveyResponse)
-async def create_survey(survey_data: SurveyCreate, current_user: dict = Depends(get_current_user)):
+async def create_survey(survey_data: SurveyCreate, current_user: dict = Depends(get_admin_user)):
+    # Apenas admins/owners podem criar sondagens
     questions = []
     for i, q in enumerate(survey_data.questions):
         q_dict = q.model_dump()
@@ -387,7 +388,8 @@ async def create_survey(survey_data: SurveyCreate, current_user: dict = Depends(
         description=survey_data.description,
         owner_id=current_user["id"],
         questions=questions,
-        is_featured=survey_data.is_featured if current_user["role"] in ["admin", "owner"] else False
+        is_featured=survey_data.is_featured,
+        end_date=survey_data.end_date
     )
     
     await db.surveys.insert_one(survey.model_dump())
@@ -401,7 +403,8 @@ async def create_survey(survey_data: SurveyCreate, current_user: dict = Depends(
 async def get_surveys(
     featured: Optional[bool] = None,
     published: Optional[bool] = None,
-    owner_id: Optional[str] = None
+    owner_id: Optional[str] = None,
+    current_user: Optional[dict] = Depends(get_optional_user)
 ):
     query = {}
     if featured is not None:
@@ -411,12 +414,24 @@ async def get_surveys(
     if owner_id:
         query["owner_id"] = owner_id
     
-    surveys = await db.surveys.find(query, {"_id": 0}).to_list(100)
+    # Ordenar por data de criação (mais recente primeiro)
+    surveys = await db.surveys.find(query, {"_id": 0}).sort("created_at", -1).to_list(100)
     
     result = []
     for s in surveys:
         owner = await db.users.find_one({"id": s["owner_id"]}, {"_id": 0, "name": 1})
         s["owner_name"] = owner["name"] if owner else None
+        
+        # Adicionar flag se o utilizador já respondeu
+        if current_user:
+            response = await db.responses.find_one({
+                "survey_id": s["id"],
+                "user_id": current_user["id"]
+            }, {"_id": 0})
+            s["user_has_responded"] = response is not None
+        else:
+            s["user_has_responded"] = False
+            
         result.append(SurveyResponse(**s))
     
     return result
