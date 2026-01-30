@@ -241,13 +241,31 @@ class IMPARAPITester:
                     "value": "4"
                 })
         
-        return self.run_test(
-            "Submit Survey Response",
-            "POST",
-            f"/surveys/{self.survey_id}/respond",
-            200,
-            data={"answers": answers}
-        )
+        # Use requests directly without token for anonymous response
+        url = f"{self.base_url}/surveys/{self.survey_id}/respond"
+        headers = {'Content-Type': 'application/json'}
+        
+        try:
+            response = requests.post(url, json={"answers": answers}, headers=headers)
+            success = response.status_code == 200
+            if success:
+                self.tests_passed += 1
+                print(f"✅ Passed - Status: {response.status_code}")
+                return True
+            else:
+                print(f"❌ Failed - Expected 200, got {response.status_code}")
+                if response.content:
+                    try:
+                        error_detail = response.json()
+                        print(f"   Error: {error_detail}")
+                    except:
+                        print(f"   Response: {response.text}")
+                self.failed_tests.append(f"Submit Survey Response: Expected 200, got {response.status_code}")
+                return False
+        except Exception as e:
+            print(f"❌ Failed - Error: {str(e)}")
+            self.failed_tests.append(f"Submit Survey Response: {str(e)}")
+            return False
 
     def test_get_survey_responses(self):
         """Test getting survey responses"""
