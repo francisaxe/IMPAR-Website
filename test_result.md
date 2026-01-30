@@ -365,15 +365,18 @@ frontend:
 
   - task: "Vote Counts - Admin Only Visibility"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/pages/ResultsPage.js, /app/frontend/src/pages/ResponsesPage.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Needs testing - verify vote count privacy: 1) Regular users see only percentages on ResultsPage and ResponsesPage, 2) Admin users (owner) can see actual vote counts, 3) Test with both user@test.com (no counts) and owner@test.com (with counts)."
+      - working: false
+        agent: "testing"
+        comment: "❌ CANNOT TEST DUE TO AUTHENTICATION ISSUE: Unable to verify vote count visibility differences between admin and regular users because authentication sessions are not persisting. ResultsPage loads successfully and shows surveys with results, but cannot test admin vs user permissions without working login. Code review shows proper isAdmin checks in ResponsesPage (lines 94-96, 158-162, 214-216) for hiding vote counts from regular users. Authentication system needs fixing before this can be properly tested."
 
   - task: "Survey Taking - All Question Types"
     implemented: true
