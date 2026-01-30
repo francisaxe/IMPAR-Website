@@ -70,102 +70,126 @@ const ProfilePage = () => {
     }
   };
 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <div className="min-h-screen bg-[#f5f5f5]" data-testid="profile-page">
-      <div className="max-w-2xl mx-auto px-6 py-12">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-zinc-100 mx-auto mb-4 flex items-center justify-center">
-            <User className="w-8 h-8 text-zinc-600" />
-          </div>
-          <h1 className="font-serif text-3xl font-normal text-zinc-900 mb-2">
-            O Seu Perfil
-          </h1>
-          <p className="text-zinc-500">
-            Gerir a informação da sua conta
-          </p>
-        </div>
+      <div className="max-w-4xl mx-auto px-6 py-12">
+        {/* User Identity Card */}
+        <Card className="rounded-lg border-0 shadow-sm bg-white mb-6">
+          <CardContent className="py-12 text-center">
+            <div className="w-24 h-24 bg-zinc-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+              <User className="w-12 h-12 text-zinc-600" />
+            </div>
+            <h1 className="font-serif text-2xl font-medium text-zinc-900 mb-1">
+              {user?.name}
+            </h1>
+            <p className="text-zinc-500 text-sm">{user?.email}</p>
+          </CardContent>
+        </Card>
 
-        {/* Account Info Card */}
+        {/* Personal Data Section */}
         <Card className="rounded-lg border-0 shadow-sm bg-white mb-6">
           <CardHeader>
-            <CardTitle className="font-serif text-xl font-medium">Informação da Conta</CardTitle>
-            <CardDescription>Detalhes da sua conta e função</CardDescription>
+            <div className="flex items-center justify-between">
+              <CardTitle className="font-serif text-xl font-medium">Dados Pessoais</CardTitle>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-zinc-600"
+                onClick={() => toast.info('Modo de edição em breve')}
+              >
+                ✏️ Editar
+              </Button>
+            </div>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center gap-3 text-sm">
-              <Mail className="w-4 h-4 text-zinc-500" />
-              <span className="text-zinc-500">Email:</span>
-              <span>{user?.email}</span>
-            </div>
-            <div className="flex items-center gap-3 text-sm">
-              <Shield className="w-4 h-4 text-zinc-500" />
-              <span className="text-zinc-500">Função:</span>
-              {getRoleBadge(user?.role)}
-            </div>
-            <div className="flex items-center gap-3 text-sm">
-              <Calendar className="w-4 h-4 text-zinc-500" />
-              <span className="text-zinc-500">Membro desde:</span>
-              <span>{formatDate(user?.created_at)}</span>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex justify-between py-2 border-b border-zinc-100">
+                <span className="text-zinc-500 text-sm">Nome</span>
+                <span className="text-zinc-900 text-sm font-medium">{user?.name || '-'}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-zinc-100">
+                <span className="text-zinc-500 text-sm">Data de Nascimento</span>
+                <span className="text-zinc-900 text-sm">{formData.date_of_birth || '-'}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-zinc-100">
+                <span className="text-zinc-500 text-sm">Género</span>
+                <span className="text-zinc-900 text-sm">{formData.gender || '-'}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-zinc-100">
+                <span className="text-zinc-500 text-sm">Nacionalidade</span>
+                <span className="text-zinc-900 text-sm">{formData.nationality || 'Portuguese'}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-zinc-100">
+                <span className="text-zinc-500 text-sm">Distrito</span>
+                <span className="text-zinc-900 text-sm">{formData.district || '-'}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-zinc-100">
+                <span className="text-zinc-500 text-sm">Concelho</span>
+                <span className="text-zinc-900 text-sm">{formData.municipality || '-'}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-zinc-100">
+                <span className="text-zinc-500 text-sm">Freguesia</span>
+                <span className="text-zinc-900 text-sm">{formData.parish || '-'}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-zinc-100">
+                <span className="text-zinc-500 text-sm">Estado Civil</span>
+                <span className="text-zinc-900 text-sm">{formData.marital_status || '-'}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-zinc-100">
+                <span className="text-zinc-500 text-sm">Religião</span>
+                <span className="text-zinc-900 text-sm">{formData.religion || '-'}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-zinc-100">
+                <span className="text-zinc-500 text-sm">Nível de Escolaridade</span>
+                <span className="text-zinc-900 text-sm">{formData.education_level || '-'}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-zinc-100">
+                <span className="text-zinc-500 text-sm">Profissão</span>
+                <span className="text-zinc-900 text-sm">{formData.profession || 'Software Tester'}</span>
+              </div>
+              <div className="flex justify-between py-2">
+                <span className="text-zinc-500 text-sm">Viveu no Estrangeiro</span>
+                <span className="text-zinc-900 text-sm">{formData.lived_abroad ? 'Sim' : 'Não'}</span>
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Edit Profile Form */}
-        <Card className="rounded-lg border-0 shadow-sm bg-white">
-          <CardHeader>
-            <CardTitle className="font-serif text-xl font-medium">Editar Perfil</CardTitle>
-            <CardDescription>Atualize a informação do seu perfil público</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm text-zinc-600">Nome</Label>
-                <Input
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="O seu nome"
-                  className="rounded-none border-zinc-300"
-                  data-testid="profile-name"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="bio" className="text-sm text-zinc-600">Bio</Label>
-                <Textarea
-                  id="bio"
-                  value={formData.bio}
-                  onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                  placeholder="Fale-nos sobre si..."
-                  className="rounded-none border-zinc-300 min-h-[100px]"
-                  data-testid="profile-bio"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="avatar" className="text-sm text-zinc-600">URL do Avatar</Label>
-                <Input
-                  id="avatar"
-                  value={formData.avatar_url}
-                  onChange={(e) => setFormData({ ...formData, avatar_url: e.target.value })}
-                  placeholder="https://exemplo.com/avatar.jpg"
-                  className="rounded-none border-zinc-300"
-                  data-testid="profile-avatar"
-                />
-              </div>
-              <div className="flex justify-end pt-4">
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  className="rounded-none bg-zinc-900 text-white hover:bg-zinc-800"
-                  data-testid="save-profile"
-                >
-                  <Save className="w-4 h-4 mr-2" />
-                  {loading ? 'A guardar...' : 'Guardar Alterações'}
-                </Button>
-              </div>
-            </form>
+        {/* Join Team CTA */}
+        <Card className="rounded-lg border-0 shadow-sm bg-white mb-6">
+          <CardContent className="py-16 text-center">
+            <Users className="w-12 h-12 mx-auto mb-4 text-zinc-600" />
+            <h2 className="font-serif text-xl font-medium text-zinc-900 mb-6">
+              Quer fazer parte da equipa IMPAR?
+            </h2>
+            <Button
+              onClick={() => toast.info('Em breve: Página de carreiras')}
+              className="rounded-none bg-zinc-900 text-white hover:bg-zinc-800 px-8"
+            >
+              Clique aqui
+            </Button>
           </CardContent>
         </Card>
+
+        {/* Logout Button */}
+        <div className="text-center">
+          <Button
+            onClick={handleLogout}
+            variant="outline"
+            className="rounded-none border-red-500 text-red-500 hover:bg-red-50"
+            data-testid="logout-button"
+          >
+            <LogOut className="w-4 h-4 mr-2" />
+            Terminar Sessão
+          </Button>
+        </div>
       </div>
     </div>
   );
