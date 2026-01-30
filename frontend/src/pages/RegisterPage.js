@@ -5,6 +5,14 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Card, CardContent } from '../components/ui/card';
+import { Checkbox } from '../components/ui/checkbox';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/select';
 import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 
@@ -16,9 +24,45 @@ const RegisterPage = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     password: '',
     confirmPassword: '',
+    date_of_birth: '',
+    gender: '',
+    nationality: 'Portuguesa',
+    district: '',
+    municipality: '',
+    parish: '',
+    marital_status: '',
+    religion: '',
+    education_level: '',
+    profession: '',
+    lived_abroad: '',
+    accept_notifications: false,
   });
+
+  // Distritos de Portugal
+  const distritos = [
+    'Aveiro', 'Beja', 'Braga', 'Bragança', 'Castelo Branco', 
+    'Coimbra', 'Évora', 'Faro', 'Guarda', 'Leiria', 
+    'Lisboa', 'Portalegre', 'Porto', 'Santarém', 'Setúbal', 
+    'Viana do Castelo', 'Vila Real', 'Viseu', 
+    'Açores', 'Madeira'
+  ];
+
+  const generos = ['Masculino', 'Feminino', 'Outro', 'Prefiro não dizer'];
+  
+  const estadosCivis = ['Solteiro(a)', 'Casado(a)', 'União de Facto', 'Divorciado(a)', 'Viúvo(a)'];
+  
+  const niveisEscolaridade = [
+    'Ensino Básico - 1º Ciclo',
+    'Ensino Básico - 2º Ciclo',
+    'Ensino Básico - 3º Ciclo',
+    'Ensino Secundário',
+    'Licenciatura',
+    'Mestrado',
+    'Doutoramento'
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
