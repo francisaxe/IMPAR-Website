@@ -290,15 +290,18 @@ frontend:
 
   - task: "Survey Creation - Admin Only Restriction"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/backend/server.py"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Needs testing - verify backend enforces admin-only survey creation. Regular users should receive 403 Forbidden when attempting to create surveys via API. Test with both owner@test.com (should succeed) and user@test.com (should fail)."
+      - working: false
+        agent: "testing"
+        comment: "❌ CANNOT TEST DUE TO AUTHENTICATION ISSUE: Unable to verify admin-only restriction because login sessions are not persisting. Both admin and regular user login attempts redirect back to login page despite backend returning 200 OK. Frontend authentication context/JWT token management appears broken. Backend API endpoints likely working correctly based on logs, but frontend session management prevents proper testing."
 
   - task: "Survey End Date - Optional Field"
     implemented: true
