@@ -869,6 +869,60 @@ async def get_all_users(admin: dict = Depends(get_admin_user)):
     users = await db.users.find({}, {"_id": 0, "password": 0}).to_list(1000)
     return [UserResponse(**u) for u in users]
 
+@api_router.get("/admin/users/export/csv")
+async def export_users_csv(admin: dict = Depends(get_admin_user)):
+    """Export all users data to CSV file"""
+    users = await db.users.find({}, {"_id": 0, "password": 0}).to_list(1000)
+    
+    if not users:
+        raise HTTPException(status_code=404, detail="No users found")
+    
+    # Create CSV in memory
+    output = io.StringIO()
+    
+    # Define CSV columns (all user fields)
+    fieldnames = [
+        'id', 'name', 'email', 'phone', 'role', 
+        'date_of_birth', 'gender', 'nationality',
+        'district', 'municipality', 'parish',
+        'marital_status', 'religion', 'education_level', 'profession',
+        'lived_abroad', 'accept_notifications', 'created_at'
+    ]
+    
+    writer = csv.DictWriter(output, fieldnames=fieldnames, extrasaction='ignore')
+    writer.writeheader()
+    
+    # Write user data
+    for user in users:
+        # Convert boolean to string for better readability
+        if 'lived_abroad' in user:
+            user['lived_abroad'] = 'Sim' if user['lived_abroad'] else 'Não'
+        if 'accept_notifications' in user:
+            user['accept_notifications'] = 'Sim' if user['accept_notifications'] else 'Não'
+        
+        # Format dates
+        if 'created_at' in user:
+            try:
+                user['created_at'] = datetime.fromisoformat(user['created_at']).strftime('%d/%m/%Y %H:%M:%S')
+            except:
+                pass
+        
+        writer.writerow(user)
+    
+    # Prepare response
+    output.seek(0)
+    
+    # Generate filename with current date
+    filename = f"impar_utilizadores_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.csv"
+    
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": f"attachment; filename={filename}"
+        }
+    )
+
 @api_router.put("/admin/users/{user_id}/role")
 async def update_user_role(user_id: str, role: Literal["user", "admin"], admin: dict = Depends(get_admin_user)):
     if admin["role"] != "owner":
