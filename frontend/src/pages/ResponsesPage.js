@@ -208,7 +208,10 @@ const ResponsesPage = () => {
                                 </h4>
                                 <div className="bg-zinc-50 rounded-sm p-4">
                                   <p className="text-xs text-zinc-600 font-medium mb-3">
-                                    PERCENTAGENS ({item.total_responses} respostas)
+                                    {isAdmin 
+                                      ? `PERCENTAGENS (${item.total_responses} respostas)`
+                                      : 'PERCENTAGENS'
+                                    }
                                   </p>
                                   {renderGlobalResults(question, item.global_results)}
                                 </div>
