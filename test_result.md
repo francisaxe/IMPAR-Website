@@ -392,11 +392,11 @@ frontend:
 
   - task: "Survey Taking - All Question Types"
     implemented: true
-    working: false
+    working: "NA"
     file: "/app/frontend/src/pages/TakeSurveyPage.js"
     stuck_count: 1
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
@@ -404,6 +404,9 @@ frontend:
       - working: false
         agent: "testing"
         comment: "❌ SURVEY TAKING PAGE ISSUE: TakeSurveyPage loads successfully but no question types are visible (0 multiple choice, 0 text areas, 0 rating buttons, 0 yes/no buttons, 0 checkboxes). This could be due to: 1) Authentication issues preventing proper survey data loading, 2) Survey data not containing questions, or 3) Question rendering logic problems. Code review shows proper question type handling for all 5 types (lines 139-266), but actual survey data may be missing or not loading correctly."
+      - working: "NA"
+        agent: "testing"
+        comment: "PARTIAL SUCCESS - Survey taking page working but limited test data. Successfully navigated to 'Presidenciais 2026' survey, found 1 multiple choice question with 2 options (Andre Ventura, Antonio Jose Seguro). Survey submission flow working. However, only 1 question type tested instead of expected 5. ISSUE: Current surveys don't contain all 5 question types as specified in review request. Need surveys with comprehensive question type coverage for full testing."
 
   - task: "Surveys List - Response Status Indicator"
     implemented: true
