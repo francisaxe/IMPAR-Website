@@ -28,23 +28,23 @@ const LandingPage = () => {
   const features = [
     {
       icon: <BarChart3 className="w-6 h-6" />,
-      title: 'Real-time Analytics',
-      description: 'Track responses as they come in with detailed breakdowns and visualizations.',
+      title: 'Análise em Tempo Real',
+      description: 'Acompanhe as respostas à medida que chegam com relatórios detalhados e visualizações.',
     },
     {
       icon: <Users className="w-6 h-6" />,
-      title: 'Easy Distribution',
-      description: 'Share surveys via social media, email, or direct links with one click.',
+      title: 'Distribuição Fácil',
+      description: 'Partilhe inquéritos através das redes sociais, email ou links diretos com um clique.',
     },
     {
       icon: <Shield className="w-6 h-6" />,
-      title: 'Secure & Private',
-      description: 'Your data is protected with enterprise-grade security standards.',
+      title: 'Seguro e Privado',
+      description: 'Os seus dados estão protegidos com padrões de segurança de nível empresarial.',
     },
     {
       icon: <Sparkles className="w-6 h-6" />,
-      title: 'Content Highlighting',
-      description: 'Emphasize important questions to guide respondents through your survey.',
+      title: 'Destaque de Conteúdo',
+      description: 'Realce perguntas importantes para guiar os participantes através do seu inquérito.',
     },
   ];
 
@@ -56,13 +56,13 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="stagger-children">
-              <p className="label-caps mb-4">Survey Platform</p>
+              <p className="label-caps mb-4">Plataforma de Inquéritos</p>
               <h1 className="font-serif text-5xl md:text-7xl font-light tracking-tight text-zinc-900 dark:text-white mb-6">
-                Create surveys that <span className="font-medium">matter</span>
+                Crie inquéritos que <span className="font-medium">importam</span>
               </h1>
               <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 leading-relaxed mb-8 max-w-xl">
-                IMPAR helps you design, distribute, and analyze surveys with precision. 
-                Gather insights that drive decisions.
+                O IMPAR ajuda-o a criar, distribuir e analisar inquéritos com precisão. 
+                Obtenha insights que orientam decisões.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link to="/register">
@@ -71,7 +71,7 @@ const LandingPage = () => {
                     className="rounded-none bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 px-8 btn-hover-lift"
                     data-testid="hero-get-started"
                   >
-                    Get Started Free
+                    Começar Grátis
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>
@@ -82,7 +82,7 @@ const LandingPage = () => {
                     className="rounded-none border-zinc-300 dark:border-zinc-700 px-8"
                     data-testid="hero-browse"
                   >
-                    Browse Surveys
+                    Ver Inquéritos
                   </Button>
                 </Link>
               </div>
@@ -91,7 +91,7 @@ const LandingPage = () => {
               <div className="aspect-[4/3] bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1760471461590-f81d45dc78ee?crop=entropy&cs=srgb&fm=jpg&q=85&w=800"
-                  alt="Survey visualization"
+                  alt="Visualização de inquérito"
                   className="w-full h-full object-cover grayscale"
                 />
               </div>
@@ -105,9 +105,9 @@ const LandingPage = () => {
       <section className="py-24 bg-zinc-50 dark:bg-zinc-900 border-y border-zinc-200 dark:border-zinc-800">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <p className="label-caps mb-4">Features</p>
+            <p className="label-caps mb-4">Funcionalidades</p>
             <h2 className="font-serif text-3xl md:text-5xl font-normal text-zinc-900 dark:text-white">
-              Everything you need
+              Tudo o que precisa
             </h2>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -138,14 +138,14 @@ const LandingPage = () => {
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="flex justify-between items-end mb-12">
               <div>
-                <p className="label-caps mb-4">Discover</p>
+                <p className="label-caps mb-4">Descobrir</p>
                 <h2 className="font-serif text-3xl md:text-5xl font-normal text-zinc-900 dark:text-white">
-                  Featured Surveys
+                  Inquéritos em Destaque
                 </h2>
               </div>
               <Link to="/surveys">
                 <Button variant="outline" className="rounded-none hidden sm:flex" data-testid="view-all-surveys">
-                  View All
+                  Ver Todos
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
@@ -169,10 +169,10 @@ const LandingPage = () => {
       <section className="py-24 bg-black dark:bg-white text-white dark:text-black">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
           <h2 className="font-serif text-3xl md:text-5xl font-light mb-6">
-            Ready to get started?
+            Pronto para começar?
           </h2>
           <p className="text-lg text-zinc-400 dark:text-zinc-600 mb-8 max-w-2xl mx-auto">
-            Join thousands of users creating impactful surveys. Start gathering insights today.
+            Junte-se a milhares de utilizadores que criam inquéritos impactantes. Comece a obter insights hoje.
           </p>
           <Link to="/register">
             <Button
@@ -180,7 +180,7 @@ const LandingPage = () => {
               className="rounded-none bg-white text-black hover:bg-zinc-200 dark:bg-black dark:text-white dark:hover:bg-zinc-800 px-12 btn-hover-lift"
               data-testid="cta-create-account"
             >
-              Create Free Account
+              Criar Conta Grátis
             </Button>
           </Link>
         </div>
@@ -192,7 +192,7 @@ const LandingPage = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="font-serif text-2xl font-semibold">IMPAR</div>
             <p className="text-sm text-zinc-500">
-              © {new Date().getFullYear()} IMPAR. All rights reserved.
+              © {new Date().getFullYear()} IMPAR. Todos os direitos reservados.
             </p>
           </div>
         </div>
