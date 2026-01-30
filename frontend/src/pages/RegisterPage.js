@@ -211,6 +211,24 @@ const RegisterPage = () => {
                 </div>
               </div>
 
+              {/* Confirmar Palavra-passe */}
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword" className="text-sm text-zinc-700">
+                  Confirmar Palavra-passe <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="Confirme a palavra-passe"
+                  value={formData.confirmPassword}
+                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  required
+                  minLength={6}
+                  className="rounded-sm border-zinc-300"
+                  data-testid="register-confirm-password"
+                />
+              </div>
+
               {/* Data de Nascimento e Género */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
