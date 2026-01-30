@@ -50,7 +50,7 @@ const RegisterPage = () => {
     'Açores', 'Madeira'
   ];
 
-  const generos = ['Masculino', 'Feminino', 'Outro', 'Prefiro não dizer'];
+  const generos = ['Masculino', 'Feminino', 'Outro'];
   
   const estadosCivis = ['Solteiro(a)', 'Casado(a)', 'União de Facto', 'Divorciado(a)', 'Viúvo(a)'];
   
@@ -59,6 +59,7 @@ const RegisterPage = () => {
     'Ensino Básico - 2º Ciclo',
     'Ensino Básico - 3º Ciclo',
     'Ensino Secundário',
+    'Curso Profissional',
     'Licenciatura',
     'Mestrado',
     'Doutoramento'
