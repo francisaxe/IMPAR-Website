@@ -149,44 +149,120 @@ const DashboardPage = () => {
           </div>
         )}
 
-        {/* Surveys List */}
-        <div>
-          <h2 className="font-serif text-2xl font-normal text-zinc-900 dark:text-white mb-6">
-            Os Seus Inquéritos
-          </h2>
-          {loading ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {Array(3).fill(0).map((_, i) => (
-                <div key={i} className="h-64 bg-zinc-200 dark:bg-zinc-800 animate-pulse"></div>
-              ))}
-            </div>
-          ) : surveys.length === 0 ? (
-            <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
+        {/* Surveys List - Apenas Admin */}
+        {isAdmin ? (
+          <div>
+            <h2 className="font-serif text-2xl font-normal text-zinc-900 dark:text-white mb-6">
+              Os Seus Inquéritos
+            </h2>
+            {loading ? (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array(3).fill(0).map((_, i) => (
+                  <div key={i} className="h-64 bg-zinc-200 dark:bg-zinc-800 animate-pulse"></div>
+                ))}
+              </div>
+            ) : surveys.length === 0 ? (
+              <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
+                <CardContent className="py-16 text-center">
+                  <ClipboardList className="w-12 h-12 mx-auto mb-4 text-zinc-400" />
+                  <h3 className="font-serif text-xl font-medium mb-2">Ainda não tem inquéritos</h3>
+                  <p className="text-zinc-500 mb-6">Crie o seu primeiro inquérito para começar</p>
+                  <Link to="/surveys/create">
+                    <Button className="rounded-none bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200">
+                      <PlusCircle className="w-4 h-4 mr-2" />
+                      Criar Inquérito
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {surveys.map((survey) => (
+                  <SurveyCard
+                    key={survey.id}
+                    survey={survey}
+                    onEdit={handleEdit}
+                    onDelete={(s) => setDeleteDialog({ open: true, survey: s })}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          /* Conteúdo para Utilizadores Regulares */
+          <div className="space-y-6">
+            <Card className="rounded-lg border-0 shadow-sm bg-white dark:bg-zinc-800">
               <CardContent className="py-16 text-center">
-                <ClipboardList className="w-12 h-12 mx-auto mb-4 text-zinc-400" />
-                <h3 className="font-serif text-xl font-medium mb-2">Ainda não tem inquéritos</h3>
-                <p className="text-zinc-500 mb-6">Crie o seu primeiro inquérito para começar</p>
-                <Link to="/surveys/create">
-                  <Button className="rounded-none bg-black text-white hover:bg-zinc-800">
-                    Criar Inquérito
-                  </Button>
-                </Link>
+                <ClipboardList className="w-16 h-16 mx-auto mb-6 text-zinc-300" />
+                <h2 className="font-serif text-2xl font-medium text-zinc-900 dark:text-white mb-3">
+                  Painel de Utilizador
+                </h2>
+                <p className="text-zinc-600 dark:text-zinc-400 mb-8 max-w-md mx-auto">
+                  Como utilizador, pode participar em sondagens, ver resultados e sugerir novas sondagens.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link to="/surveys">
+                    <Button className="rounded-none bg-zinc-900 text-white hover:bg-zinc-800">
+                      <ClipboardList className="w-4 h-4 mr-2" />
+                      Ver Sondagens
+                    </Button>
+                  </Link>
+                  <Link to="/responses">
+                    <Button variant="outline" className="rounded-none">
+                      <BarChart3 className="w-4 h-4 mr-2" />
+                      Minhas Respostas
+                    </Button>
+                  </Link>
+                </div>
               </CardContent>
             </Card>
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {surveys.map((survey) => (
-                <SurveyCard
-                  key={survey.id}
-                  survey={survey}
-                  showActions
-                  onEdit={handleEdit}
-                  onDelete={(s) => setDeleteDialog({ open: true, survey: s })}
-                />
-              ))}
+
+            {/* Cards de Acesso Rápido */}
+            <div className="grid md:grid-cols-3 gap-4">
+              <Link to="/surveys">
+                <Card className="rounded-lg border-0 shadow-sm bg-white dark:bg-zinc-800 hover:shadow-md transition-shadow cursor-pointer">
+                  <CardContent className="p-6">
+                    <ClipboardList className="w-8 h-8 mb-3 text-zinc-600" />
+                    <h3 className="font-medium text-zinc-900 dark:text-white mb-2">
+                      Sondagens Disponíveis
+                    </h3>
+                    <p className="text-sm text-zinc-500">
+                      Participe nas sondagens ativas e partilhe a sua opinião
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link to="/responses">
+                <Card className="rounded-lg border-0 shadow-sm bg-white dark:bg-zinc-800 hover:shadow-md transition-shadow cursor-pointer">
+                  <CardContent className="p-6">
+                    <BarChart3 className="w-8 h-8 mb-3 text-zinc-600" />
+                    <h3 className="font-medium text-zinc-900 dark:text-white mb-2">
+                      Minhas Respostas
+                    </h3>
+                    <p className="text-sm text-zinc-500">
+                      Veja as sondagens que respondeu e compare resultados
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+
+              <Link to="/suggest">
+                <Card className="rounded-lg border-0 shadow-sm bg-white dark:bg-zinc-800 hover:shadow-md transition-shadow cursor-pointer">
+                  <CardContent className="p-6">
+                    <PlusCircle className="w-8 h-8 mb-3 text-zinc-600" />
+                    <h3 className="font-medium text-zinc-900 dark:text-white mb-2">
+                      Sugerir Sondagem
+                    </h3>
+                    <p className="text-sm text-zinc-500">
+                      Tem uma ideia? Sugira uma nova sondagem
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Delete Confirmation Dialog */}
