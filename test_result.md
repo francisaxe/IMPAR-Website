@@ -395,15 +395,18 @@ frontend:
 
   - task: "Surveys List - Response Status Indicator"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/pages/SurveysListPage.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Needs testing - verify SurveysListPage shows 'Respondida' badge on surveys the current user has already answered, badge persists after refresh, badge does not show on unanswered surveys."
+      - working: false
+        agent: "testing"
+        comment: "❌ CANNOT TEST DUE TO AUTHENTICATION ISSUE: Unable to verify 'Respondida' badge functionality because users cannot maintain login sessions to answer surveys and see response status. SurveysListPage loads correctly and shows surveys, but response status indicators require authenticated user context to determine which surveys have been answered. Code shows proper badge implementation (lines 113-118) with user_has_responded check, but authentication issues prevent testing."
 
   - task: "Team Application - Admin Panel"
     implemented: true
