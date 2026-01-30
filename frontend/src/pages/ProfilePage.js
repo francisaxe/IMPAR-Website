@@ -40,8 +40,6 @@ const ProfilePage = () => {
 
   const navigate = useNavigate();
 
-  const navigate = useNavigate();
-
   const handleLogout = () => {
     logout();
     navigate('/');
