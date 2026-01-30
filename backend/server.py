@@ -268,7 +268,20 @@ async def register(user_data: UserCreate):
     user = User(
         email=user_data.email,
         name=user_data.name,
-        role=role
+        role=role,
+        phone=user_data.phone,
+        date_of_birth=user_data.date_of_birth,
+        gender=user_data.gender,
+        nationality=user_data.nationality,
+        district=user_data.district,
+        municipality=user_data.municipality,
+        parish=user_data.parish,
+        marital_status=user_data.marital_status,
+        religion=user_data.religion,
+        education_level=user_data.education_level,
+        profession=user_data.profession,
+        lived_abroad=user_data.lived_abroad,
+        accept_notifications=user_data.accept_notifications
     )
     user_dict = user.model_dump()
     user_dict["password"] = hash_password(user_data.password)
@@ -286,7 +299,20 @@ async def register(user_data: UserCreate):
             role=user.role,
             bio=user.bio,
             avatar_url=user.avatar_url,
-            created_at=user.created_at
+            created_at=user.created_at,
+            phone=user.phone,
+            date_of_birth=user.date_of_birth,
+            gender=user.gender,
+            nationality=user.nationality,
+            district=user.district,
+            municipality=user.municipality,
+            parish=user.parish,
+            marital_status=user.marital_status,
+            religion=user.religion,
+            education_level=user.education_level,
+            profession=user.profession,
+            lived_abroad=user.lived_abroad,
+            accept_notifications=user.accept_notifications
         )
     )
 
