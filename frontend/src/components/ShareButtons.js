@@ -13,22 +13,22 @@ const ShareButtons = ({ surveyId, surveyTitle }) => {
   const [copied, setCopied] = useState(false);
   const shareUrl = `${window.location.origin}/surveys/${surveyId}/take`;
   const encodedUrl = encodeURIComponent(shareUrl);
-  const encodedTitle = encodeURIComponent(`Check out this survey: ${surveyTitle}`);
+  const encodedTitle = encodeURIComponent(`Responda a este inquérito: ${surveyTitle}`);
 
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
-      toast.success('Link copied to clipboard!');
+      toast.success('Link copiado!');
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      toast.error('Failed to copy link');
+      toast.error('Falha ao copiar link');
     }
   };
 
   const shareViaEmail = () => {
     window.open(
-      `mailto:?subject=${encodedTitle}&body=Take this survey: ${encodedUrl}`,
+      `mailto:?subject=${encodedTitle}&body=Responda a este inquérito: ${encodedUrl}`,
       '_blank'
     );
   };
@@ -67,7 +67,7 @@ const ShareButtons = ({ surveyId, surveyTitle }) => {
           data-testid="share-button"
         >
           <Share2 className="w-4 h-4 mr-2" />
-          Share
+          Partilhar
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="rounded-none w-48">
@@ -77,7 +77,7 @@ const ShareButtons = ({ surveyId, surveyTitle }) => {
           ) : (
             <LinkIcon className="w-4 h-4 mr-2" />
           )}
-          {copied ? 'Copied!' : 'Copy Link'}
+          {copied ? 'Copiado!' : 'Copiar Link'}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={shareViaEmail} data-testid="share-email">
           <Mail className="w-4 h-4 mr-2" />
