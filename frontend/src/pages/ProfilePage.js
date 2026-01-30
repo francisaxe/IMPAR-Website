@@ -23,16 +23,16 @@ const ProfilePage = () => {
     setLoading(true);
     try {
       await updateProfile(formData);
-      toast.success('Profile updated successfully!');
+      toast.success('Perfil atualizado com sucesso!');
     } catch (error) {
-      toast.error(error.response?.data?.detail || 'Failed to update profile');
+      toast.error(error.response?.data?.detail || 'Falha ao atualizar perfil');
     } finally {
       setLoading(false);
     }
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString('pt-PT', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -42,11 +42,11 @@ const ProfilePage = () => {
   const getRoleBadge = (role) => {
     switch (role) {
       case 'owner':
-        return <Badge className="rounded-none bg-black text-white">Owner</Badge>;
+        return <Badge className="rounded-none bg-black text-white">Proprietário</Badge>;
       case 'admin':
-        return <Badge className="rounded-none bg-zinc-700 text-white">Admin</Badge>;
+        return <Badge className="rounded-none bg-zinc-700 text-white">Administrador</Badge>;
       default:
-        return <Badge variant="outline" className="rounded-none">User</Badge>;
+        return <Badge variant="outline" className="rounded-none">Utilizador</Badge>;
     }
   };
 
@@ -55,17 +55,17 @@ const ProfilePage = () => {
       <div className="max-w-2xl mx-auto px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="mb-8">
-          <p className="label-caps mb-2">Settings</p>
+          <p className="label-caps mb-2">Definições</p>
           <h1 className="font-serif text-3xl font-light text-zinc-900 dark:text-white">
-            Your Profile
+            O Seu Perfil
           </h1>
         </div>
 
         {/* Account Info Card */}
         <Card className="rounded-none border border-zinc-200 dark:border-zinc-800 mb-8">
           <CardHeader>
-            <CardTitle className="font-serif text-xl">Account Information</CardTitle>
-            <CardDescription>Your account details and role</CardDescription>
+            <CardTitle className="font-serif text-xl">Informação da Conta</CardTitle>
+            <CardDescription>Detalhes da sua conta e função</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center gap-3 text-sm">
@@ -75,12 +75,12 @@ const ProfilePage = () => {
             </div>
             <div className="flex items-center gap-3 text-sm">
               <Shield className="w-4 h-4 text-zinc-500" />
-              <span className="text-zinc-500">Role:</span>
+              <span className="text-zinc-500">Função:</span>
               {getRoleBadge(user?.role)}
             </div>
             <div className="flex items-center gap-3 text-sm">
               <Calendar className="w-4 h-4 text-zinc-500" />
-              <span className="text-zinc-500">Member since:</span>
+              <span className="text-zinc-500">Membro desde:</span>
               <span>{formatDate(user?.created_at)}</span>
             </div>
           </CardContent>
@@ -89,18 +89,18 @@ const ProfilePage = () => {
         {/* Edit Profile Form */}
         <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
           <CardHeader>
-            <CardTitle className="font-serif text-xl">Edit Profile</CardTitle>
-            <CardDescription>Update your public profile information</CardDescription>
+            <CardTitle className="font-serif text-xl">Editar Perfil</CardTitle>
+            <CardDescription>Atualize a informação do seu perfil público</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Display Name</Label>
+                <Label htmlFor="name">Nome</Label>
                 <Input
                   id="name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Your name"
+                  placeholder="O seu nome"
                   className="rounded-none border-zinc-300 dark:border-zinc-700"
                   data-testid="profile-name"
                 />
@@ -111,18 +111,18 @@ const ProfilePage = () => {
                   id="bio"
                   value={formData.bio}
                   onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                  placeholder="Tell us about yourself..."
+                  placeholder="Fale-nos sobre si..."
                   className="rounded-none border-zinc-300 dark:border-zinc-700 min-h-[100px]"
                   data-testid="profile-bio"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="avatar">Avatar URL</Label>
+                <Label htmlFor="avatar">URL do Avatar</Label>
                 <Input
                   id="avatar"
                   value={formData.avatar_url}
                   onChange={(e) => setFormData({ ...formData, avatar_url: e.target.value })}
-                  placeholder="https://example.com/avatar.jpg"
+                  placeholder="https://exemplo.com/avatar.jpg"
                   className="rounded-none border-zinc-300 dark:border-zinc-700"
                   data-testid="profile-avatar"
                 />
@@ -135,7 +135,7 @@ const ProfilePage = () => {
                   data-testid="save-profile"
                 >
                   <Save className="w-4 h-4 mr-2" />
-                  {loading ? 'Saving...' : 'Save Changes'}
+                  {loading ? 'A guardar...' : 'Guardar Alterações'}
                 </Button>
               </div>
             </form>
