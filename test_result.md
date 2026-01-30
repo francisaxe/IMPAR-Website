@@ -239,7 +239,7 @@ frontend:
     working: false
     file: "/app/frontend/src/pages/ProfilePage.js"
     stuck_count: 1
-    priority: "high"
+    priority: "low"
     needs_retesting: false
     status_history:
       - working: "NA"
@@ -248,6 +248,138 @@ frontend:
       - working: false
         agent: "testing"
         comment: "❌ CRITICAL ISSUE: Team application feature implemented in code but not accessible due to authentication session management problems. Profile page shows team application card ('Quer fazer parte da equipa IMPAR?') in content analysis but user sessions expire/redirect to login, preventing interaction with dialog modal and form submission. Authentication flow needs fixing."
+
+  - task: "Dashboard Permissions - User Role"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/DashboardPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ Dashboard role permissions fully implemented. User role (non-admin) correctly hides: 1) 'Criar Inquérito' button, 2) Statistics cards (Total Inquéritos, Publicados, Respostas, Perguntas), 3) 'Os Seus Inquéritos' section. Shows alternative content: 'Painel de Utilizador' with welcome message and 3 quick access cards (Sondagens Disponíveis, Minhas Respostas, Sugerir Sondagem). Tested with user@test.com - all working correctly."
+
+  - task: "Dashboard Permissions - Admin Role"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/pages/DashboardPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ Dashboard admin permissions verified. Admin role (owner) correctly shows: 1) 'Criar Inquérito' button in header, 2) 4 statistics cards with data, 3) 'Os Seus Inquéritos' section with survey list. Tested with owner@test.com - all admin features visible and functional."
+
+  - task: "Survey Creation - 5 Question Types"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/CreateSurveyPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Needs comprehensive testing - verify CreateSurveyPage supports all 5 question types: 1) multiple_choice (Escolha Múltipla), 2) text (Texto Livre), 3) rating (Escala de Avaliação 1-5), 4) yes_no (Sim/Não), 5) checkbox (Múltipla Seleção). Test question type selector, options input for multiple choice and checkbox, complete survey creation flow with mixed question types, backend integration."
+
+  - task: "Survey Creation - Admin Only Restriction"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Needs testing - verify backend enforces admin-only survey creation. Regular users should receive 403 Forbidden when attempting to create surveys via API. Test with both owner@test.com (should succeed) and user@test.com (should fail)."
+
+  - task: "Survey End Date - Optional Field"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/CreateSurveyPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Needs testing - verify optional end date picker in CreateSurveyPage, date stored correctly in backend, surveys display end date in UI, survey taking is blocked after end date expires."
+
+  - task: "Featured Surveys System"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/SurveysListPage.js, /app/frontend/src/pages/LandingPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Needs testing - verify featured toggle: 1) Admin can toggle star button on SurveysListPage to mark surveys as featured, 2) LandingPage displays only featured surveys in 'Em Destaque' section, 3) Toggle persists after refresh, 4) Regular users cannot toggle featured status."
+
+  - task: "Survey Numbering - Fixed Chronological"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Needs testing - verify survey_number is assigned chronologically based on creation order (not filter order), numbers remain fixed even when surveys are reordered, numbers display correctly across all pages (SurveysListPage, TakeSurveyPage, ResultsPage)."
+
+  - task: "My Responses Page - User View with Global Results"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/ResponsesPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Needs comprehensive testing - verify ResponsesPage uses /api/my-responses endpoint: 1) Shows list of surveys user has answered, 2) Displays user's own answers for each question, 3) Shows global aggregated results in percentages alongside user answers, 4) Handles all 5 question types correctly (multiple_choice, text, rating, yes_no, checkbox), 5) Vote counts are NOT visible to regular users (only percentages)."
+
+  - task: "Vote Counts - Admin Only Visibility"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/ResultsPage.js, /app/frontend/src/pages/ResponsesPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Needs testing - verify vote count privacy: 1) Regular users see only percentages on ResultsPage and ResponsesPage, 2) Admin users (owner) can see actual vote counts, 3) Test with both user@test.com (no counts) and owner@test.com (with counts)."
+
+  - task: "Survey Taking - All Question Types"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/TakeSurveyPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Needs testing - verify TakeSurveyPage renders and handles all 5 question types: 1) multiple_choice with radio buttons, 2) text with textarea, 3) rating with 1-5 star buttons, 4) yes_no with radio buttons, 5) checkbox with checkboxes allowing multiple selections. Test submission and storage of all answer types."
+
+  - task: "Surveys List - Response Status Indicator"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/SurveysListPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Needs testing - verify SurveysListPage shows 'Respondida' badge on surveys the current user has already answered, badge persists after refresh, badge does not show on unanswered surveys."
 
   - task: "Team Application - Admin Panel"
     implemented: true
