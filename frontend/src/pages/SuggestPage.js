@@ -51,10 +51,10 @@ const SuggestPage = () => {
     return (
       <div className="min-h-screen bg-[#f5f5f5]" data-testid="suggest-page">
         <div className="max-w-2xl mx-auto px-6 py-16">
-          <Card className="rounded-none border-0 shadow-sm bg-white">
+          <Card className="rounded-lg border-0 shadow-sm bg-white">
             <CardContent className="py-16 text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full mx-auto mb-6 flex items-center justify-center">
-                <CheckCircle className="w-8 h-8 text-green-600" />
+              <div className="w-16 h-16 bg-emerald-100 rounded-full mx-auto mb-6 flex items-center justify-center">
+                <CheckCircle className="w-8 h-8 text-emerald-600" />
               </div>
               <h2 className="font-serif text-2xl font-medium text-zinc-900 mb-2">
                 Sugestão Recebida
@@ -84,7 +84,7 @@ const SuggestPage = () => {
       <div className="max-w-2xl mx-auto px-6 py-16">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="w-16 h-16 bg-amber-100 mx-auto mb-4 flex items-center justify-center">
+          <div className="w-16 h-16 bg-amber-100 mx-auto mb-4 flex items-center justify-center rounded-sm">
             <Lightbulb className="w-8 h-8 text-amber-600" />
           </div>
           <h1 className="font-serif text-3xl font-normal text-zinc-900 mb-2">
@@ -96,7 +96,7 @@ const SuggestPage = () => {
         </div>
 
         {/* Form */}
-        <Card className="rounded-none border-0 shadow-sm bg-white">
+        <Card className="rounded-lg border-0 shadow-sm bg-white">
           <CardContent className="p-8">
             {!user && (
               <div className="bg-amber-50 border border-amber-200 p-4 mb-6 text-sm text-amber-800">

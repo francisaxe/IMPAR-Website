@@ -40,7 +40,7 @@ const AboutPage = () => {
         </div>
 
         {/* Missão */}
-        <Card className="rounded-none border-0 shadow-sm bg-white mb-8">
+        <Card className="rounded-lg border-0 shadow-sm bg-white mb-6">
           <CardContent className="p-8">
             <h2 className="font-serif text-2xl font-medium text-zinc-900 mb-4">
               A Nossa Missão
@@ -64,7 +64,7 @@ const AboutPage = () => {
         </Card>
 
         {/* Valores */}
-        <Card className="rounded-none border-0 shadow-sm bg-white mb-8">
+        <Card className="rounded-lg border-0 shadow-sm bg-white mb-6">
           <CardContent className="p-8">
             <h2 className="font-serif text-2xl font-medium text-zinc-900 mb-6">
               Os Nossos Valores
@@ -72,7 +72,7 @@ const AboutPage = () => {
             <div className="grid md:grid-cols-2 gap-6">
               {values.map((value, index) => (
                 <div key={index} className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-zinc-100 flex items-center justify-center text-zinc-600">
+                  <div className="flex-shrink-0 w-12 h-12 bg-zinc-100 rounded-sm flex items-center justify-center text-zinc-600">
                     {value.icon}
                   </div>
                   <div>
@@ -86,7 +86,7 @@ const AboutPage = () => {
         </Card>
 
         {/* Como Funciona */}
-        <Card className="rounded-none border-0 shadow-sm bg-white">
+        <Card className="rounded-lg border-0 shadow-sm bg-white">
           <CardContent className="p-8">
             <h2 className="font-serif text-2xl font-medium text-zinc-900 mb-4">
               Como Funciona

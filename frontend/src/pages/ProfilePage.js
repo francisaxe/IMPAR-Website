@@ -42,29 +42,34 @@ const ProfilePage = () => {
   const getRoleBadge = (role) => {
     switch (role) {
       case 'owner':
-        return <Badge className="rounded-none bg-black text-white">Proprietário</Badge>;
+        return <Badge className="rounded-sm bg-black text-white">Proprietário</Badge>;
       case 'admin':
-        return <Badge className="rounded-none bg-zinc-700 text-white">Administrador</Badge>;
+        return <Badge className="rounded-sm bg-zinc-700 text-white">Administrador</Badge>;
       default:
-        return <Badge variant="outline" className="rounded-none">Utilizador</Badge>;
+        return <Badge variant="outline" className="rounded-sm">Utilizador</Badge>;
     }
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900" data-testid="profile-page">
-      <div className="max-w-2xl mx-auto px-6 lg:px-8 py-12">
+    <div className="min-h-screen bg-[#f5f5f5]" data-testid="profile-page">
+      <div className="max-w-2xl mx-auto px-6 py-12">
         {/* Header */}
-        <div className="mb-8">
-          <p className="label-caps mb-2">Definições</p>
-          <h1 className="font-serif text-3xl font-light text-zinc-900 dark:text-white">
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-zinc-100 mx-auto mb-4 flex items-center justify-center">
+            <User className="w-8 h-8 text-zinc-600" />
+          </div>
+          <h1 className="font-serif text-3xl font-normal text-zinc-900 mb-2">
             O Seu Perfil
           </h1>
+          <p className="text-zinc-500">
+            Gerir a informação da sua conta
+          </p>
         </div>
 
         {/* Account Info Card */}
-        <Card className="rounded-none border border-zinc-200 dark:border-zinc-800 mb-8">
+        <Card className="rounded-lg border-0 shadow-sm bg-white mb-6">
           <CardHeader>
-            <CardTitle className="font-serif text-xl">Informação da Conta</CardTitle>
+            <CardTitle className="font-serif text-xl font-medium">Informação da Conta</CardTitle>
             <CardDescription>Detalhes da sua conta e função</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -87,43 +92,43 @@ const ProfilePage = () => {
         </Card>
 
         {/* Edit Profile Form */}
-        <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
+        <Card className="rounded-lg border-0 shadow-sm bg-white">
           <CardHeader>
-            <CardTitle className="font-serif text-xl">Editar Perfil</CardTitle>
+            <CardTitle className="font-serif text-xl font-medium">Editar Perfil</CardTitle>
             <CardDescription>Atualize a informação do seu perfil público</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Nome</Label>
+                <Label htmlFor="name" className="text-sm text-zinc-600">Nome</Label>
                 <Input
                   id="name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="O seu nome"
-                  className="rounded-none border-zinc-300 dark:border-zinc-700"
+                  className="rounded-none border-zinc-300"
                   data-testid="profile-name"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="bio">Bio</Label>
+                <Label htmlFor="bio" className="text-sm text-zinc-600">Bio</Label>
                 <Textarea
                   id="bio"
                   value={formData.bio}
                   onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                   placeholder="Fale-nos sobre si..."
-                  className="rounded-none border-zinc-300 dark:border-zinc-700 min-h-[100px]"
+                  className="rounded-none border-zinc-300 min-h-[100px]"
                   data-testid="profile-bio"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="avatar">URL do Avatar</Label>
+                <Label htmlFor="avatar" className="text-sm text-zinc-600">URL do Avatar</Label>
                 <Input
                   id="avatar"
                   value={formData.avatar_url}
                   onChange={(e) => setFormData({ ...formData, avatar_url: e.target.value })}
                   placeholder="https://exemplo.com/avatar.jpg"
-                  className="rounded-none border-zinc-300 dark:border-zinc-700"
+                  className="rounded-none border-zinc-300"
                   data-testid="profile-avatar"
                 />
               </div>
@@ -131,7 +136,7 @@ const ProfilePage = () => {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="rounded-none bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 btn-hover-lift"
+                  className="rounded-none bg-zinc-900 text-white hover:bg-zinc-800"
                   data-testid="save-profile"
                 >
                   <Save className="w-4 h-4 mr-2" />
