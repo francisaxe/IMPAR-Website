@@ -112,7 +112,15 @@ const SuggestPage = () => {
         content += `\n\nNOTAS ADICIONAIS: ${formData.additionalNotes}`;
       }
       
-      await api.post('/suggestions', { content });
+      // Enviar dados estruturados junto com content
+      await api.post('/suggestions', { 
+        content,
+        survey_title: formData.surveyTitle,
+        survey_description: formData.surveyDescription || null,
+        category: formData.category || null,
+        questions: formData.questions,
+        additional_notes: formData.additionalNotes || null
+      });
       setSubmitted(true);
       toast.success('Sugestão submetida com sucesso!');
     } catch (error) {
