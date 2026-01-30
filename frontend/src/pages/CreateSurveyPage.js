@@ -315,6 +315,43 @@ const CreateSurveyPage = () => {
                           </div>
                         )}
 
+                        {/* Checkbox Options */}
+                        {question.type === 'checkbox' && (
+                          <div className="space-y-2 pl-4">
+                            {question.options.map((option, oIndex) => (
+                              <div key={oIndex} className="flex items-center gap-2">
+                                <div className="w-4 h-4 rounded border-2 border-zinc-300" />
+                                <Input
+                                  placeholder={`Opção ${oIndex + 1}`}
+                                  value={option.text}
+                                  onChange={(e) => updateOption(qIndex, oIndex, e.target.value)}
+                                  className="rounded-none border-zinc-300 dark:border-zinc-700 flex-1"
+                                  data-testid={`checkbox-option-${qIndex}-${oIndex}`}
+                                />
+                                {question.options.length > 2 && (
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => removeOption(qIndex, oIndex)}
+                                    className="text-zinc-400 hover:text-red-500"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </Button>
+                                )}
+                              </div>
+                            ))}
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => addOption(qIndex)}
+                              className="text-zinc-500"
+                            >
+                              <PlusCircle className="w-4 h-4 mr-2" />
+                              Adicionar Opção
+                            </Button>
+                          </div>
+                        )}
+
                         {/* Rating Scale */}
                         {question.type === 'rating' && (
                           <div className="flex items-center gap-4 pl-4">
