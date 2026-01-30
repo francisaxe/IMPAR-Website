@@ -214,6 +214,12 @@ class SurveyAnswer(BaseModel):
 class SuggestionCreate(BaseModel):
     content: str
     survey_id: Optional[str] = None
+    # Campos estruturados opcionais
+    survey_title: Optional[str] = None
+    survey_description: Optional[str] = None
+    category: Optional[str] = None
+    questions: Optional[List[dict]] = None
+    additional_notes: Optional[str] = None
 
 class Suggestion(BaseModel):
     model_config = ConfigDict(extra="ignore")
@@ -224,6 +230,12 @@ class Suggestion(BaseModel):
     survey_id: Optional[str] = None
     status: Literal["pending", "reviewed", "implemented", "rejected"] = "pending"
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    # Campos estruturados opcionais
+    survey_title: Optional[str] = None
+    survey_description: Optional[str] = None
+    category: Optional[str] = None
+    questions: Optional[List[dict]] = None
+    additional_notes: Optional[str] = None
 
 # Team Application Models
 class TeamApplicationCreate(BaseModel):
