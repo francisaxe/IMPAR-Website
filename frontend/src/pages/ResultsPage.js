@@ -59,6 +59,7 @@ const ResultsPage = () => {
 
     switch (question.type) {
       case 'multiple_choice':
+      case 'checkbox':
         const options = qAnalytics.option_breakdown || {};
         return (
           <div className="space-y-3">
@@ -79,6 +80,36 @@ const ResultsPage = () => {
                 </div>
               );
             })}
+          </div>
+        );
+      
+      case 'yes_no':
+        return (
+          <div className="space-y-3">
+            <div className="space-y-1">
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-700">Sim</span>
+                <span className="font-medium text-zinc-900">{Math.round(qAnalytics.yes_percentage || 0)}%</span>
+              </div>
+              <div className="h-2 bg-zinc-100 overflow-hidden">
+                <div 
+                  className="h-full bg-emerald-600 transition-all duration-500"
+                  style={{ width: `${qAnalytics.yes_percentage || 0}%` }}
+                />
+              </div>
+            </div>
+            <div className="space-y-1">
+              <div className="flex justify-between text-sm">
+                <span className="text-zinc-700">Não</span>
+                <span className="font-medium text-zinc-900">{Math.round(qAnalytics.no_percentage || 0)}%</span>
+              </div>
+              <div className="h-2 bg-zinc-100 overflow-hidden">
+                <div 
+                  className="h-full bg-red-600 transition-all duration-500"
+                  style={{ width: `${qAnalytics.no_percentage || 0}%` }}
+                />
+              </div>
+            </div>
           </div>
         );
 
