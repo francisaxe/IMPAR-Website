@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Teste do novo sistema de candidaturas à equipa IMPAR - verificar fluxo completo de candidatura do utilizador e gestão no painel admin"
+user_problem_statement: "Teste completo end-to-end do sistema IMPAR com novas funcionalidades: 1) Criação de inquéritos (apenas admin), 2) 5 tipos de perguntas, 3) Data de fim opcional, 4) Sistema destacado, 5) Numeração fixa cronológica, 6) Página Minhas Respostas com resultados globais, 7) Contagens de votos visíveis apenas para admins, 8) Dashboard com permissões de role (admin vs user)"
 
 frontend:
   - task: "Landing Page"
