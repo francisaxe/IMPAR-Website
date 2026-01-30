@@ -730,6 +730,23 @@ async def get_public_survey_results(survey_id: str):
                 if val in option_counts:
                     option_counts[val]["count"] += 1
             q_analytics["option_breakdown"] = option_counts
+        elif q_type == "yes_no":
+            yes_count = answer_values.count("Sim")
+            no_count = answer_values.count("Não")
+            q_analytics["yes_count"] = yes_count
+            q_analytics["no_count"] = no_count
+            q_analytics["yes_percentage"] = (yes_count / total_answers * 100) if total_answers > 0 else 0
+            q_analytics["no_percentage"] = (no_count / total_answers * 100) if total_answers > 0 else 0
+        elif q_type == "checkbox":
+            option_counts = {}
+            for opt in question.get("options", []):
+                option_counts[opt["id"]] = {"text": opt["text"], "count": 0}
+            for val in answer_values:
+                selected = val.split(',')
+                for opt_id in selected:
+                    if opt_id in option_counts:
+                        option_counts[opt_id]["count"] += 1
+            q_analytics["option_breakdown"] = option_counts
         elif q_type == "rating":
             ratings = [int(r) for r in answer_values if r.isdigit()]
             q_analytics["average"] = sum(ratings) / len(ratings) if ratings else 0
