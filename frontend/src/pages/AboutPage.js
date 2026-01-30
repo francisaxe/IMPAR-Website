@@ -1,31 +1,8 @@
 import React from 'react';
 import { Card, CardContent } from '../components/ui/card';
-import { Target, Eye, Scale, Shield } from 'lucide-react';
+import { Target, Lightbulb, CheckCircle } from 'lucide-react';
 
 const AboutPage = () => {
-  const values = [
-    {
-      icon: <Target className="w-6 h-6" />,
-      title: 'Rigor',
-      description: 'Cada sondagem é construída com metodologia transparente e critérios claros de participação.',
-    },
-    {
-      icon: <Eye className="w-6 h-6" />,
-      title: 'Transparência',
-      description: 'Os resultados são apresentados de forma clara, com acesso aos dados e à metodologia utilizada.',
-    },
-    {
-      icon: <Scale className="w-6 h-6" />,
-      title: 'Imparcialidade',
-      description: 'Não tomamos partido. Apresentamos os factos e deixamos que tire as suas próprias conclusões.',
-    },
-    {
-      icon: <Shield className="w-6 h-6" />,
-      title: 'Privacidade',
-      description: 'A sua participação é protegida. Valorizamos a sua opinião e respeitamos a sua privacidade.',
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-[#f5f5f5]" data-testid="about-page">
       <div className="max-w-4xl mx-auto px-6 py-16">
