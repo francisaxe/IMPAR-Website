@@ -79,7 +79,26 @@ const RegisterPage = () => {
 
     setLoading(true);
     try {
-      await register(formData.email, formData.password, formData.name);
+      const registerData = {
+        email: formData.email,
+        password: formData.password,
+        name: formData.name,
+        phone: formData.phone,
+        date_of_birth: formData.date_of_birth,
+        gender: formData.gender,
+        nationality: formData.nationality,
+        district: formData.district,
+        municipality: formData.municipality,
+        parish: formData.parish,
+        marital_status: formData.marital_status,
+        religion: formData.religion,
+        education_level: formData.education_level,
+        profession: formData.profession,
+        lived_abroad: formData.lived_abroad === 'Sim',
+        accept_notifications: formData.accept_notifications,
+      };
+      
+      await register(registerData.email, registerData.password, registerData.name, registerData);
       toast.success('Conta criada com sucesso!');
       navigate('/dashboard');
     } catch (error) {
