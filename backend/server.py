@@ -129,7 +129,7 @@ class QuestionOption(BaseModel):
 
 class Question(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    type: Literal["multiple_choice", "text", "rating"]
+    type: Literal["multiple_choice", "text", "rating", "yes_no", "checkbox"]
     text: str
     required: bool = True
     highlighted: bool = False
@@ -139,7 +139,7 @@ class Question(BaseModel):
     order: int = 0
 
 class QuestionCreate(BaseModel):
-    type: Literal["multiple_choice", "text", "rating"]
+    type: Literal["multiple_choice", "text", "rating", "yes_no", "checkbox"]
     text: str
     required: bool = True
     highlighted: bool = False
@@ -156,6 +156,7 @@ class SurveyBase(BaseModel):
 class SurveyCreate(SurveyBase):
     questions: List[QuestionCreate] = []
     is_featured: bool = False
+    end_date: Optional[str] = None
 
 class Survey(SurveyBase):
     model_config = ConfigDict(extra="ignore")
@@ -164,6 +165,7 @@ class Survey(SurveyBase):
     questions: List[Question] = []
     is_published: bool = False
     is_featured: bool = False
+    end_date: Optional[str] = None
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     updated_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     response_count: int = 0
