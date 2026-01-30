@@ -219,6 +219,20 @@ class Suggestion(BaseModel):
     status: Literal["pending", "reviewed", "implemented", "rejected"] = "pending"
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
+# Team Application Models
+class TeamApplicationCreate(BaseModel):
+    message: str
+
+class TeamApplication(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    user_name: str
+    user_email: str
+    message: str
+    status: Literal["pending", "reviewed", "accepted", "rejected"] = "pending"
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
 # ===================== AUTH HELPERS =====================
 
 def hash_password(password: str) -> str:
