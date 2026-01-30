@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { CheckCircle, ChevronRight, TrendingUp, Users } from 'lucide-react';
 
 const ResponsesPage = () => {
-  const { api, user } = useAuth();
+  const { api, user, isAdmin } = useAuth();
   const navigate = useNavigate();
   const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(true);
