@@ -380,6 +380,89 @@ const AdminPage = () => {
             </Card>
           </TabsContent>
 
+          {/* Surveys Tab */}
+          <TabsContent value="surveys">
+            <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
+              <CardHeader>
+                <CardTitle className="font-serif text-xl">Gerir Sondagens</CardTitle>
+                <CardDescription>Ver e eliminar sondagens da plataforma</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {surveys.length === 0 ? (
+                  <p className="text-center text-zinc-500 py-8">Ainda não há sondagens</p>
+                ) : (
+                  <div className="space-y-4">
+                    {surveys.map((survey) => (
+                      <div
+                        key={survey.id}
+                        className="p-4 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 transition-colors"
+                      >
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <ClipboardList className="w-4 h-4 text-zinc-400" />
+                              <p className="font-medium text-zinc-900 dark:text-white">
+                                #{survey.survey_number}. {survey.title}
+                              </p>
+                              {survey.is_featured && (
+                                <Badge variant="secondary" className="text-xs bg-amber-100 text-amber-800">
+                                  ⭐ Destacada
+                                </Badge>
+                              )}
+                              {survey.is_published ? (
+                                <Badge variant="secondary" className="text-xs bg-green-100 text-green-800">
+                                  ✓ Publicada
+                                </Badge>
+                              ) : (
+                                <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-800">
+                                  • Rascunho
+                                </Badge>
+                              )}
+                            </div>
+                            {survey.description && (
+                              <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2 line-clamp-2">
+                                {survey.description}
+                              </p>
+                            )}
+                            <div className="flex items-center gap-4 text-xs text-zinc-500">
+                              <span>Criada por {survey.owner_name || 'Admin'}</span>
+                              <span>{new Date(survey.created_at).toLocaleDateString('pt-PT')}</span>
+                              <span>{survey.questions?.length || 0} perguntas</span>
+                              <span>{survey.response_count || 0} respostas</span>
+                              {survey.end_date && (
+                                <span>Termina: {new Date(survey.end_date).toLocaleDateString('pt-PT')}</span>
+                              )}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => window.open(`/surveys/${survey.id}`, '_blank')}
+                              className="text-zinc-600 hover:text-zinc-900"
+                              title="Ver sondagem"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setDeleteDialog({ open: true, type: 'survey', item: survey })}
+                              className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                              title="Eliminar sondagem"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           {/* Suggestions Tab */}
           <TabsContent value="suggestions">
             <div className="space-y-6">
