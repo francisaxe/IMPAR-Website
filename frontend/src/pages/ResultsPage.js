@@ -125,7 +125,7 @@ const ResultsPage = () => {
       <div className="max-w-4xl mx-auto px-6 py-16">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="w-16 h-16 bg-zinc-100 mx-auto mb-4 flex items-center justify-center">
+          <div className="w-16 h-16 bg-zinc-100 rounded-sm mx-auto mb-4 flex items-center justify-center">
             <BarChart3 className="w-8 h-8 text-zinc-600" />
           </div>
           <h1 className="font-serif text-3xl font-normal text-zinc-900 mb-2">
@@ -139,7 +139,7 @@ const ResultsPage = () => {
         <div className="grid md:grid-cols-3 gap-6">
           {/* Lista de Sondagens */}
           <div className="md:col-span-1">
-            <Card className="rounded-none border-0 shadow-sm bg-white">
+            <Card className="rounded-lg border-0 shadow-sm bg-white">
               <CardContent className="p-4">
                 <h3 className="font-medium text-zinc-900 mb-4 text-sm">
                   Sondagens com Resultados
@@ -191,7 +191,7 @@ const ResultsPage = () => {
           {/* Resultados da Sondagem Selecionada */}
           <div className="md:col-span-2">
             {!selectedSurvey ? (
-              <Card className="rounded-none border-0 shadow-sm bg-white">
+              <Card className="rounded-lg border-0 shadow-sm bg-white">
                 <CardContent className="py-16 text-center">
                   <BarChart3 className="w-12 h-12 mx-auto mb-4 text-zinc-300" />
                   <p className="text-zinc-500">
@@ -200,7 +200,7 @@ const ResultsPage = () => {
                 </CardContent>
               </Card>
             ) : loadingAnalytics ? (
-              <Card className="rounded-none border-0 shadow-sm bg-white">
+              <Card className="rounded-lg border-0 shadow-sm bg-white">
                 <CardContent className="py-16 text-center">
                   <p className="text-zinc-500">A carregar resultados...</p>
                 </CardContent>
@@ -208,7 +208,7 @@ const ResultsPage = () => {
             ) : (
               <div className="space-y-4">
                 {/* Header da Sondagem */}
-                <Card className="rounded-none border-0 shadow-sm bg-white">
+                <Card className="rounded-lg border-0 shadow-sm bg-white">
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between gap-4">
                       <div>
@@ -240,10 +240,10 @@ const ResultsPage = () => {
 
                 {/* Resultados por Pergunta */}
                 {selectedSurvey.questions?.map((question, index) => (
-                  <Card key={question.id} className="rounded-none border-0 shadow-sm bg-white">
+                  <Card key={question.id} className="rounded-lg border-0 shadow-sm bg-white">
                     <CardContent className="p-6">
                       <div className="flex items-start gap-3 mb-4">
-                        <span className="text-sm text-zinc-400 bg-zinc-100 w-6 h-6 flex items-center justify-center flex-shrink-0">
+                        <span className="text-sm text-zinc-400 bg-zinc-100 w-6 h-6 rounded-sm flex items-center justify-center flex-shrink-0">
                           {index + 1}
                         </span>
                         <div>
