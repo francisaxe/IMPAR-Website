@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/button';
+import { Textarea } from '../components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import {
   AlertDialog,
@@ -13,9 +14,20 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '../components/ui/alert-dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '../components/ui/dialog';
 import SurveyCard from '../components/SurveyCard';
 import { toast } from 'sonner';
 import { PlusCircle, BarChart3, ClipboardList, Users } from 'lucide-react';
+import axios from 'axios';
+
+const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const DashboardPage = () => {
   const { user, api, isAdmin } = useAuth();
@@ -23,6 +35,9 @@ const DashboardPage = () => {
   const [surveys, setSurveys] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deleteDialog, setDeleteDialog] = useState({ open: false, survey: null });
+  const [showTeamDialog, setShowTeamDialog] = useState(false);
+  const [teamMessage, setTeamMessage] = useState('');
+  const [submittingTeam, setSubmittingTeam] = useState(false);
 
   useEffect(() => {
     if (isAdmin) {
