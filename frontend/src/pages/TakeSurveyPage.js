@@ -25,6 +25,7 @@ const TakeSurveyPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [hasExistingResponse, setHasExistingResponse] = useState(false);
 
   useEffect(() => {
     fetchSurvey();
@@ -39,6 +40,14 @@ const TakeSurveyPage = () => {
         return;
       }
       setSurvey(response.data);
+      
+      // Verificar se o utilizador já respondeu
+      if (response.data.user_has_responded) {
+        setHasExistingResponse(true);
+        toast.info('Você já respondeu a este inquérito. Se responder novamente, a sua resposta anterior será substituída.', {
+          duration: 5000
+        });
+      }
     } catch (error) {
       toast.error('Inquérito não encontrado');
       navigate('/surveys');
