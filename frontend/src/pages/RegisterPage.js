@@ -110,7 +110,7 @@ const RegisterPage = () => {
 
   return (
     <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center px-4 py-12" data-testid="register-page">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-2xl">
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/">
@@ -122,58 +122,83 @@ const RegisterPage = () => {
         </div>
 
         {/* Form Card */}
-        <Card className="rounded-none border-0 shadow-sm bg-white">
+        <Card className="rounded-lg border-0 shadow-sm bg-white">
           <CardContent className="p-8">
-            <h2 className="font-serif text-xl font-medium text-zinc-900 mb-6 text-center">
-              Criar uma conta
+            <h2 className="font-serif text-2xl font-medium text-zinc-900 mb-2 text-center">
+              Criar Conta
             </h2>
+            <p className="text-center text-sm text-zinc-500 mb-8">
+              Registe-se na IMPAR
+            </p>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Nome Completo */}
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm text-zinc-600">
-                  Nome
+                <Label htmlFor="name" className="text-sm text-zinc-700">
+                  Nome Completo <span className="text-red-500">*</span>
                 </Label>
                 <Input
                   id="name"
                   type="text"
-                  placeholder="O seu nome"
+                  placeholder="Nome completo"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
-                  className="rounded-none border-zinc-300"
+                  className="rounded-sm border-zinc-300"
                   data-testid="register-name"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm text-zinc-600">
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="voce@exemplo.com"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  required
-                  className="rounded-none border-zinc-300"
-                  data-testid="register-email"
-                />
+              {/* Email e Telemóvel */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-sm text-zinc-700">
+                    Email <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    required
+                    className="rounded-sm border-zinc-300"
+                    data-testid="register-email"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="phone" className="text-sm text-zinc-700">
+                    Telemóvel <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="Número de telemóvel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    required
+                    className="rounded-sm border-zinc-300"
+                    data-testid="register-phone"
+                  />
+                </div>
               </div>
 
+              {/* Palavra-passe */}
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm text-zinc-600">
-                  Palavra-passe
+                <Label htmlFor="password" className="text-sm text-zinc-700">
+                  Palavra-passe <span className="text-red-500">*</span>
                 </Label>
                 <div className="relative">
                   <Input
                     id="password"
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="••••••••"
+                    placeholder="Palavra-passe (mín 6 caracteres)"
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     required
-                    className="rounded-none border-zinc-300 pr-10"
+                    minLength={6}
+                    className="rounded-sm border-zinc-300 pr-10"
                     data-testid="register-password"
                   />
                   <button
@@ -186,37 +211,257 @@ const RegisterPage = () => {
                 </div>
               </div>
 
+              {/* Data de Nascimento e Género */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="date_of_birth" className="text-sm text-zinc-700">
+                    1. Data de Nascimento <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="date_of_birth"
+                    type="date"
+                    placeholder="DD/MM/AAAA"
+                    value={formData.date_of_birth}
+                    onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value })}
+                    required
+                    className="rounded-sm border-zinc-300"
+                    data-testid="register-dob"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="gender" className="text-sm text-zinc-700">
+                    2. Género <span className="text-red-500">*</span>
+                  </Label>
+                  <Select
+                    value={formData.gender}
+                    onValueChange={(value) => setFormData({ ...formData, gender: value })}
+                    required
+                  >
+                    <SelectTrigger className="rounded-sm border-zinc-300">
+                      <SelectValue placeholder="Selecione o género" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {generos.map((genero) => (
+                        <SelectItem key={genero} value={genero}>
+                          {genero}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {/* Nacionalidade */}
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword" className="text-sm text-zinc-600">
-                  Confirmar palavra-passe
+                <Label htmlFor="nationality" className="text-sm text-zinc-700">
+                  3. Nacionalidade <span className="text-red-500">*</span>
                 </Label>
                 <Input
-                  id="confirmPassword"
-                  type="password"
-                  placeholder="••••••••"
-                  value={formData.confirmPassword}
-                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  id="nationality"
+                  type="text"
+                  placeholder="Nacionalidade"
+                  value={formData.nationality}
+                  onChange={(e) => setFormData({ ...formData, nationality: e.target.value })}
                   required
-                  className="rounded-none border-zinc-300"
-                  data-testid="register-confirm-password"
+                  className="rounded-sm border-zinc-300"
+                  data-testid="register-nationality"
                 />
               </div>
 
+              {/* Onde Vive */}
+              <div className="space-y-4">
+                <Label className="text-sm text-zinc-700 font-medium">
+                  4. Onde Vive <span className="text-red-500">*</span>
+                </Label>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="district" className="text-sm text-zinc-600">
+                    Distrito <span className="text-red-500">*</span>
+                  </Label>
+                  <Select
+                    value={formData.district}
+                    onValueChange={(value) => setFormData({ ...formData, district: value })}
+                    required
+                  >
+                    <SelectTrigger className="rounded-sm border-zinc-300">
+                      <SelectValue placeholder="Selecione o distrito" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {distritos.map((distrito) => (
+                        <SelectItem key={distrito} value={distrito}>
+                          {distrito}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="municipality" className="text-sm text-zinc-600">
+                      Concelho
+                    </Label>
+                    <Input
+                      id="municipality"
+                      type="text"
+                      placeholder="Concelho"
+                      value={formData.municipality}
+                      onChange={(e) => setFormData({ ...formData, municipality: e.target.value })}
+                      className="rounded-sm border-zinc-300"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="parish" className="text-sm text-zinc-600">
+                      Freguesia
+                    </Label>
+                    <Input
+                      id="parish"
+                      type="text"
+                      placeholder="Freguesia"
+                      value={formData.parish}
+                      onChange={(e) => setFormData({ ...formData, parish: e.target.value })}
+                      className="rounded-sm border-zinc-300"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Estado Civil e Religião */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="marital_status" className="text-sm text-zinc-700">
+                    5. Estado Civil <span className="text-red-500">*</span>
+                  </Label>
+                  <Select
+                    value={formData.marital_status}
+                    onValueChange={(value) => setFormData({ ...formData, marital_status: value })}
+                    required
+                  >
+                    <SelectTrigger className="rounded-sm border-zinc-300">
+                      <SelectValue placeholder="Selecione o estado civil" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {estadosCivis.map((estado) => (
+                        <SelectItem key={estado} value={estado}>
+                          {estado}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="religion" className="text-sm text-zinc-700">
+                    6. Religião <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="religion"
+                    type="text"
+                    placeholder="Religião"
+                    value={formData.religion}
+                    onChange={(e) => setFormData({ ...formData, religion: e.target.value })}
+                    required
+                    className="rounded-sm border-zinc-300"
+                  />
+                </div>
+              </div>
+
+              {/* Nível de Escolaridade e Profissão */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="education_level" className="text-sm text-zinc-700">
+                    7. Nível de Escolaridade <span className="text-red-500">*</span>
+                  </Label>
+                  <Select
+                    value={formData.education_level}
+                    onValueChange={(value) => setFormData({ ...formData, education_level: value })}
+                    required
+                  >
+                    <SelectTrigger className="rounded-sm border-zinc-300">
+                      <SelectValue placeholder="Nível mais elevado completado" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {niveisEscolaridade.map((nivel) => (
+                        <SelectItem key={nivel} value={nivel}>
+                          {nivel}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="profession" className="text-sm text-zinc-700">
+                    8. Profissão <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="profession"
+                    type="text"
+                    placeholder="Profissão"
+                    value={formData.profession}
+                    onChange={(e) => setFormData({ ...formData, profession: e.target.value })}
+                    required
+                    className="rounded-sm border-zinc-300"
+                  />
+                </div>
+              </div>
+
+              {/* Viveu no Estrangeiro */}
+              <div className="space-y-2">
+                <Label htmlFor="lived_abroad" className="text-sm text-zinc-700">
+                  9. Já viveu no estrangeiro? <span className="text-red-500">*</span>
+                </Label>
+                <Select
+                  value={formData.lived_abroad}
+                  onValueChange={(value) => setFormData({ ...formData, lived_abroad: value })}
+                  required
+                >
+                  <SelectTrigger className="rounded-sm border-zinc-300">
+                    <SelectValue placeholder="Selecione" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Sim">Sim</SelectItem>
+                    <SelectItem value="Não">Não</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Notificações */}
+              <div className="flex items-start space-x-3 py-4">
+                <Checkbox
+                  id="accept_notifications"
+                  checked={formData.accept_notifications}
+                  onCheckedChange={(checked) => 
+                    setFormData({ ...formData, accept_notifications: checked })
+                  }
+                  className="mt-1"
+                />
+                <Label
+                  htmlFor="accept_notifications"
+                  className="text-sm text-zinc-600 leading-relaxed cursor-pointer"
+                >
+                  Aceito receber notificações por email quando forem publicadas novas sondagens
+                </Label>
+              </div>
+
+              {/* Submit Button */}
               <Button
                 type="submit"
-                className="w-full rounded-none bg-zinc-900 text-white hover:bg-zinc-800"
+                className="w-full rounded-none bg-zinc-900 text-white hover:bg-zinc-800 py-6 text-base"
                 disabled={loading}
                 data-testid="register-submit"
               >
-                {loading ? 'A criar conta...' : 'Criar conta'}
+                {loading ? 'A registar...' : 'Registar'}
               </Button>
             </form>
 
             <div className="mt-6 text-center text-sm text-zinc-500">
-              Já tem uma conta?{' '}
+              Já tem conta?{' '}
               <Link
                 to="/login"
-                className="text-zinc-900 hover:underline"
+                className="text-zinc-900 hover:underline font-medium"
                 data-testid="login-link"
               >
                 Entrar
