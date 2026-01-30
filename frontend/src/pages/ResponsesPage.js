@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Card, CardContent } from '../components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Badge } from '../components/ui/badge';
+import { Progress } from '../components/ui/progress';
 import { toast } from 'sonner';
-import { CheckCircle, ChevronRight } from 'lucide-react';
+import { CheckCircle, ChevronRight, TrendingUp, Users } from 'lucide-react';
 
 const ResponsesPage = () => {
   const { api, user } = useAuth();
   const navigate = useNavigate();
   const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [expandedId, setExpandedId] = useState(null);
 
   useEffect(() => {
     if (!user) {
@@ -21,11 +24,10 @@ const ResponsesPage = () => {
 
   const fetchResponses = async () => {
     try {
-      const res = await api.get('/user/responses');
+      const res = await api.get('/my-responses');
       setResponses(res.data);
     } catch (error) {
-      // Se o endpoint não existir, mostrar lista vazia
-      console.log('Could not fetch responses');
+      toast.error('Erro ao carregar respostas');
       setResponses([]);
     } finally {
       setLoading(false);
@@ -44,6 +46,59 @@ const ResponsesPage = () => {
     });
   };
 
+  const getAnswerText = (questionId, questions, answers) => {
+    const question = questions.find(q => q.id === questionId);
+    const answer = answers.find(a => a.question_id === questionId);
+    
+    if (!answer || !question) return '-';
+    
+    if (question.type === 'multiple_choice' || question.type === 'checkbox') {
+      const optionIds = answer.value.split(',');
+      const selectedOptions = question.options?.filter(opt => optionIds.includes(opt.id));
+      return selectedOptions?.map(opt => opt.text).join(', ') || answer.value;
+    }
+    
+    return answer.value;
+  };
+
+  const renderGlobalResults = (question, globalResults) => {
+    const result = globalResults[question.id];
+    
+    if (!result) return null;
+    
+    if (result.type === 'multiple_choice' || result.type === 'yes_no') {
+      return (
+        <div className="space-y-2">
+          {question.options?.map(option => {
+            const percentage = result.percentages?.[option.id] || 0;
+            return (
+              <div key={option.id} className="space-y-1">
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-600">{option.text}</span>
+                  <span className="font-medium text-zinc-900">{percentage}%</span>
+                </div>
+                <Progress value={percentage} className="h-2" />
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+    
+    if (result.type === 'rating') {
+      return (
+        <div className="flex items-center gap-3 text-sm">
+          <TrendingUp className="w-4 h-4 text-zinc-400" />
+          <span className="text-zinc-600">Média:</span>
+          <span className="font-semibold text-zinc-900">{result.average}/5</span>
+          <span className="text-zinc-400">({result.total_votes} votos)</span>
+        </div>
+      );
+    }
+    
+    return null;
+  };
+
   if (!user) {
     return null;
   }
@@ -51,14 +106,24 @@ const ResponsesPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center">
-        <div className="text-zinc-500">A carregar...</div>
+        <div className="text-zinc-500">A carregar respostas...</div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-[#f5f5f5]" data-testid="responses-page">
-      <div className="max-w-3xl mx-auto px-6 py-12">
+      <div className="max-w-5xl mx-auto px-6 py-12">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="font-serif text-3xl font-normal text-zinc-900 mb-2">
+            As Suas Respostas
+          </h1>
+          <p className="text-zinc-500">
+            Veja as sondagens que respondeu e compare com os resultados globais
+          </p>
+        </div>
+
         {/* Lista de Respostas */}
         {responses.length === 0 ? (
           <Card className="rounded-lg border-0 shadow-sm bg-white">
@@ -71,37 +136,102 @@ const ResponsesPage = () => {
             </CardContent>
           </Card>
         ) : (
-          <Card className="rounded-lg border-0 shadow-sm bg-white">
-            <CardContent className="p-2">
-              <div className="divide-y divide-zinc-100">
-                {responses.map((response, index) => (
-                  <Link
-                    key={response.id}
-                    to={`/surveys/${response.survey_id}/results`}
-                    className="flex items-center gap-4 p-4 hover:bg-zinc-50 transition-colors rounded-lg"
+          <div className="space-y-6">
+            {responses.map((item, index) => {
+              const isExpanded = expandedId === item.response.id;
+              
+              return (
+                <Card key={item.response.id} className="rounded-lg border-0 shadow-sm bg-white">
+                  <CardHeader 
+                    className="cursor-pointer hover:bg-zinc-50 transition-colors"
+                    onClick={() => setExpandedId(isExpanded ? null : item.response.id)}
                   >
-                    {/* Ícone Verde */}
-                    <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <CheckCircle className="w-5 h-5 text-emerald-600" />
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <Badge className="rounded-sm bg-emerald-600 text-white text-xs">
+                            <CheckCircle className="w-3 h-3 mr-1" />
+                            Respondida
+                          </Badge>
+                          <Badge variant="outline" className="rounded-sm text-zinc-600 text-xs">
+                            <Users className="w-3 h-3 mr-1" />
+                            {item.total_responses} respostas
+                          </Badge>
+                        </div>
+                        <CardTitle className="font-serif text-xl font-medium text-zinc-900">
+                          {responses.length - index}. {item.survey.title}
+                        </CardTitle>
+                        {item.survey.description && (
+                          <p className="text-sm text-zinc-500 mt-1">
+                            {item.survey.description}
+                          </p>
+                        )}
+                        <p className="text-xs text-zinc-400 mt-2">
+                          Respondido em {formatDate(item.response.submitted_at)}
+                        </p>
+                      </div>
+                      <ChevronRight 
+                        className={`w-5 h-5 text-zinc-400 transition-transform ${
+                          isExpanded ? 'rotate-90' : ''
+                        }`}
+                      />
                     </div>
-                    
-                    {/* Info */}
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-medium text-zinc-900">
-                        {response.survey_number || (responses.length - index)}. {response.survey_title || 'Sondagem'}
-                      </h3>
-                      <p className="text-sm text-zinc-400 mt-0.5">
-                        Respondido em {formatDate(response.submitted_at)}
-                      </p>
-                    </div>
-                    
-                    {/* Seta */}
-                    <ChevronRight className="w-5 h-5 text-zinc-300 flex-shrink-0" />
-                  </Link>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  </CardHeader>
+                  
+                  {isExpanded && (
+                    <CardContent className="pt-0 pb-6">
+                      <div className="space-y-6">
+                        {item.survey.questions.map((question, qIndex) => (
+                          <div key={question.id} className="border-t border-zinc-100 pt-6">
+                            <div className="grid md:grid-cols-2 gap-6">
+                              {/* Sua Resposta */}
+                              <div>
+                                <h4 className="text-sm font-medium text-zinc-700 mb-3">
+                                  {qIndex + 1}. {question.text}
+                                </h4>
+                                <div className="bg-blue-50 rounded-sm p-4">
+                                  <p className="text-xs text-blue-600 font-medium mb-1">
+                                    SUA RESPOSTA
+                                  </p>
+                                  <p className="text-sm text-zinc-900">
+                                    {getAnswerText(question.id, item.survey.questions, item.response.answers)}
+                                  </p>
+                                </div>
+                              </div>
+                              
+                              {/* Resultados Globais */}
+                              <div>
+                                <h4 className="text-sm font-medium text-zinc-700 mb-3">
+                                  Resultados Globais
+                                </h4>
+                                <div className="bg-zinc-50 rounded-sm p-4">
+                                  <p className="text-xs text-zinc-600 font-medium mb-3">
+                                    PERCENTAGENS ({item.total_responses} respostas)
+                                  </p>
+                                  {renderGlobalResults(question, item.global_results)}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      {/* Link para Resultados Completos */}
+                      <div className="mt-6 pt-6 border-t border-zinc-100">
+                        <Link 
+                          to={`/surveys/${item.survey.id}/results`}
+                          className="text-sm text-zinc-600 hover:text-zinc-900 hover:underline flex items-center gap-2"
+                        >
+                          Ver resultados completos desta sondagem
+                          <ChevronRight className="w-4 h-4" />
+                        </Link>
+                      </div>
+                    </CardContent>
+                  )}
+                </Card>
+              );
+            })}
+          </div>
         )}
       </div>
     </div>
