@@ -48,6 +48,7 @@ const AdminPage = () => {
   const [loading, setLoading] = useState(true);
   const [newSuggestion, setNewSuggestion] = useState('');
   const [deleteDialog, setDeleteDialog] = useState({ open: false, type: '', item: null });
+  const [suggestionDialog, setSuggestionDialog] = useState({ open: false, suggestion: null });
 
   useEffect(() => {
     fetchData();
