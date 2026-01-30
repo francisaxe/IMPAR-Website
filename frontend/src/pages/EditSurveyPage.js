@@ -41,7 +41,7 @@ const EditSurveyPage = () => {
         })),
       });
     } catch (error) {
-      toast.error('Failed to load survey');
+      toast.error('Falha ao carregar inquérito');
       navigate('/dashboard');
     } finally {
       setLoading(false);
@@ -99,24 +99,24 @@ const EditSurveyPage = () => {
 
   const handleSubmit = async (publish = null) => {
     if (!survey.title.trim()) {
-      toast.error('Please enter a survey title');
+      toast.error('Por favor, introduza um título para o inquérito');
       return;
     }
 
     if (survey.questions.length === 0) {
-      toast.error('Please add at least one question');
+      toast.error('Por favor, adicione pelo menos uma pergunta');
       return;
     }
 
     for (const q of survey.questions) {
       if (!q.text.trim()) {
-        toast.error('Please fill in all question texts');
+        toast.error('Por favor, preencha o texto de todas as perguntas');
         return;
       }
       if (q.type === 'multiple_choice') {
         const validOptions = q.options.filter((o) => o.text.trim());
         if (validOptions.length < 2) {
-          toast.error('Multiple choice questions need at least 2 options');
+          toast.error('Perguntas de escolha múltipla precisam de pelo menos 2 opções');
           return;
         }
       }
@@ -145,10 +145,10 @@ const EditSurveyPage = () => {
       }
 
       await api.put(`/surveys/${id}`, payload);
-      toast.success('Survey updated!');
+      toast.success('Inquérito atualizado!');
       navigate('/dashboard');
     } catch (error) {
-      toast.error(error.response?.data?.detail || 'Failed to update survey');
+      toast.error(error.response?.data?.detail || 'Falha ao atualizar inquérito');
     } finally {
       setSaving(false);
     }
@@ -157,7 +157,7 @@ const EditSurveyPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
-        <div className="text-zinc-500">Loading...</div>
+        <div className="text-zinc-500">A carregar...</div>
       </div>
     );
   }
@@ -178,9 +178,9 @@ const EditSurveyPage = () => {
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div>
-            <p className="label-caps mb-1">Edit</p>
+            <p className="label-caps mb-1">Editar</p>
             <h1 className="font-serif text-3xl font-light text-zinc-900 dark:text-white">
-              {survey.title || 'Survey'}
+              {survey.title || 'Inquérito'}
             </h1>
           </div>
         </div>
@@ -188,14 +188,14 @@ const EditSurveyPage = () => {
         {/* Survey Details */}
         <Card className="rounded-none border border-zinc-200 dark:border-zinc-800 mb-8">
           <CardHeader>
-            <CardTitle className="font-serif text-xl">Survey Details</CardTitle>
+            <CardTitle className="font-serif text-xl">Detalhes do Inquérito</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Title *</Label>
+              <Label htmlFor="title">Título *</Label>
               <Input
                 id="title"
-                placeholder="Enter survey title"
+                placeholder="Introduza o título do inquérito"
                 value={survey.title}
                 onChange={(e) => setSurvey({ ...survey, title: e.target.value })}
                 className="rounded-none border-zinc-300 dark:border-zinc-700"
@@ -203,10 +203,10 @@ const EditSurveyPage = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="description">Descrição</Label>
               <Textarea
                 id="description"
-                placeholder="Enter survey description (optional)"
+                placeholder="Introduza uma descrição (opcional)"
                 value={survey.description || ''}
                 onChange={(e) => setSurvey({ ...survey, description: e.target.value })}
                 className="rounded-none border-zinc-300 dark:border-zinc-700 min-h-[100px]"
@@ -222,7 +222,7 @@ const EditSurveyPage = () => {
                   data-testid="survey-published"
                 />
                 <Label htmlFor="published" className="cursor-pointer">
-                  Published
+                  Publicado
                 </Label>
               </div>
               {isAdmin && (
@@ -235,7 +235,7 @@ const EditSurveyPage = () => {
                   />
                   <Label htmlFor="featured" className="flex items-center gap-2 cursor-pointer">
                     <Star className="w-4 h-4" />
-                    Featured
+                    Destaque
                   </Label>
                 </div>
               )}
@@ -246,13 +246,13 @@ const EditSurveyPage = () => {
         {/* Questions */}
         <div className="mb-8">
           <h2 className="font-serif text-xl font-medium text-zinc-900 dark:text-white mb-4">
-            Questions
+            Perguntas
           </h2>
 
           {survey.questions.length === 0 ? (
             <Card className="rounded-none border border-dashed border-zinc-300 dark:border-zinc-700">
               <CardContent className="py-12 text-center">
-                <p className="text-zinc-500 mb-4">No questions added yet</p>
+                <p className="text-zinc-500 mb-4">Ainda não há perguntas</p>
               </CardContent>
             </Card>
           ) : (
@@ -274,7 +274,7 @@ const EditSurveyPage = () => {
                         <div className="flex items-start gap-4">
                           <div className="flex-1">
                             <Input
-                              placeholder="Enter question text"
+                              placeholder="Introduza o texto da pergunta"
                               value={question.text}
                               onChange={(e) => updateQuestion(qIndex, { text: e.target.value })}
                               className="rounded-none border-zinc-300 dark:border-zinc-700"
@@ -283,10 +283,10 @@ const EditSurveyPage = () => {
                           </div>
                           <span className="text-xs text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-2 py-1">
                             {question.type === 'multiple_choice'
-                              ? 'Multiple Choice'
+                              ? 'Escolha Múltipla'
                               : question.type === 'rating'
-                              ? 'Rating'
-                              : 'Text'}
+                              ? 'Avaliação'
+                              : 'Texto'}
                           </span>
                         </div>
 
@@ -296,7 +296,7 @@ const EditSurveyPage = () => {
                               <div key={oIndex} className="flex items-center gap-2">
                                 <div className="w-4 h-4 rounded-full border-2 border-zinc-300" />
                                 <Input
-                                  placeholder={`Option ${oIndex + 1}`}
+                                  placeholder={`Opção ${oIndex + 1}`}
                                   value={option.text}
                                   onChange={(e) => updateOption(qIndex, oIndex, e.target.value)}
                                   className="rounded-none border-zinc-300 dark:border-zinc-700 flex-1"
@@ -321,7 +321,7 @@ const EditSurveyPage = () => {
                               className="text-zinc-500"
                             >
                               <PlusCircle className="w-4 h-4 mr-2" />
-                              Add Option
+                              Adicionar Opção
                             </Button>
                           </div>
                         )}
@@ -329,7 +329,7 @@ const EditSurveyPage = () => {
                         {question.type === 'rating' && (
                           <div className="flex items-center gap-4 pl-4">
                             <div className="flex items-center gap-2">
-                              <Label className="text-sm">Min:</Label>
+                              <Label className="text-sm">Mín:</Label>
                               <Select
                                 value={String(question.min_rating || 1)}
                                 onValueChange={(v) => updateQuestion(qIndex, { min_rating: parseInt(v) })}
@@ -345,7 +345,7 @@ const EditSurveyPage = () => {
                               </Select>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Label className="text-sm">Max:</Label>
+                              <Label className="text-sm">Máx:</Label>
                               <Select
                                 value={String(question.max_rating || 5)}
                                 onValueChange={(v) => updateQuestion(qIndex, { max_rating: parseInt(v) })}
@@ -371,7 +371,7 @@ const EditSurveyPage = () => {
                               onCheckedChange={(checked) => updateQuestion(qIndex, { required: checked })}
                             />
                             <Label htmlFor={`required-${qIndex}`} className="text-sm cursor-pointer">
-                              Required
+                              Obrigatória
                             </Label>
                           </div>
                           <div className="flex items-center gap-2">
@@ -381,7 +381,7 @@ const EditSurveyPage = () => {
                               onCheckedChange={(checked) => updateQuestion(qIndex, { highlighted: checked })}
                             />
                             <Label htmlFor={`highlight-${qIndex}`} className="text-sm cursor-pointer">
-                              Highlight
+                              Destacar
                             </Label>
                           </div>
                           <Button
@@ -391,7 +391,7 @@ const EditSurveyPage = () => {
                             className="ml-auto text-red-500 hover:text-red-600 hover:bg-red-50"
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
-                            Remove
+                            Remover
                           </Button>
                         </div>
                       </div>
@@ -406,7 +406,7 @@ const EditSurveyPage = () => {
         {/* Add Question Buttons */}
         <Card className="rounded-none border border-zinc-200 dark:border-zinc-800 mb-8">
           <CardContent className="p-4">
-            <p className="text-sm text-zinc-500 mb-3">Add Question</p>
+            <p className="text-sm text-zinc-500 mb-3">Adicionar Pergunta</p>
             <div className="flex flex-wrap gap-2">
               <Button
                 variant="outline"
@@ -415,7 +415,7 @@ const EditSurveyPage = () => {
                 className="rounded-none"
               >
                 <PlusCircle className="w-4 h-4 mr-2" />
-                Multiple Choice
+                Escolha Múltipla
               </Button>
               <Button
                 variant="outline"
@@ -424,7 +424,7 @@ const EditSurveyPage = () => {
                 className="rounded-none"
               >
                 <PlusCircle className="w-4 h-4 mr-2" />
-                Text Response
+                Resposta de Texto
               </Button>
               <Button
                 variant="outline"
@@ -433,7 +433,7 @@ const EditSurveyPage = () => {
                 className="rounded-none"
               >
                 <PlusCircle className="w-4 h-4 mr-2" />
-                Rating Scale
+                Escala de Avaliação
               </Button>
             </div>
           </CardContent>
@@ -447,7 +447,7 @@ const EditSurveyPage = () => {
             className="rounded-none"
             disabled={saving}
           >
-            Cancel
+            Cancelar
           </Button>
           <Button
             onClick={() => handleSubmit()}
@@ -456,7 +456,7 @@ const EditSurveyPage = () => {
             data-testid="save-changes"
           >
             <Save className="w-4 h-4 mr-2" />
-            {saving ? 'Saving...' : 'Save Changes'}
+            {saving ? 'A guardar...' : 'Guardar Alterações'}
           </Button>
         </div>
       </div>
