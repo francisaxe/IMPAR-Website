@@ -300,6 +300,25 @@ const DashboardPage = () => {
                 </Card>
               </Link>
             </div>
+
+            {/* Join Team CTA */}
+            <Card className="rounded-lg border-0 shadow-sm bg-white dark:bg-zinc-800 mt-6">
+              <CardContent className="py-12 text-center">
+                <Users className="w-12 h-12 mx-auto mb-4 text-zinc-600 dark:text-zinc-400" />
+                <h2 className="font-serif text-xl font-medium text-zinc-900 dark:text-white mb-3">
+                  Quer fazer parte da equipa IMPAR?
+                </h2>
+                <p className="text-zinc-500 dark:text-zinc-400 mb-6 max-w-md mx-auto text-sm">
+                  Junte-se à nossa equipa e ajude-nos a criar inquéritos imparciais e factuais.
+                </p>
+                <Button
+                  onClick={() => setShowTeamDialog(true)}
+                  className="rounded-none bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 px-8"
+                >
+                  Candidatar-me
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         )}
       </div>
