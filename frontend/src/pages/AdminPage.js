@@ -396,18 +396,49 @@ const AdminPage = () => {
                       {suggestions.map((suggestion) => (
                         <div
                           key={suggestion.id}
-                          className="p-4 border border-zinc-200 dark:border-zinc-800"
+                          className="p-4 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 transition-colors"
                         >
                           <div className="flex items-start justify-between gap-4">
-                            <div className="flex-1">
-                              <p className="text-sm mb-2">{suggestion.content}</p>
+                            <div 
+                              className="flex-1 cursor-pointer" 
+                              onClick={() => setSuggestionDialog({ open: true, suggestion })}
+                            >
+                              <div className="flex items-center gap-2 mb-2">
+                                <FileText className="w-4 h-4 text-zinc-400" />
+                                <p className="font-medium text-zinc-900 dark:text-white">
+                                  {suggestion.survey_title || 'Sugestão'}
+                                </p>
+                                {suggestion.category && (
+                                  <Badge variant="outline" className="text-xs">
+                                    <Tag className="w-3 h-3 mr-1" />
+                                    {suggestion.category}
+                                  </Badge>
+                                )}
+                              </div>
+                              <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 mb-2">
+                                {suggestion.survey_description || suggestion.content.substring(0, 150)}...
+                              </p>
                               <div className="flex items-center gap-4 text-xs text-zinc-500">
                                 <span>Por {suggestion.user_name}</span>
                                 <span>{new Date(suggestion.created_at).toLocaleDateString('pt-PT')}</span>
+                                {suggestion.questions && suggestion.questions.length > 0 && (
+                                  <span className="flex items-center gap-1">
+                                    <HelpCircle className="w-3 h-3" />
+                                    {suggestion.questions.length} {suggestion.questions.length === 1 ? 'pergunta' : 'perguntas'}
+                                  </span>
+                                )}
                                 {getStatusBadge(suggestion.status)}
                               </div>
                             </div>
                             <div className="flex items-center gap-2">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setSuggestionDialog({ open: true, suggestion })}
+                                className="text-zinc-600 hover:text-zinc-900"
+                              >
+                                <Eye className="w-4 h-4" />
+                              </Button>
                               <Select
                                 value={suggestion.status}
                                 onValueChange={(value) => handleSuggestionStatus(suggestion.id, value)}
