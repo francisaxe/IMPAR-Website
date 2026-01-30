@@ -290,7 +290,7 @@ const TakeSurveyPage = () => {
                 )}
               </div>
               <h1 className="font-serif text-3xl font-light text-zinc-900 dark:text-white">
-                {survey.title}
+                {survey.survey_number}. {survey.title}
               </h1>
               {survey.description && (
                 <p className="text-zinc-500 mt-2">{survey.description}</p>

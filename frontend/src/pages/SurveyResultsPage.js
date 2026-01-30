@@ -158,7 +158,7 @@ const SurveyResultsPage = () => {
             <div>
               <p className="label-caps mb-2">Resultados</p>
               <h1 className="font-serif text-3xl font-light text-zinc-900 dark:text-white">
-                {survey.title}
+                {survey.survey_number}. {survey.title}
               </h1>
             </div>
             {survey.is_published && (
