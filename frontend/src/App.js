@@ -14,6 +14,9 @@ import TakeSurveyPage from './pages/TakeSurveyPage';
 import SurveyResultsPage from './pages/SurveyResultsPage';
 import ProfilePage from './pages/ProfilePage';
 import AdminPage from './pages/AdminPage';
+import AboutPage from './pages/AboutPage';
+import SuggestPage from './pages/SuggestPage';
+import ResponsesPage from './pages/ResponsesPage';
 import './App.css';
 
 // Protected Route Component
@@ -22,8 +25,8 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
-        <div className="text-zinc-500">Loading...</div>
+      <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center">
+        <div className="text-zinc-500">A carregar...</div>
       </div>
     );
   }
@@ -45,8 +48,8 @@ const PublicRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
-        <div className="text-zinc-500">Loading...</div>
+      <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center">
+        <div className="text-zinc-500">A carregar...</div>
       </div>
     );
   }
@@ -112,6 +115,22 @@ function AppRoutes() {
           </Layout>
         }
       />
+      <Route
+        path="/about"
+        element={
+          <Layout>
+            <AboutPage />
+          </Layout>
+        }
+      />
+      <Route
+        path="/suggest"
+        element={
+          <Layout>
+            <SuggestPage />
+          </Layout>
+        }
+      />
 
       {/* Protected Routes */}
       <Route
@@ -120,6 +139,16 @@ function AppRoutes() {
           <ProtectedRoute>
             <Layout>
               <DashboardPage />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/responses"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <ResponsesPage />
             </Layout>
           </ProtectedRoute>
         }
@@ -187,7 +216,7 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <div className="App min-h-screen bg-white dark:bg-zinc-950">
+        <div className="App min-h-screen bg-[#f5f5f5]">
           <AppRoutes />
           <Toaster position="bottom-right" richColors />
         </div>
