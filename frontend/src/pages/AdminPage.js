@@ -498,18 +498,20 @@ const AdminPage = () => {
         <AlertDialogContent className="rounded-none">
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Eliminar {deleteDialog.type === 'user' ? 'Utilizador' : 'Sugestão'}
+              Eliminar {deleteDialog.type === 'user' ? 'Utilizador' : deleteDialog.type === 'application' ? 'Candidatura' : 'Sugestão'}
             </AlertDialogTitle>
             <AlertDialogDescription>
               {deleteDialog.type === 'user'
                 ? `Tem a certeza que quer eliminar ${deleteDialog.item?.name}? Esta ação não pode ser revertida.`
+                : deleteDialog.type === 'application'
+                ? 'Tem a certeza de que deseja eliminar esta candidatura? Esta ação não pode ser desfeita.'
                 : 'Tem a certeza que quer eliminar esta sugestão? Esta ação não pode ser revertida.'}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel className="rounded-none">Cancelar</AlertDialogCancel>
             <AlertDialogAction
-              onClick={deleteDialog.type === 'user' ? handleDeleteUser : handleDeleteSuggestion}
+              onClick={deleteDialog.type === 'user' ? handleDeleteUser : deleteDialog.type === 'application' ? handleDeleteTeamApplication : handleDeleteSuggestion}
               className="rounded-none bg-red-600 hover:bg-red-700"
               data-testid="confirm-delete"
             >
