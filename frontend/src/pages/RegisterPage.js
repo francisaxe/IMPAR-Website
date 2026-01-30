@@ -24,22 +24,22 @@ const RegisterPage = () => {
     e.preventDefault();
     
     if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match');
+      toast.error('As palavras-passe não coincidem');
       return;
     }
 
     if (formData.password.length < 6) {
-      toast.error('Password must be at least 6 characters');
+      toast.error('A palavra-passe deve ter pelo menos 6 caracteres');
       return;
     }
 
     setLoading(true);
     try {
       await register(formData.email, formData.password, formData.name);
-      toast.success('Account created successfully!');
+      toast.success('Conta criada com sucesso!');
       navigate('/dashboard');
     } catch (error) {
-      toast.error(error.response?.data?.detail || 'Registration failed');
+      toast.error(error.response?.data?.detail || 'Falha no registo');
     } finally {
       setLoading(false);
     }
@@ -56,17 +56,17 @@ const RegisterPage = () => {
 
         <Card className="rounded-none border border-zinc-200 dark:border-zinc-800 shadow-none">
           <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="font-serif text-2xl font-medium">Create an account</CardTitle>
-            <CardDescription>Enter your details to get started</CardDescription>
+            <CardTitle className="font-serif text-2xl font-medium">Criar uma conta</CardTitle>
+            <CardDescription>Introduza os seus dados para começar</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
+                <Label htmlFor="name" className="text-sm font-medium">Nome Completo</Label>
                 <Input
                   id="name"
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="João Silva"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
@@ -79,7 +79,7 @@ const RegisterPage = () => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder="voce@exemplo.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
@@ -88,7 +88,7 @@ const RegisterPage = () => {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                <Label htmlFor="password" className="text-sm font-medium">Palavra-passe</Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -110,7 +110,7 @@ const RegisterPage = () => {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword" className="text-sm font-medium">Confirm Password</Label>
+                <Label htmlFor="confirmPassword" className="text-sm font-medium">Confirmar Palavra-passe</Label>
                 <Input
                   id="confirmPassword"
                   type="password"
@@ -128,19 +128,19 @@ const RegisterPage = () => {
                 disabled={loading}
                 data-testid="register-submit"
               >
-                {loading ? 'Creating account...' : 'Create Account'}
+                {loading ? 'A criar conta...' : 'Criar Conta'}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </form>
 
             <div className="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
-              Already have an account?{' '}
+              Já tem uma conta?{' '}
               <Link
                 to="/login"
                 className="font-medium text-black dark:text-white hover:underline"
                 data-testid="login-link"
               >
-                Sign in
+                Entrar
               </Link>
             </div>
           </CardContent>
