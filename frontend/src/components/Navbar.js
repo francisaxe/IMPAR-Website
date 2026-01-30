@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../components/ui/dropdown-menu';
-import { Home, ClipboardList, BarChart3, Lightbulb, Info, User, LogOut, Settings, Shield, ChevronDown } from 'lucide-react';
+import { Home, List, CheckCircle2, Lightbulb, Info, User, LogOut, Settings, Shield, ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
   const { user, logout, isAdmin } = useAuth();
@@ -24,9 +24,9 @@ const Navbar = () => {
 
   const navItems = [
     { path: '/', label: 'Início', icon: Home },
-    { path: '/surveys', label: 'Sondagens', icon: ClipboardList },
-    { path: '/results', label: 'Resultados', icon: BarChart3 },
-    { path: '/suggest', label: 'Sugerir', icon: Lightbulb, requiresAuth: true },
+    { path: '/surveys', label: 'Sondagens', icon: List },
+    { path: '/responses', label: 'Respostas', icon: CheckCircle2 },
+    { path: '/suggest', label: 'Sugerir', icon: Lightbulb },
     { path: '/about', label: 'Sobre', icon: Info },
   ];
 
@@ -36,13 +36,12 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-14">
           {/* Logo */}
           <Link to="/" className="flex items-center" data-testid="navbar-logo">
-            <span className="font-serif text-xl font-normal tracking-tight text-zinc-900">IMPAR</span>
+            <span className="font-serif text-2xl font-normal tracking-tight text-zinc-900">IMPAR</span>
           </Link>
 
           {/* Navigation Links */}
           <div className="flex items-center gap-1">
             {navItems.map((item) => {
-              if (item.requiresAuth && !user) return null;
               const Icon = item.icon;
               return (
                 <Link
@@ -84,7 +83,7 @@ const Navbar = () => {
                   </div>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => navigate('/dashboard')} data-testid="menu-dashboard">
-                    <ClipboardList className="w-4 h-4 mr-2" />
+                    <List className="w-4 h-4 mr-2" />
                     Painel
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate('/profile')} data-testid="menu-profile">
