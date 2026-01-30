@@ -36,7 +36,7 @@ const ResultsPage = () => {
     try {
       const [surveyRes, analyticsRes] = await Promise.all([
         axios.get(`${API_URL}/surveys/${surveyId}`),
-        axios.get(`${API_URL}/surveys/${surveyId}/analytics`),
+        axios.get(`${API_URL}/surveys/${surveyId}/public-results`),
       ]);
       setSelectedSurvey(surveyRes.data);
       setAnalytics(analyticsRes.data);
