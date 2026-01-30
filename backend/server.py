@@ -50,6 +50,19 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
+    phone: Optional[str] = None
+    date_of_birth: Optional[str] = None
+    gender: Optional[str] = None
+    nationality: Optional[str] = None
+    district: Optional[str] = None
+    municipality: Optional[str] = None
+    parish: Optional[str] = None
+    marital_status: Optional[str] = None
+    religion: Optional[str] = None
+    education_level: Optional[str] = None
+    profession: Optional[str] = None
+    lived_abroad: Optional[bool] = None
+    accept_notifications: Optional[bool] = False
 
 class UserLogin(BaseModel):
     email: EmailStr
@@ -62,6 +75,19 @@ class User(UserBase):
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     bio: Optional[str] = None
     avatar_url: Optional[str] = None
+    phone: Optional[str] = None
+    date_of_birth: Optional[str] = None
+    gender: Optional[str] = None
+    nationality: Optional[str] = None
+    district: Optional[str] = None
+    municipality: Optional[str] = None
+    parish: Optional[str] = None
+    marital_status: Optional[str] = None
+    religion: Optional[str] = None
+    education_level: Optional[str] = None
+    profession: Optional[str] = None
+    lived_abroad: Optional[bool] = None
+    accept_notifications: Optional[bool] = False
 
 class UserResponse(BaseModel):
     id: str
@@ -71,6 +97,19 @@ class UserResponse(BaseModel):
     bio: Optional[str] = None
     avatar_url: Optional[str] = None
     created_at: str
+    phone: Optional[str] = None
+    date_of_birth: Optional[str] = None
+    gender: Optional[str] = None
+    nationality: Optional[str] = None
+    district: Optional[str] = None
+    municipality: Optional[str] = None
+    parish: Optional[str] = None
+    marital_status: Optional[str] = None
+    religion: Optional[str] = None
+    education_level: Optional[str] = None
+    profession: Optional[str] = None
+    lived_abroad: Optional[bool] = None
+    accept_notifications: Optional[bool] = False
 
 class TokenResponse(BaseModel):
     access_token: str
