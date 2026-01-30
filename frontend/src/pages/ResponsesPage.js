@@ -159,7 +159,7 @@ const ResponsesPage = () => {
                           </Badge>
                         </div>
                         <CardTitle className="font-serif text-xl font-medium text-zinc-900">
-                          {responses.length - index}. {item.survey.title}
+                          {item.survey.survey_number || responses.length - index}. {item.survey.title}
                         </CardTitle>
                         {item.survey.description && (
                           <p className="text-sm text-zinc-500 mt-1">
