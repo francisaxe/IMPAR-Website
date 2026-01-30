@@ -418,7 +418,7 @@ const CreateSurveyPage = () => {
                 data-testid="add-text"
               >
                 <PlusCircle className="w-4 h-4 mr-2" />
-                Resposta de Texto
+                Texto Livre
               </Button>
               <Button
                 variant="outline"
@@ -429,6 +429,26 @@ const CreateSurveyPage = () => {
               >
                 <PlusCircle className="w-4 h-4 mr-2" />
                 Escala de Avaliação
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => addQuestion('yes_no')}
+                className="rounded-none"
+                data-testid="add-yes-no"
+              >
+                <PlusCircle className="w-4 h-4 mr-2" />
+                Sim/Não
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => addQuestion('checkbox')}
+                className="rounded-none"
+                data-testid="add-checkbox"
+              >
+                <PlusCircle className="w-4 h-4 mr-2" />
+                Múltipla Seleção
               </Button>
             </div>
           </CardContent>
