@@ -33,7 +33,7 @@ const DashboardPage = () => {
       const response = await api.get('/surveys/my');
       setSurveys(response.data);
     } catch (error) {
-      toast.error('Failed to fetch surveys');
+      toast.error('Falha ao carregar inquéritos');
     } finally {
       setLoading(false);
     }
@@ -48,9 +48,9 @@ const DashboardPage = () => {
     try {
       await api.delete(`/surveys/${deleteDialog.survey.id}`);
       setSurveys(surveys.filter((s) => s.id !== deleteDialog.survey.id));
-      toast.success('Survey deleted');
+      toast.success('Inquérito eliminado');
     } catch (error) {
-      toast.error('Failed to delete survey');
+      toast.error('Falha ao eliminar inquérito');
     } finally {
       setDeleteDialog({ open: false, survey: null });
     }
@@ -69,9 +69,9 @@ const DashboardPage = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-12">
           <div>
-            <p className="label-caps mb-2">Dashboard</p>
+            <p className="label-caps mb-2">Painel de Controlo</p>
             <h1 className="font-serif text-3xl md:text-4xl font-light text-zinc-900 dark:text-white">
-              Welcome, {user?.name}
+              Bem-vindo, {user?.name}
             </h1>
           </div>
           <Link to="/surveys/create">
@@ -80,7 +80,7 @@ const DashboardPage = () => {
               data-testid="dashboard-create-survey"
             >
               <PlusCircle className="w-4 h-4 mr-2" />
-              Create Survey
+              Criar Inquérito
             </Button>
           </Link>
         </div>
@@ -95,7 +95,7 @@ const DashboardPage = () => {
                 </div>
                 <div>
                   <p className="text-2xl font-medium">{stats.totalSurveys}</p>
-                  <p className="text-sm text-zinc-500">Total Surveys</p>
+                  <p className="text-sm text-zinc-500">Total de Inquéritos</p>
                 </div>
               </div>
             </CardContent>
@@ -108,7 +108,7 @@ const DashboardPage = () => {
                 </div>
                 <div>
                   <p className="text-2xl font-medium">{stats.publishedSurveys}</p>
-                  <p className="text-sm text-zinc-500">Published</p>
+                  <p className="text-sm text-zinc-500">Publicados</p>
                 </div>
               </div>
             </CardContent>
@@ -121,7 +121,7 @@ const DashboardPage = () => {
                 </div>
                 <div>
                   <p className="text-2xl font-medium">{stats.totalResponses}</p>
-                  <p className="text-sm text-zinc-500">Total Responses</p>
+                  <p className="text-sm text-zinc-500">Total de Respostas</p>
                 </div>
               </div>
             </CardContent>
@@ -134,7 +134,7 @@ const DashboardPage = () => {
                 </div>
                 <div>
                   <p className="text-2xl font-medium">{stats.totalQuestions}</p>
-                  <p className="text-sm text-zinc-500">Total Questions</p>
+                  <p className="text-sm text-zinc-500">Total de Perguntas</p>
                 </div>
               </div>
             </CardContent>
@@ -144,7 +144,7 @@ const DashboardPage = () => {
         {/* Surveys List */}
         <div>
           <h2 className="font-serif text-2xl font-normal text-zinc-900 dark:text-white mb-6">
-            Your Surveys
+            Os Seus Inquéritos
           </h2>
           {loading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -156,11 +156,11 @@ const DashboardPage = () => {
             <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
               <CardContent className="py-16 text-center">
                 <ClipboardList className="w-12 h-12 mx-auto mb-4 text-zinc-400" />
-                <h3 className="font-serif text-xl font-medium mb-2">No surveys yet</h3>
-                <p className="text-zinc-500 mb-6">Create your first survey to get started</p>
+                <h3 className="font-serif text-xl font-medium mb-2">Ainda não tem inquéritos</h3>
+                <p className="text-zinc-500 mb-6">Crie o seu primeiro inquérito para começar</p>
                 <Link to="/surveys/create">
                   <Button className="rounded-none bg-black text-white hover:bg-zinc-800">
-                    Create Survey
+                    Criar Inquérito
                   </Button>
                 </Link>
               </CardContent>
@@ -185,19 +185,19 @@ const DashboardPage = () => {
       <AlertDialog open={deleteDialog.open} onOpenChange={(open) => setDeleteDialog({ ...deleteDialog, open })}>
         <AlertDialogContent className="rounded-none">
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Survey</AlertDialogTitle>
+            <AlertDialogTitle>Eliminar Inquérito</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{deleteDialog.survey?.title}"? This action cannot be undone and all responses will be lost.
+              Tem a certeza que quer eliminar "{deleteDialog.survey?.title}"? Esta ação não pode ser revertida e todas as respostas serão perdidas.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="rounded-none">Cancel</AlertDialogCancel>
+            <AlertDialogCancel className="rounded-none">Cancelar</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               className="rounded-none bg-red-600 hover:bg-red-700"
               data-testid="confirm-delete"
             >
-              Delete
+              Eliminar
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
