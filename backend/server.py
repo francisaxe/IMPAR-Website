@@ -565,14 +565,38 @@ async def submit_response(
     if not survey.get("is_published"):
         raise HTTPException(status_code=400, detail="Survey is not published")
     
+    # Verificar se o utilizador já respondeu a esta sondagem
+    user_id = current_user["id"] if current_user else None
+    existing_response = None
+    
+    if user_id:
+        existing_response = await db.responses.find_one(
+            {"survey_id": survey_id, "user_id": user_id},
+            {"_id": 0}
+        )
+    
     answer = SurveyAnswer(
         survey_id=survey_id,
-        user_id=current_user["id"] if current_user else None,
+        user_id=user_id,
         answers=response_data.answers
     )
     
-    await db.responses.insert_one(answer.model_dump())
-    await db.surveys.update_one({"id": survey_id}, {"$inc": {"response_count": 1}})
+    if existing_response:
+        # Substituir resposta existente
+        await db.responses.update_one(
+            {"id": existing_response["id"]},
+            {"$set": {
+                "answers": response_data.answers,
+                "submitted_at": answer.submitted_at
+            }}
+        )
+        # Manter o ID original da resposta
+        answer.id = existing_response["id"]
+    else:
+        # Criar nova resposta
+        await db.responses.insert_one(answer.model_dump())
+        # Incrementar contador apenas para respostas novas
+        await db.surveys.update_one({"id": survey_id}, {"$inc": {"response_count": 1}})
     
     return answer
 
