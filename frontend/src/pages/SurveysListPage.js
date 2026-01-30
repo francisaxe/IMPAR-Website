@@ -127,7 +127,7 @@ const SurveysListPage = () => {
                         {/* Título e Estrela */}
                         <div className="flex items-start justify-between gap-2">
                           <h3 className="font-serif text-lg font-medium text-zinc-900">
-                            {surveys.length - index}. {survey.title}
+                            {survey.survey_number}. {survey.title}
                           </h3>
                           <button
                             onClick={(e) => toggleFeatured(e, survey.id)}
