@@ -149,6 +149,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "✅ TESTED SUCCESSFULLY - About page complete with 'Sobre a IMPAR' title, 'A Nossa Missão' section, 'Os Nossos Valores' with all 4 values (Rigor, Transparência, Imparcialidade, Privacidade) with proper icons, and 'Como Funciona' section. All content in Portuguese as expected."
+      - working: true
+        agent: "testing"
+        comment: "✅ POLLING IMAGES VERIFICATION COMPLETED - Updated About page now includes 3 polling survey images as requested: 1) Disclaimer text 'Estes são resultados de algumas sondagens que nos foram apresentadas antes da primeira volta das eleições presidenciais de 2026.' ✅ VISIBLE, 2) Grid layout with 3 images side by side (md:grid-cols-3) ✅ WORKING, 3) All 3 images loading correctly: Sondagem 1 (Intenção de Voto Presidenciais 2026), Sondagem 2 (Intenção de Voto), Sondagem 3 (Maioria dos Concelhos) ✅ ALL VISIBLE, 4) Images have rounded-lg corners ✅ CONFIRMED (7 rounded-lg elements found), 5) Proper layout positioning between disclaimer and 'A Nossa Resposta' section ✅ VERIFIED, 6) Adequate spacing and responsive design ✅ WORKING. All polling images display correctly with proper external URLs from customer-assets.emergentagent.com. Visual verification shows clean grid layout with proper Portuguese content as requested."
 
   - task: "Suggest Page"
     implemented: true
