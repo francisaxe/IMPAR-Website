@@ -101,7 +101,7 @@ const LandingPage = () => {
                             {/* Título */}
                             <div className="flex items-start justify-between gap-2">
                               <h3 className="font-medium text-zinc-900">
-                                {featuredSurveys.length - index}. {survey.title}
+                                {survey.survey_number}. {survey.title}
                               </h3>
                               {survey.is_featured && (
                                 <Star className="w-4 h-4 fill-amber-400 text-amber-400 flex-shrink-0" />
