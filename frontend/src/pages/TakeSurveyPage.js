@@ -60,6 +60,16 @@ const TakeSurveyPage = () => {
         setCurrentQuestion(qIndex);
         return;
       }
+      // Validate checkbox has at least one selection
+      if (q.type === 'checkbox' && q.required && answers[q.id]) {
+        const selected = answers[q.id].split(',').filter(Boolean);
+        if (selected.length === 0) {
+          toast.error(`Por favor, selecione pelo menos uma opção: "${q.text}"`);
+          const qIndex = survey.questions.findIndex((question) => question.id === q.id);
+          setCurrentQuestion(qIndex);
+          return;
+        }
+      }
     }
 
     setSubmitting(true);
