@@ -50,6 +50,47 @@ const RegisterPage = () => {
     'Açores', 'Madeira'
   ];
 
+  // Concelhos por distrito (principais)
+  const concelhosPorDistrito = {
+    'Lisboa': ['Lisboa', 'Sintra', 'Cascais', 'Loures', 'Amadora', 'Oeiras', 'Almada', 'Odivelas', 'Mafra', 'Vila Franca de Xira'],
+    'Porto': ['Porto', 'Vila Nova de Gaia', 'Matosinhos', 'Gondomar', 'Maia', 'Valongo', 'Paredes', 'Penafiel', 'Santo Tirso', 'Póvoa de Varzim'],
+    'Braga': ['Braga', 'Guimarães', 'Barcelos', 'Famalicão', 'Esposende', 'Amares', 'Cabeceiras de Basto', 'Celorico de Basto', 'Terras de Bouro', 'Vila Verde'],
+    'Aveiro': ['Aveiro', 'Águeda', 'Ílhavo', 'Ovar', 'Santa Maria da Feira', 'São João da Madeira', 'Albergaria-a-Velha', 'Anadia', 'Estarreja', 'Oliveira de Azeméis'],
+    'Coimbra': ['Coimbra', 'Figueira da Foz', 'Cantanhede', 'Lousã', 'Montemor-o-Velho', 'Oliveira do Hospital', 'Tábua', 'Soure', 'Penacova', 'Condeixa-a-Nova'],
+    'Setúbal': ['Setúbal', 'Almada', 'Barreiro', 'Seixal', 'Sesimbra', 'Palmela', 'Montijo', 'Alcácer do Sal', 'Santiago do Cacém', 'Grândola'],
+    'Faro': ['Faro', 'Loulé', 'Portimão', 'Albufeira', 'Olhão', 'Lagos', 'Tavira', 'Silves', 'Vila Real de Santo António', 'Lagoa'],
+    'Leiria': ['Leiria', 'Marinha Grande', 'Alcobaça', 'Caldas da Rainha', 'Pombal', 'Nazaré', 'Batalha', 'Porto de Mós', 'Peniche', 'Óbidos'],
+    'Santarém': ['Santarém', 'Torres Novas', 'Entroncamento', 'Tomar', 'Almeirim', 'Rio Maior', 'Abrantes', 'Cartaxo', 'Torres Vedras', 'Benavente'],
+    'Viseu': ['Viseu', 'Lamego', 'São Pedro do Sul', 'Santa Comba Dão', 'Tondela', 'Mangualde', 'Nelas', 'Castro Daire', 'Sátão', 'Tarouca'],
+    'Viana do Castelo': ['Viana do Castelo', 'Valença', 'Caminha', 'Ponte de Lima', 'Monção', 'Paredes de Coura', 'Arcos de Valdevez', 'Melgaço', 'Ponte da Barca', 'Vila Nova de Cerveira'],
+    'Vila Real': ['Vila Real', 'Chaves', 'Peso da Régua', 'Lamego', 'Amarante', 'Vila Pouca de Aguiar', 'Mondim de Basto', 'Mesão Frio', 'Sabrosa', 'Santa Marta de Penaguião'],
+    'Bragança': ['Bragança', 'Mirandela', 'Macedo de Cavaleiros', 'Miranda do Douro', 'Mogadouro', 'Vinhais', 'Alfândega da Fé', 'Carrazeda de Ansiães', 'Freixo de Espada à Cinta', 'Torre de Moncorvo'],
+    'Guarda': ['Guarda', 'Seia', 'Gouveia', 'Covilhã', 'Fundão', 'Manteigas', 'Pinhel', 'Trancoso', 'Almeida', 'Sabugal'],
+    'Castelo Branco': ['Castelo Branco', 'Covilhã', 'Fundão', 'Belmonte', 'Oleiros', 'Proença-a-Nova', 'Sertã', 'Penamacor', 'Idanha-a-Nova', 'Vila Velha de Ródão'],
+    'Beja': ['Beja', 'Odemira', 'Serpa', 'Moura', 'Ferreira do Alentejo', 'Cuba', 'Aljustrel', 'Castro Verde', 'Mértola', 'Vidigueira'],
+    'Évora': ['Évora', 'Estremoz', 'Montemor-o-Novo', 'Reguengos de Monsaraz', 'Vendas Novas', 'Mora', 'Portel', 'Arraiolos', 'Viana do Alentejo', 'Alandroal'],
+    'Portalegre': ['Portalegre', 'Elvas', 'Ponte de Sor', 'Campo Maior', 'Alter do Chão', 'Arronches', 'Avis', 'Castelo de Vide', 'Crato', 'Gavião'],
+    'Açores': ['Ponta Delgada', 'Angra do Heroísmo', 'Horta', 'Ribeira Grande', 'Vila Franca do Campo', 'Lagoa', 'Nordeste', 'Povoação', 'Praia da Vitória', 'Santa Cruz da Graciosa'],
+    'Madeira': ['Funchal', 'Câmara de Lobos', 'Machico', 'Santa Cruz', 'Calheta', 'Ribeira Brava', 'Ponta do Sol', 'Santana', 'São Vicente', 'Porto Moniz']
+  };
+
+  // Freguesias comuns (exemplo genérico - aplicável a qualquer concelho)
+  const freguesiasComuns = [
+    'União das Freguesias',
+    'Freguesia Centro',
+    'Freguesia Norte',
+    'Freguesia Sul',
+    'Freguesia Este',
+    'Freguesia Oeste',
+    'São Pedro',
+    'São João',
+    'Santa Maria',
+    'Santo António',
+    'Sé',
+    'Matriz',
+    'Outro'
+  ];
+
   const generos = ['Masculino', 'Feminino', 'Outro'];
   
   const estadosCivis = ['Solteiro(a)', 'Casado(a)', 'União de Facto', 'Divorciado(a)', 'Viúvo(a)'];
