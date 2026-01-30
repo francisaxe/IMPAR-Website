@@ -518,6 +518,21 @@ async def delete_survey(survey_id: str, current_user: dict = Depends(get_current
     
     return {"message": "Survey deleted"}
 
+@api_router.put("/surveys/{survey_id}/toggle-featured")
+async def toggle_survey_featured(survey_id: str, admin: dict = Depends(get_admin_user)):
+    """Toggle is_featured status (apenas admins)"""
+    survey = await db.surveys.find_one({"id": survey_id}, {"_id": 0})
+    if not survey:
+        raise HTTPException(status_code=404, detail="Survey not found")
+    
+    new_featured_status = not survey.get("is_featured", False)
+    await db.surveys.update_one(
+        {"id": survey_id}, 
+        {"$set": {"is_featured": new_featured_status}}
+    )
+    
+    return {"message": "Featured status updated", "is_featured": new_featured_status}
+
 # ===================== RESPONSE ROUTES =====================
 
 async def get_optional_user(credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False))) -> Optional[dict]:
