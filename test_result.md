@@ -101,3 +101,125 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Teste completo do site IMPAR após redesign - verificar todas as páginas frontend em português incluindo Landing Page, Sondagens, Sobre, Sugerir, Login, Register e Navbar"
+
+frontend:
+  - task: "Landing Page"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/LandingPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Needs testing - verify IMPAR logo, tagline 'Jornalismo factual. Imparcialidade por método.', Em Destaque section with surveys list, navigation functionality"
+
+  - task: "Sondagens Page"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/SurveysListPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Needs testing - verify surveys list with cards, titles, descriptions, icons, dates, 'Respondida' indicator, share button functionality"
+
+  - task: "About Page"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/AboutPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Needs testing - verify 'Sobre a IMPAR' title, mission card 'A Nossa Missão', values cards 'Os Nossos Valores', 'Como Funciona' section, icons for Rigor, Transparência, Imparcialidade, Privacidade"
+
+  - task: "Suggest Page"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/SuggestPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Needs testing - verify suggestion form with 3 fields (Título, Descrição, Contexto), login alert for non-authenticated users, 'Submeter Sugestão' button behavior"
+
+  - task: "Login Page"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/LoginPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Needs testing - verify login form with Email and Palavra-passe fields, password visibility toggle, 'Criar conta' link, 'Voltar ao início' link"
+
+  - task: "Register Page"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/RegisterPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Needs testing - verify registration form with Nome, Email, Palavra-passe, Confirmar palavra-passe fields, create account button, login page link"
+
+  - task: "Navbar Component"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Navbar.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Needs testing - verify all navigation links (Início, Sondagens, Respostas, Sugerir, Sobre, Perfil), icons beside links, profile dropdown menu functionality"
+
+  - task: "Visual Design"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/App.css"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Needs testing - verify clean minimalist design with #f5f5f5 background, rounded-lg cards with subtle shadows, serif typography for titles, proper spacing and responsive layout, lucide-react icons functionality"
+
+metadata:
+  created_by: "testing_agent"
+  version: "1.0"
+  test_sequence: 1
+
+test_plan:
+  current_focus:
+    - "Landing Page"
+    - "Sondagens Page"
+    - "About Page"
+    - "Suggest Page"
+    - "Login Page"
+    - "Register Page"
+    - "Navbar Component"
+    - "Visual Design"
+  stuck_tasks: []
+  test_all: true
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "testing"
+    message: "Starting comprehensive testing of IMPAR site redesign. Will test all frontend pages in Portuguese including navigation, forms, visual design, and user interactions. Testing will focus on the specific elements mentioned in the review request."
