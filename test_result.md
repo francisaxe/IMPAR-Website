@@ -341,6 +341,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "✅ TESTED SUCCESSFULLY: Featured surveys system working correctly. 1) LandingPage displays 'Em Destaque' section with 3 featured surveys ✅ CONFIRMED, 2) Survey numbering visible on featured surveys (3. Presidenciais 2026, 2. Customer Feedback Survey) ✅ WORKING, 3) SurveysListPage shows 6 star buttons for featured toggle ✅ PRESENT, 4) Featured surveys properly filtered and displayed on landing page ✅ FUNCTIONAL. Admin toggle functionality cannot be fully tested due to authentication session issues, but UI components and display logic working correctly."
+      - working: true
+        agent: "testing"
+        comment: "✅ RETESTED SUCCESSFULLY - Featured surveys system working perfectly. Landing page 'Em Destaque' section shows exactly 3 featured surveys (1. Test Survey, 2. Customer Feedback Survey, 3. Presidenciais 2026). Survey #5 correctly NOT shown in featured section as expected. All surveys display with proper chronological numbering and star icons for featured status."
 
   - task: "Survey Numbering - Fixed Chronological"
     implemented: true
