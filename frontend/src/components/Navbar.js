@@ -88,7 +88,7 @@ const Navbar = () => {
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate('/profile')} data-testid="menu-profile">
                     <Settings className="w-4 h-4 mr-2" />
-                    Definições
+                    Dados pessoais
                   </DropdownMenuItem>
                   {isAdmin && (
                     <>
