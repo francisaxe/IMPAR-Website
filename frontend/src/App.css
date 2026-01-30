@@ -1,34 +1,64 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
-}
+/* IMPAR Survey Platform Styles */
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
-}
-
-.App-header {
-    background-color: #0f0f10;
+/* Remove default App styles */
+.App {
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
+}
+
+/* Custom focus styles */
+*:focus-visible {
+    outline: 2px solid black;
+    outline-offset: 2px;
+}
+
+.dark *:focus-visible {
+    outline-color: white;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Selection styling */
+::selection {
+    background: black;
     color: white;
 }
 
-.App-link {
-    color: #61dafb;
+.dark ::selection {
+    background: white;
+    color: black;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+/* Line clamp utilities */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Custom progress bar styling */
+[data-slot="progress"] {
+    background: #e4e4e7;
+}
+
+.dark [data-slot="progress"] {
+    background: #27272a;
+}
+
+[data-slot="progress"] [data-slot="indicator"] {
+    background: black;
+}
+
+.dark [data-slot="progress"] [data-slot="indicator"] {
+    background: white;
 }
