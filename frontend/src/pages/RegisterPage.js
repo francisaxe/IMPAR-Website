@@ -4,9 +4,9 @@ import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import { Card, CardContent } from '../components/ui/card';
 import { toast } from 'sonner';
-import { Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -46,36 +46,46 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-900 px-4 py-12" data-testid="register-page">
+    <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center px-4 py-12" data-testid="register-page">
       <div className="w-full max-w-md">
+        {/* Logo */}
         <div className="text-center mb-8">
-          <Link to="/" className="inline-block">
-            <span className="font-serif text-3xl font-semibold text-zinc-900 dark:text-white">IMPAR</span>
+          <Link to="/">
+            <h1 className="font-serif text-4xl font-normal text-zinc-900">IMPAR</h1>
           </Link>
+          <p className="font-serif text-sm text-zinc-500 italic mt-2">
+            Jornalismo factual. Imparcialidade por método.
+          </p>
         </div>
 
-        <Card className="rounded-none border border-zinc-200 dark:border-zinc-800 shadow-none">
-          <CardHeader className="space-y-1 pb-4">
-            <CardTitle className="font-serif text-2xl font-medium">Criar uma conta</CardTitle>
-            <CardDescription>Introduza os seus dados para começar</CardDescription>
-          </CardHeader>
-          <CardContent>
+        {/* Form Card */}
+        <Card className="rounded-none border-0 shadow-sm bg-white">
+          <CardContent className="p-8">
+            <h2 className="font-serif text-xl font-medium text-zinc-900 mb-6 text-center">
+              Criar uma conta
+            </h2>
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm font-medium">Nome Completo</Label>
+                <Label htmlFor="name" className="text-sm text-zinc-600">
+                  Nome
+                </Label>
                 <Input
                   id="name"
                   type="text"
-                  placeholder="João Silva"
+                  placeholder="O seu nome"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
-                  className="rounded-none border-zinc-300 dark:border-zinc-700 focus:border-black dark:focus:border-white"
+                  className="rounded-none border-zinc-300"
                   data-testid="register-name"
                 />
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium">Email</Label>
+                <Label htmlFor="email" className="text-sm text-zinc-600">
+                  Email
+                </Label>
                 <Input
                   id="email"
                   type="email"
@@ -83,12 +93,15 @@ const RegisterPage = () => {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
-                  className="rounded-none border-zinc-300 dark:border-zinc-700 focus:border-black dark:focus:border-white"
+                  className="rounded-none border-zinc-300"
                   data-testid="register-email"
                 />
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium">Palavra-passe</Label>
+                <Label htmlFor="password" className="text-sm text-zinc-600">
+                  Palavra-passe
+                </Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -97,20 +110,23 @@ const RegisterPage = () => {
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     required
-                    className="rounded-none border-zinc-300 dark:border-zinc-700 focus:border-black dark:focus:border-white pr-10"
+                    className="rounded-none border-zinc-300 pr-10"
                     data-testid="register-password"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-700"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword" className="text-sm font-medium">Confirmar Palavra-passe</Label>
+                <Label htmlFor="confirmPassword" className="text-sm text-zinc-600">
+                  Confirmar palavra-passe
+                </Label>
                 <Input
                   id="confirmPassword"
                   type="password"
@@ -118,26 +134,26 @@ const RegisterPage = () => {
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                   required
-                  className="rounded-none border-zinc-300 dark:border-zinc-700 focus:border-black dark:focus:border-white"
+                  className="rounded-none border-zinc-300"
                   data-testid="register-confirm-password"
                 />
               </div>
+
               <Button
                 type="submit"
-                className="w-full rounded-none bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 btn-hover-lift"
+                className="w-full rounded-none bg-zinc-900 text-white hover:bg-zinc-800"
                 disabled={loading}
                 data-testid="register-submit"
               >
-                {loading ? 'A criar conta...' : 'Criar Conta'}
-                <ArrowRight className="w-4 h-4 ml-2" />
+                {loading ? 'A criar conta...' : 'Criar conta'}
               </Button>
             </form>
 
-            <div className="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
+            <div className="mt-6 text-center text-sm text-zinc-500">
               Já tem uma conta?{' '}
               <Link
                 to="/login"
-                className="font-medium text-black dark:text-white hover:underline"
+                className="text-zinc-900 hover:underline"
                 data-testid="login-link"
               >
                 Entrar
@@ -145,6 +161,13 @@ const RegisterPage = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Back to Home */}
+        <div className="text-center mt-6">
+          <Link to="/" className="text-sm text-zinc-500 hover:text-zinc-700">
+            ← Voltar ao início
+          </Link>
+        </div>
       </div>
     </div>
   );
