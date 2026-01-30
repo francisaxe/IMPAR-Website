@@ -474,6 +474,12 @@ async def get_survey(survey_id: str):
     owner = await db.users.find_one({"id": survey["owner_id"]}, {"_id": 0, "name": 1})
     survey["owner_name"] = owner["name"] if owner else None
     
+    # Calcular número da sondagem
+    all_surveys = await db.surveys.find({}, {"_id": 0, "id": 1, "created_at": 1}).sort("created_at", 1).to_list(10000)
+    survey_numbers = {s["id"]: idx + 1 for idx, s in enumerate(all_surveys)}
+    survey["survey_number"] = survey_numbers.get(survey["id"], 0)
+    survey["user_has_responded"] = False
+    
     return SurveyResponse(**survey)
 
 @api_router.put("/surveys/{survey_id}", response_model=SurveyResponse)
