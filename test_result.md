@@ -350,15 +350,18 @@ frontend:
 
   - task: "My Responses Page - User View with Global Results"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/pages/ResponsesPage.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Needs comprehensive testing - verify ResponsesPage uses /api/my-responses endpoint: 1) Shows list of surveys user has answered, 2) Displays user's own answers for each question, 3) Shows global aggregated results in percentages alongside user answers, 4) Handles all 5 question types correctly (multiple_choice, text, rating, yes_no, checkbox), 5) Vote counts are NOT visible to regular users (only percentages)."
+      - working: false
+        agent: "testing"
+        comment: "❌ CANNOT TEST DUE TO AUTHENTICATION ISSUE: ResponsesPage failed to load due to authentication requirements. Page requires user login to access /api/my-responses endpoint. Authentication session management issues prevent proper testing - users cannot maintain login sessions despite backend returning 200 OK for login requests. ResponsesPage implementation appears correct based on code review, but cannot verify functionality without working authentication."
 
   - task: "Vote Counts - Admin Only Visibility"
     implemented: true
