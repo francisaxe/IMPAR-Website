@@ -2,39 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Textarea } from '../components/ui/textarea.jsx';
-import { Label } from '../components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
-import { Badge } from '../components/ui/badge';
-import { Switch } from '../components/ui/switch';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '../components/ui/dialog.jsx';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { toast } from 'sonner';
-import { User, Mail, Calendar, Shield, Save, Users, LogOut } from 'lucide-react';
-import axios from 'axios';
-
-const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api`;
+import { User, LogOut } from 'lucide-react';
 
 const ProfilePage = () => {
-  const { user, updateProfile, logout } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [showTeamDialog, setShowTeamDialog] = useState(false);
-  const [teamMessage, setTeamMessage] = useState('');
-  const [submittingTeam, setSubmittingTeam] = useState(false);
+  const { user, logout } = useAuth();
   const [formData, setFormData] = useState({
     name: user?.name || '',
     bio: user?.bio || '',
@@ -57,30 +30,6 @@ const ProfilePage = () => {
   const handleLogout = () => {
     logout();
     navigate('/');
-  };
-
-  const handleTeamApplication = async () => {
-    if (!teamMessage.trim()) {
-      toast.error('Por favor, escreva uma mensagem');
-      return;
-    }
-
-    setSubmittingTeam(true);
-    try {
-      const token = localStorage.getItem('impar_token');
-      await axios.post(
-        `${API_URL}/team-applications`,
-        { message: teamMessage },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      toast.success('Candidatura enviada com sucesso!');
-      setShowTeamDialog(false);
-      setTeamMessage('');
-    } catch (error) {
-      toast.error(error.response?.data?.detail || 'Erro ao enviar candidatura');
-    } finally {
-      setSubmittingTeam(false);
-    }
   };
 
   return (
