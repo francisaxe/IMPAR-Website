@@ -341,7 +341,7 @@ const RegisterPage = () => {
                   </Label>
                   <Select
                     value={formData.district}
-                    onValueChange={(value) => setFormData({ ...formData, district: value })}
+                    onValueChange={(value) => setFormData({ ...formData, district: value, municipality: '', parish: '' })}
                     required
                   >
                     <SelectTrigger className="rounded-sm border-zinc-300">
