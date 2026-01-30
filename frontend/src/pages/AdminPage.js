@@ -299,6 +299,10 @@ const AdminPage = () => {
               <Users className="w-4 h-4 mr-2" />
               Utilizadores
             </TabsTrigger>
+            <TabsTrigger value="surveys" className="rounded-none data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-950">
+              <ClipboardList className="w-4 h-4 mr-2" />
+              Sondagens
+            </TabsTrigger>
             <TabsTrigger value="suggestions" className="rounded-none data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-950">
               <MessageSquare className="w-4 h-4 mr-2" />
               Sugestões
