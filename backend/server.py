@@ -410,17 +410,22 @@ async def delete_survey(survey_id: str, current_user: dict = Depends(get_current
 
 # ===================== RESPONSE ROUTES =====================
 
+async def get_optional_user(credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False))) -> Optional[dict]:
+    if not credentials:
+        return None
+    try:
+        payload = jwt.decode(credentials.credentials, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+        user = await db.users.find_one({"id": payload["sub"]}, {"_id": 0, "password": 0})
+        return user
+    except:
+        return None
+
 @api_router.post("/surveys/{survey_id}/respond", response_model=SurveyAnswer)
 async def submit_response(
     survey_id: str,
     response_data: SurveyAnswerCreate,
-    current_user: Optional[dict] = None
+    current_user: Optional[dict] = Depends(get_optional_user)
 ):
-    try:
-        current_user = await get_current_user(Depends(security))
-    except:
-        current_user = None
-    
     survey = await db.surveys.find_one({"id": survey_id}, {"_id": 0})
     if not survey:
         raise HTTPException(status_code=404, detail="Survey not found")
