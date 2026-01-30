@@ -26,8 +26,17 @@ const CreateSurveyPage = () => {
     title: '',
     description: '',
     is_featured: false,
+    end_date: '',
     questions: [],
   });
+
+  const questionTypeOptions = [
+    { value: 'multiple_choice', label: 'Escolha Múltipla', icon: '☑️' },
+    { value: 'text', label: 'Texto Livre', icon: '📝' },
+    { value: 'rating', label: 'Escala de Avaliação', icon: '⭐' },
+    { value: 'yes_no', label: 'Sim/Não', icon: '✓✗' },
+    { value: 'checkbox', label: 'Múltipla Seleção', icon: '☐' },
+  ];
 
   const addQuestion = (type) => {
     const newQuestion = {
@@ -36,7 +45,7 @@ const CreateSurveyPage = () => {
       text: '',
       required: true,
       highlighted: false,
-      options: type === 'multiple_choice' ? [{ text: '' }] : null,
+      options: (type === 'multiple_choice' || type === 'checkbox') ? [{ text: '' }] : null,
       min_rating: type === 'rating' ? 1 : null,
       max_rating: type === 'rating' ? 5 : null,
       order: survey.questions.length,
