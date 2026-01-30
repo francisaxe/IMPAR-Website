@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { Card, CardContent } from '../components/ui/card';
-import { Smartphone, Star, Share2, CheckCircle } from 'lucide-react';
+import { Button } from '../components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { Smartphone, Star, Share2, CheckCircle, Clock } from 'lucide-react';
+import { toast } from 'sonner';
 
 const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const SurveysListPage = () => {
-  const { user } = useAuth();
+  const { user, api, isAdmin } = useAuth();
   const [surveys, setSurveys] = useState([]);
-  const [userResponses, setUserResponses] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,26 +21,35 @@ const SurveysListPage = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${API_URL}/surveys?published=true`);
+      const token = localStorage.getItem('impar_token');
+      const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+      const response = await axios.get(`${API_URL}/surveys?published=true`, config);
       setSurveys(response.data);
-      
-      // Se o utilizador estiver autenticado, buscar as suas respostas
-      if (user) {
-        try {
-          const token = localStorage.getItem('impar_token');
-          const responsesRes = await axios.get(`${API_URL}/user/responses`, {
-            headers: { Authorization: `Bearer ${token}` }
-          });
-          setUserResponses(responsesRes.data.map(r => r.survey_id));
-        } catch (e) {
-          // Endpoint pode não existir ainda
-          console.log('Could not fetch user responses');
-        }
-      }
     } catch (error) {
       console.error('Failed to fetch surveys:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const toggleFeatured = async (e, surveyId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (!isAdmin) {
+      toast.error('Apenas administradores podem destacar sondagens');
+      return;
+    }
+
+    try {
+      await api.put(`/surveys/${surveyId}/toggle-featured`);
+      // Atualizar lista localmente
+      setSurveys(surveys.map(s => 
+        s.id === surveyId ? { ...s, is_featured: !s.is_featured } : s
+      ));
+      toast.success('Estado de destaque atualizado');
+    } catch (error) {
+      toast.error('Erro ao atualizar destaque');
     }
   };
 
@@ -51,16 +62,12 @@ const SurveysListPage = () => {
     }).replace('.', '');
   };
 
-  const hasResponded = (surveyId) => {
-    return userResponses.includes(surveyId);
-  };
-
   const handleShare = (e, survey) => {
     e.preventDefault();
     e.stopPropagation();
     const shareUrl = `${window.location.origin}/surveys/${survey.id}/take`;
     navigator.clipboard.writeText(shareUrl);
-    // Toast would be nice here
+    toast.success('Link copiado!');
   };
 
   return (
