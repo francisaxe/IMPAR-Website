@@ -185,6 +185,7 @@ class SurveyResponse(BaseModel):
     updated_at: str
     response_count: int
     user_has_responded: bool = False
+    survey_number: Optional[int] = None
 
 class SurveyUpdate(BaseModel):
     title: Optional[str] = None
