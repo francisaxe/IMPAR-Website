@@ -42,7 +42,7 @@ const Navbar = () => {
               }`}
               data-testid="nav-surveys"
             >
-              Surveys
+              Inquéritos
             </Link>
             {user && (
               <Link
@@ -52,7 +52,7 @@ const Navbar = () => {
                 }`}
                 data-testid="nav-dashboard"
               >
-                Dashboard
+                Painel
               </Link>
             )}
             {isAdmin && (
@@ -63,7 +63,7 @@ const Navbar = () => {
                 }`}
                 data-testid="nav-admin"
               >
-                Admin
+                Administração
               </Link>
             )}
           </div>
@@ -80,7 +80,7 @@ const Navbar = () => {
                     data-testid="create-survey-btn"
                   >
                     <PlusCircle className="w-4 h-4 mr-2" />
-                    Create Survey
+                    Criar Inquérito
                   </Button>
                 </Link>
 
@@ -99,25 +99,25 @@ const Navbar = () => {
                   <DropdownMenuContent align="end" className="rounded-none w-48">
                     <DropdownMenuItem onClick={() => navigate('/dashboard')} data-testid="menu-dashboard">
                       <LayoutDashboard className="w-4 h-4 mr-2" />
-                      Dashboard
+                      Painel
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => navigate('/profile')} data-testid="menu-profile">
                       <Settings className="w-4 h-4 mr-2" />
-                      Profile
+                      Perfil
                     </DropdownMenuItem>
                     {isAdmin && (
                       <>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => navigate('/admin')} data-testid="menu-admin">
                           <Shield className="w-4 h-4 mr-2" />
-                          Admin Panel
+                          Administração
                         </DropdownMenuItem>
                       </>
                     )}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleLogout} data-testid="menu-logout">
                       <LogOut className="w-4 h-4 mr-2" />
-                      Logout
+                      Sair
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -131,7 +131,7 @@ const Navbar = () => {
                     className="rounded-none"
                     data-testid="login-btn"
                   >
-                    Login
+                    Entrar
                   </Button>
                 </Link>
                 <Link to="/register">
@@ -140,7 +140,7 @@ const Navbar = () => {
                     className="rounded-none bg-black text-white hover:bg-zinc-800 btn-hover-lift"
                     data-testid="register-btn"
                   >
-                    Get Started
+                    Começar
                   </Button>
                 </Link>
               </div>
@@ -166,7 +166,7 @@ const Navbar = () => {
                 className="px-4 py-2 text-sm font-medium hover:bg-zinc-50 dark:hover:bg-zinc-900"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Surveys
+                Inquéritos
               </Link>
               {user && (
                 <>
@@ -175,14 +175,14 @@ const Navbar = () => {
                     className="px-4 py-2 text-sm font-medium hover:bg-zinc-50 dark:hover:bg-zinc-900"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Dashboard
+                    Painel
                   </Link>
                   <Link
                     to="/surveys/create"
                     className="px-4 py-2 text-sm font-medium hover:bg-zinc-50 dark:hover:bg-zinc-900"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Create Survey
+                    Criar Inquérito
                   </Link>
                 </>
               )}
@@ -192,7 +192,7 @@ const Navbar = () => {
                   className="px-4 py-2 text-sm font-medium hover:bg-zinc-50 dark:hover:bg-zinc-900"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Admin
+                  Administração
                 </Link>
               )}
             </div>
