@@ -132,6 +132,14 @@ function AppRoutes() {
           </Layout>
         }
       />
+      <Route
+        path="/results"
+        element={
+          <Layout>
+            <ResultsPage />
+          </Layout>
+        }
+      />
 
       {/* Protected Routes */}
       <Route
