@@ -380,9 +380,9 @@ frontend:
 
   - task: "Vote Counts - Admin Only Visibility"
     implemented: true
-    working: false
-    file: "/app/frontend/src/pages/ResultsPage.js, /app/frontend/src/pages/ResponsesPage.js"
-    stuck_count: 2
+    working: true
+    file: "/app/backend/server.py (public-results endpoint)"
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
@@ -395,6 +395,9 @@ frontend:
       - working: false
         agent: "testing"
         comment: "❌ CRITICAL PRIVACY ISSUE FOUND - Vote count visibility is INCONSISTENT across endpoints: ✅ /api/my-responses correctly shows ONLY percentages to regular users, ❌ /api/surveys/{id}/public-results INCORRECTLY exposes vote counts ('count': 1) to public/regular users, ✅ /api/surveys/{id}/analytics correctly shows vote counts to admins only. SECURITY CONCERN: Public results endpoint violates privacy requirement by showing actual vote counts instead of percentages only. This needs immediate fix in backend server.py lines 717-785."
+      - working: true
+        agent: "main"
+        comment: "✅ FIXED CRITICAL PRIVACY ISSUE - Modified /api/surveys/{id}/public-results endpoint to conditionally return either counts (for admins) or percentages (for regular users). Backend testing confirmed: non-admin sees only percentages (100.0%, 0.0%), admin sees vote counts (1 votes, 0 votes). Privacy requirement now enforced correctly."
 
   - task: "Survey Taking - All Question Types"
     implemented: true
