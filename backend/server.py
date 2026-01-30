@@ -535,16 +535,6 @@ async def toggle_survey_featured(survey_id: str, admin: dict = Depends(get_admin
 
 # ===================== RESPONSE ROUTES =====================
 
-async def get_optional_user(credentials: Optional[HTTPAuthorizationCredentials] = Depends(HTTPBearer(auto_error=False))) -> Optional[dict]:
-    if not credentials:
-        return None
-    try:
-        payload = jwt.decode(credentials.credentials, JWT_SECRET, algorithms=[JWT_ALGORITHM])
-        user = await db.users.find_one({"id": payload["sub"]}, {"_id": 0, "password": 0})
-        return user
-    except:
-        return None
-
 @api_router.post("/surveys/{survey_id}/respond", response_model=SurveyAnswer)
 async def submit_response(
     survey_id: str,
