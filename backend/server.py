@@ -572,6 +572,80 @@ async def get_survey_responses(survey_id: str, current_user: dict = Depends(get_
     responses = await db.responses.find({"survey_id": survey_id}, {"_id": 0}).sort("submitted_at", -1).to_list(1000)
     return [SurveyAnswer(**r) for r in responses]
 
+@api_router.get("/my-responses")
+async def get_my_responses(current_user: dict = Depends(get_current_user)):
+    """Retorna todas as respostas do utilizador com resultados globais em %"""
+    responses = await db.responses.find(
+        {"user_id": current_user["id"]}, 
+        {"_id": 0}
+    ).sort("submitted_at", -1).to_list(1000)
+    
+    result = []
+    for response in responses:
+        # Buscar informações da sondagem
+        survey = await db.surveys.find_one({"id": response["survey_id"]}, {"_id": 0})
+        if not survey:
+            continue
+            
+        # Calcular resultados globais em %
+        all_responses = await db.responses.find({"survey_id": response["survey_id"]}, {"_id": 0}).to_list(10000)
+        total_responses = len(all_responses)
+        
+        global_results = {}
+        for question in survey.get("questions", []):
+            q_id = question["id"]
+            q_type = question["type"]
+            
+            if q_type in ["multiple_choice", "yes_no"]:
+                option_counts = {}
+                for resp in all_responses:
+                    for ans in resp.get("answers", []):
+                        if ans["question_id"] == q_id:
+                            value = ans["value"]
+                            option_counts[value] = option_counts.get(value, 0) + 1
+                
+                # Calcular percentagens
+                option_percentages = {}
+                for opt_id, count in option_counts.items():
+                    percentage = (count / total_responses * 100) if total_responses > 0 else 0
+                    option_percentages[opt_id] = round(percentage, 1)
+                
+                global_results[q_id] = {
+                    "type": q_type,
+                    "percentages": option_percentages
+                }
+                
+            elif q_type == "rating":
+                ratings = []
+                for resp in all_responses:
+                    for ans in resp.get("answers", []):
+                        if ans["question_id"] == q_id:
+                            try:
+                                ratings.append(int(ans["value"]))
+                            except:
+                                pass
+                
+                avg_rating = sum(ratings) / len(ratings) if ratings else 0
+                global_results[q_id] = {
+                    "type": q_type,
+                    "average": round(avg_rating, 1),
+                    "total_votes": len(ratings)
+                }
+        
+        result.append({
+            "response": response,
+            "survey": {
+                "id": survey["id"],
+                "title": survey["title"],
+                "description": survey.get("description"),
+                "questions": survey["questions"]
+            },
+            "global_results": global_results,
+            "total_responses": total_responses
+        })
+    
+    return result
+
 @api_router.get("/surveys/{survey_id}/analytics")
 async def get_survey_analytics(survey_id: str, current_user: dict = Depends(get_current_user)):
     survey = await db.surveys.find_one({"id": survey_id}, {"_id": 0})
