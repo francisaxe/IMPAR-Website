@@ -597,12 +597,19 @@ async def get_my_responses(current_user: dict = Depends(get_current_user)):
         {"_id": 0}
     ).sort("submitted_at", -1).to_list(1000)
     
+    # Buscar todas as sondagens para calcular números
+    all_surveys = await db.surveys.find({}, {"_id": 0, "id": 1, "created_at": 1}).sort("created_at", 1).to_list(10000)
+    survey_numbers = {s["id"]: idx + 1 for idx, s in enumerate(all_surveys)}
+    
     result = []
     for response in responses:
         # Buscar informações da sondagem
         survey = await db.surveys.find_one({"id": response["survey_id"]}, {"_id": 0})
         if not survey:
             continue
+        
+        # Adicionar número da sondagem
+        survey["survey_number"] = survey_numbers.get(survey["id"], 0)
             
         # Calcular resultados globais em %
         all_responses = await db.responses.find({"survey_id": response["survey_id"]}, {"_id": 0}).to_list(10000)
