@@ -402,7 +402,7 @@ const RegisterPage = () => {
                     </Label>
                     <Select
                       value={formData.municipality}
-                      onValueChange={(value) => setFormData({ ...formData, municipality: value })}
+                      onValueChange={(value) => setFormData({ ...formData, municipality: value, parish: '' })}
                     >
                       <SelectTrigger className="rounded-sm border-zinc-300">
                         <SelectValue placeholder="Selecione o concelho" />
@@ -435,11 +435,27 @@ const RegisterPage = () => {
                         <SelectValue placeholder="Selecione a freguesia" />
                       </SelectTrigger>
                       <SelectContent>
-                        {freguesiasComuns.map((freguesia) => (
-                          <SelectItem key={freguesia} value={freguesia}>
-                            {freguesia}
+                        {formData.municipality ? (
+                          // Se o concelho tem freguesias específicas, mostra-as
+                          freguesiasPorConcelho[formData.municipality] ? (
+                            freguesiasPorConcelho[formData.municipality].map((freguesia) => (
+                              <SelectItem key={freguesia} value={freguesia}>
+                                {freguesia}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            // Caso contrário, mostra freguesias genéricas
+                            freguesiasComuns.map((freguesia) => (
+                              <SelectItem key={freguesia} value={freguesia}>
+                                {freguesia}
+                              </SelectItem>
+                            ))
+                          )
+                        ) : (
+                          <SelectItem value="outro" disabled>
+                            Selecione primeiro o concelho
                           </SelectItem>
-                        ))}
+                        )}
                       </SelectContent>
                     </Select>
                   </div>
