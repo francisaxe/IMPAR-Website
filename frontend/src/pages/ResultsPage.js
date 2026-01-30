@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 import { Card, CardContent } from '../components/ui/card';
 import { Progress } from '../components/ui/progress';
 import { BarChart3, ClipboardList, Users, ChevronRight, Star } from 'lucide-react';
@@ -8,6 +9,7 @@ import { BarChart3, ClipboardList, Users, ChevronRight, Star } from 'lucide-reac
 const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const ResultsPage = () => {
+  const { isAdmin } = useAuth();
   const [surveys, setSurveys] = useState([]);
   const [selectedSurvey, setSelectedSurvey] = useState(null);
   const [analytics, setAnalytics] = useState(null);
