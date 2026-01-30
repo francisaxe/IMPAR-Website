@@ -13,7 +13,7 @@ const LandingPage = () => {
   useEffect(() => {
     const fetchFeatured = async () => {
       try {
-        const response = await axios.get(`${API_URL}/surveys?published=true`);
+        const response = await axios.get(`${API_URL}/surveys?published=true&featured=true`);
         setFeaturedSurveys(response.data);
       } catch (error) {
         console.error('Failed to fetch surveys:', error);
