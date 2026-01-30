@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Teste completo do site IMPAR após redesign - verificar todas as páginas frontend em português incluindo Landing Page, Sondagens, Sobre, Sugerir, Login, Register e Navbar"
+user_problem_statement: "Teste do novo sistema de candidaturas à equipa IMPAR - verificar fluxo completo de candidatura do utilizador e gestão no painel admin"
 
 frontend:
   - task: "Landing Page"
