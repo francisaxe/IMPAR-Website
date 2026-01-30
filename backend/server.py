@@ -715,7 +715,7 @@ async def get_survey_analytics(survey_id: str, current_user: dict = Depends(get_
 
 # Public endpoint for viewing results (percentages only, no text responses)
 @api_router.get("/surveys/{survey_id}/public-results")
-async def get_public_survey_results(survey_id: str):
+async def get_public_survey_results(survey_id: str, current_user: Optional[dict] = Depends(get_optional_user)):
     survey = await db.surveys.find_one({"id": survey_id}, {"_id": 0})
     if not survey:
         raise HTTPException(status_code=404, detail="Survey not found")
@@ -724,6 +724,9 @@ async def get_public_survey_results(survey_id: str):
         raise HTTPException(status_code=400, detail="Survey is not published")
     
     responses = await db.responses.find({"survey_id": survey_id}, {"_id": 0}).to_list(1000)
+    
+    # Check if user is admin
+    is_admin = current_user and current_user.get("role") in ["admin", "owner"]
     
     analytics = {
         "total_responses": len(responses),
@@ -752,14 +755,29 @@ async def get_public_survey_results(survey_id: str):
             for val in answer_values:
                 if val in option_counts:
                     option_counts[val]["count"] += 1
-            q_analytics["option_breakdown"] = option_counts
+            
+            # Convert counts to percentages for non-admin users
+            if is_admin:
+                q_analytics["option_breakdown"] = option_counts
+            else:
+                option_percentages = {}
+                for opt_id, opt_data in option_counts.items():
+                    percentage = (opt_data["count"] / total_answers * 100) if total_answers > 0 else 0
+                    option_percentages[opt_id] = {"text": opt_data["text"], "percentage": round(percentage, 1)}
+                q_analytics["option_breakdown"] = option_percentages
+                
         elif q_type == "yes_no":
             yes_count = answer_values.count("Sim")
             no_count = answer_values.count("Não")
-            q_analytics["yes_count"] = yes_count
-            q_analytics["no_count"] = no_count
-            q_analytics["yes_percentage"] = (yes_count / total_answers * 100) if total_answers > 0 else 0
-            q_analytics["no_percentage"] = (no_count / total_answers * 100) if total_answers > 0 else 0
+            yes_percentage = (yes_count / total_answers * 100) if total_answers > 0 else 0
+            no_percentage = (no_count / total_answers * 100) if total_answers > 0 else 0
+            
+            if is_admin:
+                q_analytics["yes_count"] = yes_count
+                q_analytics["no_count"] = no_count
+            q_analytics["yes_percentage"] = round(yes_percentage, 1)
+            q_analytics["no_percentage"] = round(no_percentage, 1)
+            
         elif q_type == "checkbox":
             option_counts = {}
             for opt in question.get("options", []):
@@ -769,13 +787,34 @@ async def get_public_survey_results(survey_id: str):
                 for opt_id in selected:
                     if opt_id in option_counts:
                         option_counts[opt_id]["count"] += 1
-            q_analytics["option_breakdown"] = option_counts
+            
+            # Convert counts to percentages for non-admin users
+            if is_admin:
+                q_analytics["option_breakdown"] = option_counts
+            else:
+                option_percentages = {}
+                for opt_id, opt_data in option_counts.items():
+                    percentage = (opt_data["count"] / total_answers * 100) if total_answers > 0 else 0
+                    option_percentages[opt_id] = {"text": opt_data["text"], "percentage": round(percentage, 1)}
+                q_analytics["option_breakdown"] = option_percentages
+                
         elif q_type == "rating":
             ratings = [int(r) for r in answer_values if r.isdigit()]
-            q_analytics["average"] = sum(ratings) / len(ratings) if ratings else 0
+            q_analytics["average"] = round(sum(ratings) / len(ratings), 1) if ratings else 0
             max_rating = question.get("max_rating", 5)
             min_rating = question.get("min_rating", 1)
-            q_analytics["distribution"] = {str(i): ratings.count(i) for i in range(min_rating, max_rating + 1)}
+            
+            if is_admin:
+                q_analytics["distribution"] = {str(i): ratings.count(i) for i in range(min_rating, max_rating + 1)}
+            else:
+                # Show distribution as percentages
+                distribution_percentages = {}
+                for i in range(min_rating, max_rating + 1):
+                    count = ratings.count(i)
+                    percentage = (count / len(ratings) * 100) if ratings else 0
+                    distribution_percentages[str(i)] = round(percentage, 1)
+                q_analytics["distribution"] = distribution_percentages
+                
         elif q_type == "text":
             # Don't expose text responses, just count
             q_analytics["response_count"] = total_answers
