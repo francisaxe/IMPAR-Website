@@ -167,6 +167,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "✅ TESTED SUCCESSFULLY - Suggestion form working perfectly with all 3 fields (Título da Sondagem, Descrição, Contexto opcional), proper login alert for non-authenticated users, 'Submeter Sugestão' button present. Form validation and UX working as expected."
+      - working: true
+        agent: "testing"
+        comment: "✅ COMPREHENSIVE UPDATED SUGGEST PAGE TESTING COMPLETED - Tested all new functionality as requested: 1) All 5 form fields present and working: Título da Sondagem (required), Descrição da Sondagem (optional), Categoria (optional), Questões Sugeridas (required), Notas Adicionais (optional) ✅ VERIFIED, 2) 'Adicionar Questão' button functionality working perfectly ✅ CONFIRMED, 3) Question types dropdown with all 5 types working: Escolha Múltipla, Texto Livre, Escala de Avaliação, Sim/Não, Múltipla Seleção ✅ ALL PRESENT, 4) Add/remove questions functionality working ✅ TESTED, 5) Question type selection and text input working ✅ FUNCTIONAL, 6) Form validation working properly - submit button correctly disabled when required fields missing ✅ WORKING, 7) Login integration working with user@test.com/password123 ✅ SUCCESSFUL, 8) Complete form flow tested with realistic data ✅ VERIFIED. Minor: Submit button validation is very strict (good security practice) - requires all question fields to be properly filled. All major functionality working as specified in review request. Updated SuggestPage is production-ready."
 
   - task: "Login Page"
     implemented: true
