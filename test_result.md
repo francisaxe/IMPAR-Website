@@ -418,11 +418,20 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Team Application - User Profile"
-  stuck_tasks:
-    - "Team Application - User Profile"
-  test_all: false
-  test_priority: "stuck_first"
+    - "Dashboard Permissions - User Role"
+    - "Dashboard Permissions - Admin Role"
+    - "Survey Creation - 5 Question Types"
+    - "Survey Creation - Admin Only Restriction"
+    - "Survey End Date - Optional Field"
+    - "Featured Surveys System"
+    - "Survey Numbering - Fixed Chronological"
+    - "My Responses Page - User View with Global Results"
+    - "Vote Counts - Admin Only Visibility"
+    - "Survey Taking - All Question Types"
+    - "Surveys List - Response Status Indicator"
+  stuck_tasks: []
+  test_all: true
+  test_priority: "high_first"
 
 agent_communication:
   - agent: "testing"
