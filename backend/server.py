@@ -179,9 +179,11 @@ class SurveyResponse(BaseModel):
     questions: List[Question]
     is_published: bool
     is_featured: bool
+    end_date: Optional[str] = None
     created_at: str
     updated_at: str
     response_count: int
+    user_has_responded: bool = False
 
 class SurveyUpdate(BaseModel):
     title: Optional[str] = None
