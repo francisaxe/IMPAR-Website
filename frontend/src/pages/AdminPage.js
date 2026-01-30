@@ -350,8 +350,19 @@ const AdminPage = () => {
           <TabsContent value="users">
             <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
               <CardHeader>
-                <CardTitle className="font-serif text-xl">Gestão de Utilizadores</CardTitle>
-                <CardDescription>Gerir contas e funções de utilizadores</CardDescription>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="font-serif text-xl">Gestão de Utilizadores</CardTitle>
+                    <CardDescription>Gerir contas e funções de utilizadores</CardDescription>
+                  </div>
+                  <Button
+                    onClick={handleExportUsersCSV}
+                    className="rounded-sm bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Exportar CSV
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
                 <Table>
