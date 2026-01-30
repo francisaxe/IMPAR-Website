@@ -21,16 +21,16 @@ const SurveyCard = ({ survey, showActions = false, onEdit, onDelete }) => {
               {survey.is_featured && (
                 <Badge variant="secondary" className="rounded-none bg-black text-white dark:bg-white dark:text-black">
                   <Star className="w-3 h-3 mr-1" />
-                  Featured
+                  Destaque
                 </Badge>
               )}
               {survey.is_published ? (
                 <Badge variant="outline" className="rounded-none text-green-600 border-green-600">
-                  Published
+                  Publicado
                 </Badge>
               ) : (
                 <Badge variant="outline" className="rounded-none text-zinc-500 border-zinc-400">
-                  Draft
+                  Rascunho
                 </Badge>
               )}
             </div>
@@ -48,17 +48,17 @@ const SurveyCard = ({ survey, showActions = false, onEdit, onDelete }) => {
         <div className="flex items-center gap-6 text-sm text-zinc-500 dark:text-zinc-400">
           <div className="flex items-center gap-1">
             <ClipboardList className="w-4 h-4" />
-            <span>{questionCount} question{questionCount !== 1 ? 's' : ''}</span>
+            <span>{questionCount} pergunta{questionCount !== 1 ? 's' : ''}</span>
           </div>
           <div className="flex items-center gap-1">
             <Users className="w-4 h-4" />
-            <span>{survey.response_count || 0} response{(survey.response_count || 0) !== 1 ? 's' : ''}</span>
+            <span>{survey.response_count || 0} resposta{(survey.response_count || 0) !== 1 ? 's' : ''}</span>
           </div>
         </div>
 
         {survey.owner_name && (
           <p className="mt-3 text-xs text-zinc-400 dark:text-zinc-500">
-            Created by {survey.owner_name}
+            Criado por {survey.owner_name}
           </p>
         )}
       </CardContent>
@@ -74,7 +74,7 @@ const SurveyCard = ({ survey, showActions = false, onEdit, onDelete }) => {
                 onClick={() => onEdit?.(survey)}
                 data-testid={`edit-survey-${survey.id}`}
               >
-                Edit
+                Editar
               </Button>
               <Button
                 variant="outline"
@@ -83,7 +83,7 @@ const SurveyCard = ({ survey, showActions = false, onEdit, onDelete }) => {
                 onClick={() => onDelete?.(survey)}
                 data-testid={`delete-survey-${survey.id}`}
               >
-                Delete
+                Eliminar
               </Button>
             </div>
             <div className="flex gap-2">
@@ -97,7 +97,7 @@ const SurveyCard = ({ survey, showActions = false, onEdit, onDelete }) => {
                   className="rounded-none"
                   data-testid={`view-results-${survey.id}`}
                 >
-                  Results
+                  Resultados
                 </Button>
               </Link>
             </div>
@@ -113,7 +113,7 @@ const SurveyCard = ({ survey, showActions = false, onEdit, onDelete }) => {
                 className="rounded-none bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 btn-hover-lift"
                 data-testid={`take-survey-${survey.id}`}
               >
-                {survey.is_published ? 'Take Survey' : 'View'}
+                {survey.is_published ? 'Responder' : 'Ver'}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </Link>
