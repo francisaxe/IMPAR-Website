@@ -103,10 +103,10 @@ const CreateSurveyPage = () => {
         toast.error('Por favor, preencha o texto de todas as perguntas');
         return;
       }
-      if (q.type === 'multiple_choice') {
+      if (q.type === 'multiple_choice' || q.type === 'checkbox') {
         const validOptions = q.options.filter((o) => o.text.trim());
         if (validOptions.length < 2) {
-          toast.error('Perguntas de escolha múltipla precisam de pelo menos 2 opções');
+          toast.error(`Perguntas de ${q.type === 'checkbox' ? 'múltipla seleção' : 'escolha múltipla'} precisam de pelo menos 2 opções`);
           return;
         }
       }
@@ -118,6 +118,7 @@ const CreateSurveyPage = () => {
         title: survey.title,
         description: survey.description,
         is_featured: survey.is_featured,
+        end_date: survey.end_date || null,
         questions: survey.questions.map((q, i) => ({
           type: q.type,
           text: q.text,
