@@ -17,6 +17,7 @@ import AdminPage from './pages/AdminPage';
 import AboutPage from './pages/AboutPage';
 import SuggestPage from './pages/SuggestPage';
 import ResponsesPage from './pages/ResponsesPage';
+import ResultsPage from './pages/ResultsPage';
 import './App.css';
 
 // Protected Route Component
