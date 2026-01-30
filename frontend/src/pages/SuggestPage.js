@@ -4,10 +4,17 @@ import { useAuth } from '../context/AuthContext';
 import { Card, CardContent } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
-import { Textarea } from '../components/ui/textarea';
+import { Textarea } from '../components/ui/textarea.jsx';
 import { Label } from '../components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/select';
 import { toast } from 'sonner';
-import { Lightbulb, Send, CheckCircle } from 'lucide-react';
+import { Lightbulb, Send, CheckCircle, Plus, Trash2 } from 'lucide-react';
 
 const SuggestPage = () => {
   const { user, api } = useAuth();
@@ -15,10 +22,46 @@ const SuggestPage = () => {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    context: '',
+    surveyTitle: '',
+    surveyDescription: '',
+    category: '',
+    questions: [],
+    additionalNotes: '',
   });
+
+  const questionTypes = [
+    { value: 'multiple_choice', label: 'Escolha Múltipla' },
+    { value: 'text', label: 'Texto Livre' },
+    { value: 'rating', label: 'Escala de Avaliação' },
+    { value: 'yes_no', label: 'Sim/Não' },
+    { value: 'checkbox', label: 'Múltipla Seleção' },
+  ];
+
+  const addQuestion = () => {
+    setFormData({
+      ...formData,
+      questions: [
+        ...formData.questions,
+        { type: '', text: '', id: Date.now() }
+      ]
+    });
+  };
+
+  const removeQuestion = (id) => {
+    setFormData({
+      ...formData,
+      questions: formData.questions.filter(q => q.id !== id)
+    });
+  };
+
+  const updateQuestion = (id, field, value) => {
+    setFormData({
+      ...formData,
+      questions: formData.questions.map(q =>
+        q.id === id ? { ...q, [field]: value } : q
+      )
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
