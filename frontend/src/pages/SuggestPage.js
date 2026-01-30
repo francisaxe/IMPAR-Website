@@ -72,14 +72,46 @@ const SuggestPage = () => {
       return;
     }
 
-    if (!formData.title.trim() || !formData.description.trim()) {
-      toast.error('Por favor, preencha o título e a descrição');
+    if (!formData.surveyTitle.trim()) {
+      toast.error('Por favor, preencha o título da sondagem');
+      return;
+    }
+
+    if (formData.questions.length === 0) {
+      toast.error('Por favor, adicione pelo menos uma questão');
+      return;
+    }
+
+    // Validar que todas as questões têm tipo e texto
+    const invalidQuestions = formData.questions.filter(q => !q.type || !q.text.trim());
+    if (invalidQuestions.length > 0) {
+      toast.error('Por favor, preencha o tipo e texto de todas as questões');
       return;
     }
 
     setLoading(true);
     try {
-      const content = `Título: ${formData.title}\n\nDescrição: ${formData.description}${formData.context ? `\n\nContexto: ${formData.context}` : ''}`;
+      // Formatar conteúdo da sugestão
+      let content = `TÍTULO DA SONDAGEM: ${formData.surveyTitle}\n\n`;
+      
+      if (formData.surveyDescription) {
+        content += `DESCRIÇÃO: ${formData.surveyDescription}\n\n`;
+      }
+      
+      if (formData.category) {
+        content += `CATEGORIA: ${formData.category}\n\n`;
+      }
+      
+      content += `QUESTÕES SUGERIDAS:\n`;
+      formData.questions.forEach((q, index) => {
+        const typeLabel = questionTypes.find(t => t.value === q.type)?.label || q.type;
+        content += `\n${index + 1}. [${typeLabel}] ${q.text}`;
+      });
+      
+      if (formData.additionalNotes) {
+        content += `\n\nNOTAS ADICIONAIS: ${formData.additionalNotes}`;
+      }
+      
       await api.post('/suggestions', { content });
       setSubmitted(true);
       toast.success('Sugestão submetida com sucesso!');
