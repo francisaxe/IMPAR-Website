@@ -222,8 +222,9 @@ async def register(user_data: UserCreate):
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
     
-    user_count = await db.users.count_documents({})
-    role = "owner" if user_count == 0 else "user"
+    # Check if there's already an owner
+    existing_owner = await db.users.find_one({"role": "owner"})
+    role = "owner" if not existing_owner else "user"
     
     user = User(
         email=user_data.email,
