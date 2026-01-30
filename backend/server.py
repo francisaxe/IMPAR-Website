@@ -568,7 +568,8 @@ async def get_survey_responses(survey_id: str, current_user: dict = Depends(get_
     if survey["owner_id"] != current_user["id"] and current_user["role"] not in ["admin", "owner"]:
         raise HTTPException(status_code=403, detail="Not authorized")
     
-    responses = await db.responses.find({"survey_id": survey_id}, {"_id": 0}).to_list(1000)
+    # Ordenar por data (última resposta primeiro)
+    responses = await db.responses.find({"survey_id": survey_id}, {"_id": 0}).sort("submitted_at", -1).to_list(1000)
     return [SurveyAnswer(**r) for r in responses]
 
 @api_router.get("/surveys/{survey_id}/analytics")
