@@ -91,7 +91,9 @@ const ResponsesPage = () => {
           <TrendingUp className="w-4 h-4 text-zinc-400" />
           <span className="text-zinc-600">Média:</span>
           <span className="font-semibold text-zinc-900">{result.average}/5</span>
-          <span className="text-zinc-400">({result.total_votes} votos)</span>
+          {isAdmin && (
+            <span className="text-zinc-400">({result.total_votes} votos)</span>
+          )}
         </div>
       );
     }
