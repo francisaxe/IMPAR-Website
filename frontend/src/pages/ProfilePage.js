@@ -19,7 +19,7 @@ import { toast } from 'sonner';
 import { User, Mail, Calendar, Shield, Save, Users, LogOut } from 'lucide-react';
 
 const ProfilePage = () => {
-  const { user, updateProfile } = useAuth();
+  const { user, updateProfile, logout } = useAuth();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: user?.name || '',
@@ -38,37 +38,7 @@ const ProfilePage = () => {
     lived_abroad: user?.lived_abroad || false,
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      await updateProfile(formData);
-      toast.success('Perfil atualizado com sucesso!');
-    } catch (error) {
-      toast.error(error.response?.data?.detail || 'Falha ao atualizar perfil');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('pt-PT', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
-
-  const getRoleBadge = (role) => {
-    switch (role) {
-      case 'owner':
-        return <Badge className="rounded-sm bg-black text-white">Proprietário</Badge>;
-      case 'admin':
-        return <Badge className="rounded-sm bg-zinc-700 text-white">Administrador</Badge>;
-      default:
-        return <Badge variant="outline" className="rounded-sm">Utilizador</Badge>;
-    }
-  };
+  const navigate = useNavigate();
 
   const navigate = useNavigate();
 
