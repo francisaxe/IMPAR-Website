@@ -275,6 +275,9 @@ frontend:
       - working: true
         agent: "main"
         comment: "✅ Dashboard admin permissions verified. Admin role (owner) correctly shows: 1) 'Criar Inquérito' button in header, 2) 4 statistics cards with data, 3) 'Os Seus Inquéritos' section with survey list. Tested with owner@test.com - all admin features visible and functional."
+      - working: true
+        agent: "testing"
+        comment: "✅ RETESTED SUCCESSFULLY - Admin dashboard permissions working perfectly. Admin (owner@test.com) shows 'Criar Inquérito' button, statistics cards (2 Total Inquéritos, 0 Publicados, 0 Respostas, 7 Perguntas), and 'Os Seus Inquéritos' section with survey management. All admin features accessible."
 
   - task: "Survey Creation - 5 Question Types"
     implemented: true
