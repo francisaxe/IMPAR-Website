@@ -142,6 +142,8 @@ const AdminPage = () => {
         return <Badge variant="outline" className="rounded-none text-blue-600 border-blue-600">Revisto</Badge>;
       case 'implemented':
         return <Badge variant="outline" className="rounded-none text-green-600 border-green-600">Implementado</Badge>;
+      case 'accepted':
+        return <Badge variant="outline" className="rounded-none text-green-600 border-green-600">Aceite</Badge>;
       case 'rejected':
         return <Badge variant="outline" className="rounded-none text-red-600 border-red-600">Rejeitado</Badge>;
       default:
