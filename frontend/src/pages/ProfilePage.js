@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -6,8 +7,16 @@ import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
+import { Switch } from '../components/ui/switch';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/select';
 import { toast } from 'sonner';
-import { User, Mail, Calendar, Shield, Save } from 'lucide-react';
+import { User, Mail, Calendar, Shield, Save, Users, LogOut } from 'lucide-react';
 
 const ProfilePage = () => {
   const { user, updateProfile } = useAuth();
@@ -16,6 +25,17 @@ const ProfilePage = () => {
     name: user?.name || '',
     bio: user?.bio || '',
     avatar_url: user?.avatar_url || '',
+    date_of_birth: user?.date_of_birth || '',
+    gender: user?.gender || '',
+    nationality: user?.nationality || '',
+    district: user?.district || '',
+    municipality: user?.municipality || '',
+    parish: user?.parish || '',
+    marital_status: user?.marital_status || '',
+    religion: user?.religion || '',
+    education_level: user?.education_level || '',
+    profession: user?.profession || '',
+    lived_abroad: user?.lived_abroad || false,
   });
 
   const handleSubmit = async (e) => {
