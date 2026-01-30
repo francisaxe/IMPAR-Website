@@ -34,13 +34,13 @@ const TakeSurveyPage = () => {
     try {
       const response = await axios.get(`${API_URL}/surveys/${id}`);
       if (!response.data.is_published) {
-        toast.error('This survey is not available');
+        toast.error('Este inquérito não está disponível');
         navigate('/surveys');
         return;
       }
       setSurvey(response.data);
     } catch (error) {
-      toast.error('Survey not found');
+      toast.error('Inquérito não encontrado');
       navigate('/surveys');
     } finally {
       setLoading(false);
@@ -55,7 +55,7 @@ const TakeSurveyPage = () => {
     // Validate required questions
     for (const q of survey.questions) {
       if (q.required && !answers[q.id]) {
-        toast.error(`Please answer: "${q.text}"`);
+        toast.error(`Por favor, responda: "${q.text}"`);
         const qIndex = survey.questions.findIndex((question) => question.id === q.id);
         setCurrentQuestion(qIndex);
         return;
@@ -78,9 +78,9 @@ const TakeSurveyPage = () => {
       }
 
       setSubmitted(true);
-      toast.success('Thank you for completing the survey!');
+      toast.success('Obrigado por completar o inquérito!');
     } catch (error) {
-      toast.error(error.response?.data?.detail || 'Failed to submit survey');
+      toast.error(error.response?.data?.detail || 'Falha ao submeter inquérito');
     } finally {
       setSubmitting(false);
     }
@@ -89,7 +89,7 @@ const TakeSurveyPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
-        <div className="text-zinc-500">Loading survey...</div>
+        <div className="text-zinc-500">A carregar inquérito...</div>
       </div>
     );
   }
@@ -104,8 +104,8 @@ const TakeSurveyPage = () => {
             <div className="w-16 h-16 bg-black dark:bg-white mx-auto mb-6 flex items-center justify-center">
               <Send className="w-8 h-8 text-white dark:text-black" />
             </div>
-            <h2 className="font-serif text-2xl font-medium mb-2">Thank You!</h2>
-            <p className="text-zinc-500 mb-6">Your response has been recorded.</p>
+            <h2 className="font-serif text-2xl font-medium mb-2">Obrigado!</h2>
+            <p className="text-zinc-500 mb-6">A sua resposta foi registada.</p>
             <div className="flex flex-col gap-3">
               <ShareButtons surveyId={survey.id} surveyTitle={survey.title} />
               <Button
@@ -113,7 +113,7 @@ const TakeSurveyPage = () => {
                 onClick={() => navigate('/surveys')}
                 className="rounded-none"
               >
-                Browse More Surveys
+                Ver Mais Inquéritos
               </Button>
             </div>
           </CardContent>
@@ -152,7 +152,7 @@ const TakeSurveyPage = () => {
       case 'text':
         return (
           <Textarea
-            placeholder="Type your answer here..."
+            placeholder="Escreva a sua resposta aqui..."
             value={answers[question.id] || ''}
             onChange={(e) => setAnswer(question.id, e.target.value)}
             className="rounded-none border-zinc-300 dark:border-zinc-700 min-h-[150px]"
@@ -183,8 +183,8 @@ const TakeSurveyPage = () => {
               ))}
             </div>
             <div className="flex justify-between text-sm text-zinc-500">
-              <span>{min} - Low</span>
-              <span>{max} - High</span>
+              <span>{min} - Baixo</span>
+              <span>{max} - Alto</span>
             </div>
           </div>
         );
@@ -206,7 +206,7 @@ const TakeSurveyPage = () => {
             className="rounded-none mb-4"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Surveys
+            Voltar aos Inquéritos
           </Button>
           <div className="flex items-start justify-between gap-4">
             <div>
@@ -214,7 +214,7 @@ const TakeSurveyPage = () => {
                 {survey.is_featured && (
                   <span className="inline-flex items-center gap-1 text-xs bg-black text-white dark:bg-white dark:text-black px-2 py-1">
                     <Star className="w-3 h-3" />
-                    Featured
+                    Destaque
                   </span>
                 )}
               </div>
@@ -231,8 +231,8 @@ const TakeSurveyPage = () => {
         {/* Progress */}
         <div className="mb-8">
           <div className="flex justify-between text-sm text-zinc-500 mb-2">
-            <span>Question {currentQuestion + 1} of {survey.questions.length}</span>
-            <span>{Math.round(progress)}% complete</span>
+            <span>Pergunta {currentQuestion + 1} de {survey.questions.length}</span>
+            <span>{Math.round(progress)}% completo</span>
           </div>
           <Progress value={progress} className="h-1 rounded-none" />
         </div>
@@ -248,7 +248,7 @@ const TakeSurveyPage = () => {
             </div>
             {question.highlighted && (
               <CardDescription className="text-sm font-medium text-black dark:text-white">
-                Important Question
+                Pergunta Importante
               </CardDescription>
             )}
           </CardHeader>
@@ -266,7 +266,7 @@ const TakeSurveyPage = () => {
             className="rounded-none"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Previous
+            Anterior
           </Button>
 
           {currentQuestion < survey.questions.length - 1 ? (
@@ -274,7 +274,7 @@ const TakeSurveyPage = () => {
               onClick={() => setCurrentQuestion(currentQuestion + 1)}
               className="rounded-none bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 btn-hover-lift"
             >
-              Next
+              Seguinte
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           ) : (
@@ -284,7 +284,7 @@ const TakeSurveyPage = () => {
               className="rounded-none bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 btn-hover-lift"
               data-testid="submit-survey"
             >
-              {submitting ? 'Submitting...' : 'Submit Survey'}
+              {submitting ? 'A submeter...' : 'Submeter Inquérito'}
               <Send className="w-4 h-4 ml-2" />
             </Button>
           )}
