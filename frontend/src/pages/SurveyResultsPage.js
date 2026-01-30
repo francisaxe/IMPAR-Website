@@ -29,7 +29,7 @@ const SurveyResultsPage = () => {
       setSurvey(surveyRes.data);
       setAnalytics(analyticsRes.data);
     } catch (error) {
-      toast.error('Failed to load results');
+      toast.error('Falha ao carregar resultados');
       navigate('/dashboard');
     } finally {
       setLoading(false);
@@ -39,7 +39,7 @@ const SurveyResultsPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center">
-        <div className="text-zinc-500">Loading results...</div>
+        <div className="text-zinc-500">A carregar resultados...</div>
       </div>
     );
   }
@@ -91,7 +91,7 @@ const SurveyResultsPage = () => {
                   />
                 ))}
               </div>
-              <span className="text-sm text-zinc-500">Average Rating</span>
+              <span className="text-sm text-zinc-500">Média</span>
             </div>
             <div className="space-y-2">
               {Array.from({ length: maxRating }, (_, i) => {
@@ -116,7 +116,7 @@ const SurveyResultsPage = () => {
         return (
           <div className="space-y-3 max-h-64 overflow-y-auto">
             {responses.length === 0 ? (
-              <p className="text-zinc-500 text-sm">No responses yet</p>
+              <p className="text-zinc-500 text-sm">Ainda sem respostas</p>
             ) : (
               responses.slice(0, 10).map((response, i) => (
                 <div
@@ -129,7 +129,7 @@ const SurveyResultsPage = () => {
             )}
             {responses.length > 10 && (
               <p className="text-xs text-zinc-500">
-                And {responses.length - 10} more responses...
+                E mais {responses.length - 10} respostas...
               </p>
             )}
           </div>
@@ -152,11 +152,11 @@ const SurveyResultsPage = () => {
             className="rounded-none mb-4"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Dashboard
+            Voltar ao Painel
           </Button>
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="label-caps mb-2">Results</p>
+              <p className="label-caps mb-2">Resultados</p>
               <h1 className="font-serif text-3xl font-light text-zinc-900 dark:text-white">
                 {survey.title}
               </h1>
@@ -174,7 +174,7 @@ const SurveyResultsPage = () => {
               <Users className="w-5 h-5 text-zinc-500" />
               <div>
                 <p className="text-2xl font-medium">{analytics.total_responses}</p>
-                <p className="text-xs text-zinc-500">Total Responses</p>
+                <p className="text-xs text-zinc-500">Total de Respostas</p>
               </div>
             </CardContent>
           </Card>
@@ -183,7 +183,7 @@ const SurveyResultsPage = () => {
               <BarChart3 className="w-5 h-5 text-zinc-500" />
               <div>
                 <p className="text-2xl font-medium">{survey.questions.length}</p>
-                <p className="text-xs text-zinc-500">Questions</p>
+                <p className="text-xs text-zinc-500">Perguntas</p>
               </div>
             </CardContent>
           </Card>
@@ -192,9 +192,9 @@ const SurveyResultsPage = () => {
               <MessageSquare className="w-5 h-5 text-zinc-500" />
               <div>
                 <p className="text-2xl font-medium">
-                  {survey.is_published ? 'Live' : 'Draft'}
+                  {survey.is_published ? 'Ativo' : 'Rascunho'}
                 </p>
-                <p className="text-xs text-zinc-500">Status</p>
+                <p className="text-xs text-zinc-500">Estado</p>
               </div>
             </CardContent>
           </Card>
@@ -202,7 +202,7 @@ const SurveyResultsPage = () => {
 
         {/* Questions Results */}
         <div className="space-y-6">
-          <h2 className="font-serif text-xl font-medium">Question Breakdown</h2>
+          <h2 className="font-serif text-xl font-medium">Análise por Pergunta</h2>
           {survey.questions.map((question, index) => (
             <Card
               key={question.id}
@@ -221,12 +221,12 @@ const SurveyResultsPage = () => {
                     </CardTitle>
                     <p className="text-xs text-zinc-500 mt-1">
                       {question.type === 'multiple_choice'
-                        ? 'Multiple Choice'
+                        ? 'Escolha Múltipla'
                         : question.type === 'rating'
-                        ? 'Rating Scale'
-                        : 'Text Response'}
-                      {question.required && ' • Required'}
-                      {question.highlighted && ' • Highlighted'}
+                        ? 'Escala de Avaliação'
+                        : 'Resposta de Texto'}
+                      {question.required && ' • Obrigatória'}
+                      {question.highlighted && ' • Destacada'}
                     </p>
                   </div>
                 </div>
