@@ -174,33 +174,41 @@ const AdminPage = () => {
 
   const handleExportUsersCSV = async () => {
     try {
-      const response = await api.get('/admin/users/export/csv', {
+      const token = localStorage.getItem('impar_token');
+      const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api`;
+      
+      const response = await axios.get(`${API_URL}/admin/users/export/csv`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
         responseType: 'blob'
       });
       
       // Create blob link to download
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8;' });
+      const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       
       // Extract filename from response headers or use default
       const contentDisposition = response.headers['content-disposition'];
-      let filename = 'impar_utilizadores.csv';
+      let filename = `impar_utilizadores_${new Date().toISOString().slice(0,10)}.csv`;
       if (contentDisposition) {
-        const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
-        if (filenameMatch) {
-          filename = filenameMatch[1];
+        const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+        if (filenameMatch && filenameMatch[1]) {
+          filename = filenameMatch[1].replace(/['"]/g, '');
         }
       }
       
       link.setAttribute('download', filename);
       document.body.appendChild(link);
       link.click();
-      link.remove();
+      link.parentNode.removeChild(link);
       window.URL.revokeObjectURL(url);
       
       toast.success('Ficheiro CSV exportado com sucesso!');
     } catch (error) {
+      console.error('Export error:', error);
       toast.error('Falha ao exportar dados dos utilizadores');
     }
   };
