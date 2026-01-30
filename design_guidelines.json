@@ -1,0 +1,102 @@
+{
+  "brand_identity": {
+    "name": "IMPAR",
+    "core_values": ["Clarity", "Precision", "Minimalism", "Authority"],
+    "aesthetic": "Swiss Editorial & High-Contrast Monochrome",
+    "emotional_tone": "Professional, Direct, Sophisticated"
+  },
+  "typography": {
+    "font_families": {
+      "headings": "Source Serif 4, serif",
+      "body": "Inter, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "usage_rules": {
+      "headings": "Use 'Source Serif 4' for all H1-H3. Font weights: Light (300) or Semibold (600). Tight tracking (-0.02em).",
+      "body": "Use 'Inter' for all body text. High legibility. Relaxed line-height (1.6).",
+      "labels": "Uppercase, tracking-widest (0.1em), text-xs, font-medium."
+    },
+    "scale": {
+      "h1": "text-5xl md:text-7xl font-light tracking-tight",
+      "h2": "text-3xl md:text-5xl font-normal",
+      "h3": "text-2xl md:text-3xl font-medium",
+      "body_lg": "text-lg md:text-xl leading-relaxed",
+      "body_base": "text-base leading-relaxed"
+    }
+  },
+  "colors": {
+    "palette": {
+      "primary": "#000000",
+      "secondary": "#FFFFFF",
+      "accent": "#18181b", 
+      "background": "#FFFFFF",
+      "foreground": "#09090b",
+      "muted": "#f4f4f5",
+      "border": "#e4e4e7"
+    },
+    "usage": {
+      "primary_action": "bg-black text-white hover:bg-zinc-800",
+      "secondary_action": "bg-white text-black border border-black hover:bg-zinc-50",
+      "surface": "bg-white",
+      "surface_contrast": "bg-zinc-50",
+      "text_primary": "text-zinc-950",
+      "text_secondary": "text-zinc-500"
+    },
+    "dark_mode_strategy": "Invert logic. Background #09090b, Foreground #fafafa. Borders #27272a."
+  },
+  "layout": {
+    "grid_system": "Bento Grid / Swiss Grid",
+    "spacing": {
+      "container_padding": "p-6 md:p-12 lg:p-24",
+      "section_gap": "gap-12 md:gap-24",
+      "element_gap": "gap-4 md:gap-8"
+    },
+    "containers": {
+      "card": "border border-zinc-200 bg-white p-6 md:p-8",
+      "dashboard_panel": "bg-white border-r border-zinc-100 h-full"
+    }
+  },
+  "components": {
+    "radius": "rounded-none", 
+    "buttons": {
+      "primary": "rounded-none px-8 py-3 bg-black text-white font-medium hover:translate-y-[-2px] transition-transform",
+      "secondary": "rounded-none px-8 py-3 border border-zinc-200 hover:border-black transition-colors"
+    },
+    "inputs": {
+      "style": "rounded-none border-x-0 border-t-0 border-b border-zinc-300 bg-transparent px-0 focus:border-black focus:ring-0 transition-colors placeholder:text-zinc-400"
+    },
+    "cards": {
+      "style": "rounded-none border border-zinc-100 shadow-sm hover:shadow-md transition-shadow bg-white"
+    }
+  },
+  "visual_enhancers": {
+    "textures": "Subtle noise overlay on backgrounds (opacity 0.02)",
+    "lines": "1px solid dividers, often spanning full width",
+    "shadows": "Minimal. shadow-sm or none. Rely on borders and spacing."
+  },
+  "image_urls": {
+    "hero_abstract": "https://images.unsplash.com/photo-1760471461590-f81d45dc78ee?crop=entropy&cs=srgb&fm=jpg&q=85",
+    "feature_workspace": "https://images.unsplash.com/photo-1615852993296-b42d4dbb5555?crop=entropy&cs=srgb&fm=jpg&q=85",
+    "architecture_detail": "https://images.unsplash.com/photo-1740204080088-ce841e3057c9?crop=entropy&cs=srgb&fm=jpg&q=85",
+    "team_member_1": "https://images.unsplash.com/photo-1675186914580-94356f7c012c?crop=entropy&cs=srgb&fm=jpg&q=85",
+    "team_member_2": "https://images.pexels.com/photos/8124232/pexels-photo-8124232.jpeg",
+    "office_interior": "https://images.unsplash.com/photo-1764701913291-0f502ed66750?crop=entropy&cs=srgb&fm=jpg&q=85"
+  },
+  "instructions_to_main_agent": [
+    "STRICTLY enforce the 'Source Serif 4' for headings and 'Inter' for body rule.",
+    "Use 'rounded-none' or very small 'rounded-sm' (2px) for all components to maintain the Swiss/Brutalist aesthetic.",
+    "Avoid gradients. Use solid black, white, and grays.",
+    "Use generous padding. Don't crowd elements.",
+    "For the Dashboard, use a high-density grid but keep it clean with white backgrounds and subtle borders.",
+    "Implement a 'Dark Mode' toggle that inverts the scheme to Black background / White text.",
+    "Use the provided image URLs for placeholders.",
+    "Ensure all interactive elements have 'data-testid' attributes."
+  ],
+  "universal_guidelines": [
+    "Do not use generic centered layouts.",
+    "Create depth through z-index and subtle borders, not heavy shadows.",
+    "Micro-animations on hover are mandatory.",
+    "Use 'sonner' for toasts.",
+    "Use 'lucide-react' for icons."
+  ]
+}
