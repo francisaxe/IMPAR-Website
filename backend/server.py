@@ -904,7 +904,12 @@ async def create_suggestion(data: SuggestionCreate, current_user: dict = Depends
         user_id=current_user["id"],
         user_name=current_user["name"],
         content=data.content,
-        survey_id=data.survey_id
+        survey_id=data.survey_id,
+        survey_title=data.survey_title,
+        survey_description=data.survey_description,
+        category=data.category,
+        questions=data.questions,
+        additional_notes=data.additional_notes
     )
     await db.suggestions.insert_one(suggestion.model_dump())
     return suggestion
