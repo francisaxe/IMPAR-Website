@@ -123,6 +123,31 @@ const AdminPage = () => {
     }
   };
 
+  const handleTeamApplicationStatusChange = async (applicationId, status) => {
+    try {
+      await api.put(`/team-applications/${applicationId}/status?status=${status}`);
+      setTeamApplications(
+        teamApplications.map((app) => (app.id === applicationId ? { ...app, status } : app))
+      );
+      toast.success('Estado da candidatura atualizado');
+    } catch (error) {
+      toast.error('Falha ao atualizar candidatura');
+    }
+  };
+
+  const handleDeleteTeamApplication = async () => {
+    if (!deleteDialog.item) return;
+    try {
+      await api.delete(`/team-applications/${deleteDialog.item.id}`);
+      setTeamApplications(teamApplications.filter((app) => app.id !== deleteDialog.item.id));
+      toast.success('Candidatura eliminada');
+    } catch (error) {
+      toast.error('Falha ao eliminar candidatura');
+    } finally {
+      setDeleteDialog({ open: false, type: '', item: null });
+    }
+  };
+
   const getRoleBadge = (role) => {
     switch (role) {
       case 'owner':
