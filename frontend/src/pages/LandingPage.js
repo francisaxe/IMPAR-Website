@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
+import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
-import { Star, Users, Smartphone, CheckCircle, Lightbulb, MapPin } from 'lucide-react';
+import { Star, Users, Smartphone, CheckCircle, Lightbulb, MapPin, Lock } from 'lucide-react';
 
 const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const LandingPage = () => {
   const [featuredSurveys, setFeaturedSurveys] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFeatured = async () => {
