@@ -103,41 +103,51 @@ function AppRoutes() {
       <Route
         path="/surveys"
         element={
-          <Layout>
-            <SurveysListPage />
-          </Layout>
+          <ProtectedRoute>
+            <Layout>
+              <SurveysListPage />
+            </Layout>
+          </ProtectedRoute>
         }
       />
       <Route
         path="/surveys/:id/take"
         element={
-          <Layout>
-            <TakeSurveyPage />
-          </Layout>
+          <ProtectedRoute>
+            <Layout>
+              <TakeSurveyPage />
+            </Layout>
+          </ProtectedRoute>
         }
       />
       <Route
         path="/about"
         element={
-          <Layout>
-            <AboutPage />
-          </Layout>
+          <ProtectedRoute>
+            <Layout>
+              <AboutPage />
+            </Layout>
+          </ProtectedRoute>
         }
       />
       <Route
         path="/suggest"
         element={
-          <Layout>
-            <SuggestPage />
-          </Layout>
+          <ProtectedRoute>
+            <Layout>
+              <SuggestPage />
+            </Layout>
+          </ProtectedRoute>
         }
       />
       <Route
         path="/results"
         element={
-          <Layout>
-            <ResultsPage />
-          </Layout>
+          <ProtectedRoute>
+            <Layout>
+              <ResultsPage />
+            </Layout>
+          </ProtectedRoute>
         }
       />
 
