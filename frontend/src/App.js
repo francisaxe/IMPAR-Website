@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import DashboardPage from './pages/DashboardPage';
 import SurveysListPage from './pages/SurveysListPage';
 import CreateSurveyPage from './pages/CreateSurveyPage';
