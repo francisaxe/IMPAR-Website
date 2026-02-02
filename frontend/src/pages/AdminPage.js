@@ -900,6 +900,50 @@ const AdminPage = () => {
         </DialogContent>
       </Dialog>
 
+      {/* Reset Password Dialog */}
+      <Dialog open={resetPasswordDialog.open} onOpenChange={(open) => setResetPasswordDialog({ ...resetPasswordDialog, open })}>
+        <DialogContent className="sm:max-w-[425px] rounded-lg">
+          <DialogHeader>
+            <DialogTitle className="font-serif text-xl">Resetar Palavra-passe</DialogTitle>
+            <DialogDescription>
+              Defina uma nova palavra-passe temporária para <strong>{resetPasswordDialog.user?.email}</strong>
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <Label htmlFor="new-password" className="text-sm mb-2 block">
+              Nova Palavra-passe Temporária
+            </Label>
+            <Input
+              id="new-password"
+              type="text"
+              placeholder="Mínimo 6 caracteres"
+              value={resetPasswordDialog.newPassword}
+              onChange={(e) => setResetPasswordDialog({ ...resetPasswordDialog, newPassword: e.target.value })}
+              className="rounded-sm"
+            />
+            <p className="text-xs text-zinc-500 mt-2">
+              O utilizador deverá usar esta palavra-passe para fazer login e depois alterá-la no seu perfil.
+            </p>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="ghost"
+              onClick={() => setResetPasswordDialog({ open: false, user: null, newPassword: '' })}
+              className="rounded-sm"
+            >
+              Cancelar
+            </Button>
+            <Button
+              onClick={handleResetPassword}
+              className="rounded-sm bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <Key className="w-4 h-4 mr-2" />
+              Resetar Password
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteDialog.open} onOpenChange={(open) => setDeleteDialog({ ...deleteDialog, open })}>
         <AlertDialogContent className="rounded-none">
