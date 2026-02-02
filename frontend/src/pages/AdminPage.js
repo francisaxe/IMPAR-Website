@@ -427,9 +427,14 @@ const AdminPage = () => {
               <Shield className="w-4 h-4 mr-2" />
               Candidaturas
             </TabsTrigger>
-            <TabsTrigger value="password-recovery" className="rounded-none data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-950">
+            <TabsTrigger value="password-recovery" className="rounded-none data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-950 relative">
               <RefreshCw className="w-4 h-4 mr-2" />
               Recuperação
+              {passwordRecoveryRequests.filter((r) => r.status === 'pending').length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-yellow-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {passwordRecoveryRequests.filter((r) => r.status === 'pending').length}
+                </span>
+              )}
             </TabsTrigger>
           </TabsList>
 
