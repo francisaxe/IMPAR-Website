@@ -12,6 +12,8 @@ from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict, EmailStr
 from typing import List, Optional, Literal
 import uuid
+import random
+import string
 from datetime import datetime, timezone, timedelta
 import jwt
 import bcrypt
