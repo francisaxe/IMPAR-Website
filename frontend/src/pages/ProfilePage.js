@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { toast } from 'sonner';
 import { User, LogOut, Edit, Save, X, Lock } from 'lucide-react';
+import axios from 'axios';
 
 const ProfilePage = () => {
   const { user, logout, updateProfile } = useAuth();
