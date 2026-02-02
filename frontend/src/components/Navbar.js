@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
@@ -8,12 +8,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../components/ui/dropdown-menu';
-import { Home, List, CheckCircle2, Lightbulb, Info, User, LogOut, Settings, Shield, ChevronDown } from 'lucide-react';
+import { Home, List, CheckCircle2, Lightbulb, Info, User, LogOut, Settings, Shield, ChevronDown, Bell } from 'lucide-react';
 
 const Navbar = () => {
-  const { user, logout, isAdmin } = useAuth();
+  const { user, logout, isAdmin, api } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [pendingRecoveries, setPendingRecoveries] = useState(0);
+
+  useEffect(() => {
+    const fetchPendingRecoveries = async () => {
+      if (isAdmin) {
+        try {
+          const response = await api.get('/admin/password-recovery-requests');
+          const pending = response.data.filter(r => r.status === 'pending').length;
+          setPendingRecoveries(pending);
+        } catch (error) {
+          // Silently fail - not critical
+        }
+      }
+    };
+
+    fetchPendingRecoveries();
+    // Refresh every 30 seconds
+    const interval = setInterval(fetchPendingRecoveries, 30000);
+    return () => clearInterval(interval);
+  }, [isAdmin, api]);
 
   const handleLogout = () => {
     logout();
