@@ -101,7 +101,14 @@ const ProfilePage = () => {
         })
       });
 
-      const data = await response.json();
+      // Tentar ler como JSON
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error('Erro ao fazer parse do JSON:', jsonError);
+        throw new Error('Resposta inválida do servidor');
+      }
 
       if (!response.ok) {
         throw new Error(data.detail || 'Erro ao mudar palavra-passe');
@@ -111,6 +118,7 @@ const ProfilePage = () => {
       setPasswordData({ current_password: '', new_password: '', confirm_password: '' });
       setShowPasswordChange(false);
     } catch (error) {
+      console.error('Erro na mudança de password:', error);
       toast.error(error.message || 'Falha ao mudar palavra-passe');
     } finally {
       setLoading(false);
