@@ -779,6 +779,94 @@ const AdminPage = () => {
               </CardContent>
             </Card>
           </TabsContent>
+
+          {/* Password Recovery Tab */}
+          <TabsContent value="password-recovery">
+            <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
+              <CardHeader>
+                <CardTitle className="font-serif text-xl">Pedidos de Recuperação de Palavra-passe</CardTitle>
+                <CardDescription>
+                  Quando um utilizador solicita recuperação de palavra-passe, um código é gerado aqui. 
+                  Forneça o código ao utilizador por telefone, mensagem ou outro meio seguro.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {passwordRecoveryRequests.length === 0 ? (
+                  <div className="text-center py-12 text-zinc-500">
+                    <RefreshCw className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                    <p>Nenhum pedido de recuperação</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {passwordRecoveryRequests.map((request) => (
+                      <div
+                        key={request.id}
+                        className={`p-4 border rounded-none ${
+                          request.status === 'pending' 
+                            ? 'border-yellow-300 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-900/20' 
+                            : request.status === 'used'
+                            ? 'border-green-300 bg-green-50 dark:border-green-800 dark:bg-green-900/20'
+                            : 'border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <p className="font-medium text-zinc-900 dark:text-white">
+                                {request.user_name}
+                              </p>
+                              {getRecoveryStatusBadge(request.status)}
+                            </div>
+                            <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-2">
+                              {request.user_email}
+                            </p>
+                            <div className="flex items-center gap-4 text-xs text-zinc-500 mb-3">
+                              <span>Solicitado: {new Date(request.created_at).toLocaleString('pt-PT')}</span>
+                              <span>Expira: {new Date(request.expires_at).toLocaleString('pt-PT')}</span>
+                            </div>
+                            
+                            {request.status === 'pending' && (
+                              <div className="bg-white dark:bg-zinc-800 p-3 rounded-sm border border-zinc-200 dark:border-zinc-700">
+                                <p className="text-xs text-zinc-500 mb-2">Código de Recuperação:</p>
+                                <div className="flex items-center gap-2">
+                                  <code className="text-lg font-mono font-bold tracking-widest text-zinc-900 dark:text-white bg-zinc-100 dark:bg-zinc-900 px-3 py-2 rounded">
+                                    {request.recovery_code}
+                                  </code>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => copyToClipboard(request.recovery_code)}
+                                    className="rounded-sm"
+                                  >
+                                    <Copy className="w-4 h-4 mr-1" />
+                                    Copiar
+                                  </Button>
+                                </div>
+                                <p className="text-xs text-zinc-500 mt-2">
+                                  Forneça este código ao utilizador. Ele é válido por 24 horas.
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDeleteRecoveryRequest(request.id)}
+                              className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                              title="Eliminar pedido"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
         </Tabs>
       </div>
 
