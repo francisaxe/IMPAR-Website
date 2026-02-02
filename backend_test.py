@@ -7,7 +7,7 @@ from datetime import datetime
 import uuid
 
 class IMPARAPITester:
-    def __init__(self, base_url="https://pesquisa-app-2.preview.emergentagent.com/api"):
+    def __init__(self, base_url="https://impar-survey.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.owner_token = None
         self.user_token = None

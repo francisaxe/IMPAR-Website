@@ -7,67 +7,264 @@ PRODUCT REQUIREMENTS:
 - Only admins can create surveys.
 - Survey creation must support 5 question types: Multiple Choice, Text, Rating, Yes/No, and Checkbox (multiple selections).
 - Admins can set an optional end date for surveys.
-- A content highlighting system (featured) for surveys, controlled by the admin, to display specific surveys on the landing page.
-- Comprehensive user profile management with numerous fields.
-- Users can apply to join the team via a popup on their profile, and admins can review these applications.
+- A content highlighting system (featured) for surveys, controlled by the admin.
+- Comprehensive user profile management, including profile editing and password changes.
+- Users can apply to join the team via a popup on their dashboard.
 - A My Responses page where users see their own answers and the aggregated global results for surveys they've taken (in percentages only).
 - The main survey list should indicate which surveys a user has already answered.
 - Surveys and responses must be ordered chronologically (newest first).
 - A public Results page where anyone can see aggregated survey results in percentages. Vote counts should only be visible to admins.
-- The entire UI was to be redesigned based on user-provided images. This is largely complete.
-- Survey numbering must be fixed and chronological, not based on filters or order.
+- Survey numbering must be fixed and chronological across all pages.
+- Each user can only respond to a survey once; subsequent responses update the original one.
+- The website must require login to view any page except the landing/login/register pages.
+- Admins must be able to delete surveys and download a CSV of all user data.
+- A password recovery mechanism (implemented as an admin-driven password reset).
+- Several UI/UX updates to the registration form and other pages.
 
 **User's preferred language**: Portuguese. The next agent MUST continue all communication and UI development in Portuguese.
 
 **what currently exists?**
-A full-stack application with a FastAPI backend, React frontend, and MongoDB. It has JWT authentication with owner (admin) and user roles. The UI redesign is mostly complete.
-
-Recent major features implemented include:
-- A Join the Team application flow, from a user profile popup to an admin review panel.
-- An enhanced registration form with extensive user data fields.
-- An updated Suggest Survey page allowing users to specify question types.
-- A large backend overhaul to support new permissions (admin-only survey creation), new question types, optional survey end dates, a featured toggle, chronological sorting, and fixed survey numbering.
-- Frontend pages (, , , , , ) have been updated to support these new features.
+A full-stack application (FastAPI backend, React frontend, MongoDB) with JWT authentication for owner and user roles. The application implements most of the user's requirements, including survey creation with various question types, an admin panel for managing users/suggestions/surveys, role-based permissions, and a user profile system. Recent updates include protected routes requiring login, admin-driven password reset, user data export (CSV), and dynamic registration form fields.
 
 **Last working item**:
-    - Last item agent was working: Restricting the user dashboard to hide survey creation capabilities and statistics from regular (non-admin) users. The agent was in the process of editing .
-    - Status: IN PROGRESS
-    - Agent Testing Done: N
-    - Which testing method agent to use? Frontend testing agent. The agent should log in as both an 'owner' and a 'user' to verify the dashboard's conditional rendering. The 'user' should not see survey creation options or statistics, while the 'owner' should.
-    - User Testing Done: N
+    - Last item agent was working: The agent was repeatedly trying to fix a bug in the Change Password functionality on the user's profile page. The user reported the error persists even after several attempts to fix it.
+    - Status: BLOCKED
+    - Agent Testing Done: Y (but failed to identify the root cause)
+    - Which testing method agent to use? both. The next agent must debug this by:
+        1. Using  to meticulously test the  endpoint again, verifying headers and payload.
+        2. Adding extensive  statements in the  function in  to inspect the request body, headers, and the full error response from the server.
+        3. Checking the backend logs ==> /var/log/supervisor/backend.err.log <==
+  File "/root/.venv/lib/python3.11/site-packages/starlette/routing.py", line 776, in app
+    await route.handle(scope, receive, send)
+  File "/root/.venv/lib/python3.11/site-packages/starlette/routing.py", line 297, in handle
+    await self.app(scope, receive, send)
+  File "/root/.venv/lib/python3.11/site-packages/starlette/routing.py", line 77, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/root/.venv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 64, in wrapped_app
+    raise exc
+  File "/root/.venv/lib/python3.11/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    await app(scope, receive, sender)
+  File "/root/.venv/lib/python3.11/site-packages/starlette/routing.py", line 72, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.venv/lib/python3.11/site-packages/fastapi/routing.py", line 278, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.venv/lib/python3.11/site-packages/fastapi/routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/backend/server.py", line 601, in submit_response
+    await db.responses.update_one(
+  File "/usr/local/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.venv/lib/python3.11/site-packages/pymongo/collection.py", line 1088, in update_one
+    self._update_retryable(
+  File "/root/.venv/lib/python3.11/site-packages/pymongo/collection.py", line 883, in _update_retryable
+    return self.__database.client._retryable_write(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1568, in _retryable_write
+    return self._retry_with_session(retryable, func, s, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1413, in _retry_with_session
+    return self._retry_internal(retryable, func, session, bulk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.venv/lib/python3.11/site-packages/pymongo/_csot.py", line 108, in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.venv/lib/python3.11/site-packages/pymongo/mongo_client.py", line 1460, in _retry_internal
+    return func(session, conn, retryable)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.venv/lib/python3.11/site-packages/pymongo/collection.py", line 864, in _update
+    return self._update(
+           ^^^^^^^^^^^^^
+  File "/root/.venv/lib/python3.11/site-packages/pymongo/collection.py", line 818, in _update
+    result = conn.command(
+             ^^^^^^^^^^^^^
+  File "/root/.venv/lib/python3.11/site-packages/pymongo/helpers.py", line 315, in inner
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.venv/lib/python3.11/site-packages/pymongo/pool.py", line 960, in command
+    self._raise_connection_failure(error)
+  File "/root/.venv/lib/python3.11/site-packages/pymongo/pool.py", line 932, in command
+    return command(
+           ^^^^^^^^
+  File "/root/.venv/lib/python3.11/site-packages/pymongo/network.py", line 150, in command
+    request_id, msg, size, max_doc_size = message._op_msg(
+                                          ^^^^^^^^^^^^^^^^
+  File "/root/.venv/lib/python3.11/site-packages/pymongo/message.py", line 765, in _op_msg
+    return _op_msg_uncompressed(flags, command, identifier, docs, opts)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+bson.errors.InvalidDocument: cannot encode object: Answer(question_id='a0675a01-7390-4743-9359-351dd39b002d', value='e87211af-3003-4c0e-8ecd-d39816c4ba8d'), of type: <class 'server.Answer'>
+WARNING:  WatchFiles detected changes in 'server.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [85]
+INFO:     Started server process [847]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'server.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [847]
+INFO:     Started server process [1154]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'server.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1154]
+INFO:     Started server process [1247]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'server.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1247]
+INFO:     Started server process [1606]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Will watch for changes in these directories: ['/app/backend']
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     Started reloader process [43] using WatchFiles
+INFO:     Started server process [90]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+
+==> /var/log/supervisor/backend.out.log <==
+INFO:     10.64.131.8:59026 - "GET /api/surveys/my HTTP/1.1" 200 OK
+INFO:     10.64.129.73:53538 - "GET /api/suggestions HTTP/1.1" 200 OK
+INFO:     10.64.130.72:41028 - "GET /api/admin/users HTTP/1.1" 200 OK
+INFO:     10.64.130.70:56712 - "GET /api/team-applications HTTP/1.1" 200 OK
+INFO:     10.64.131.9:39388 - "GET /api/surveys HTTP/1.1" 200 OK
+INFO:     10.64.131.9:39388 - "GET /api/suggestions HTTP/1.1" 200 OK
+INFO:     10.64.131.10:55150 - "GET /api/admin/users HTTP/1.1" 200 OK
+INFO:     10.64.131.10:39298 - "GET /api/surveys HTTP/1.1" 200 OK
+INFO:     10.64.130.71:49688 - "GET /api/team-applications HTTP/1.1" 200 OK
+INFO:     10.64.128.138:33104 - "DELETE /api/admin/users/c7ee554c-965e-4206-a417-66bbbfe715be HTTP/1.1" 200 OK
+INFO:     10.64.131.6:56124 - "DELETE /api/admin/users/d1ff0a14-3c25-4456-85de-5361df2102e8 HTTP/1.1" 200 OK
+INFO:     10.64.131.9:44386 - "DELETE /api/admin/users/1736077c-168e-44ca-a81d-590cb1415ad9 HTTP/1.1" 200 OK
+INFO:     10.64.128.138:50826 - "DELETE /api/admin/users/2736489d-d8ad-4316-9cb1-a8b5fd0a61b9 HTTP/1.1" 200 OK
+INFO:     10.64.130.71:58762 - "GET /api/surveys/my HTTP/1.1" 200 OK
+INFO:     10.64.130.72:37608 - "GET /api/surveys/my HTTP/1.1" 200 OK
+INFO:     10.64.129.73:34974 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.131.8:49898 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.130.72:56536 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.134.88:47034 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.130.72:52484 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     10.64.130.72:52484 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     10.64.128.138:60388 - "GET /api/surveys/my HTTP/1.1" 200 OK
+INFO:     10.64.130.70:37862 - "GET /api/surveys/my HTTP/1.1" 200 OK
+INFO:     10.64.130.71:45754 - "GET /api/admin/users HTTP/1.1" 200 OK
+INFO:     10.64.128.140:54058 - "GET /api/suggestions HTTP/1.1" 200 OK
+INFO:     10.64.128.140:54064 - "GET /api/team-applications HTTP/1.1" 200 OK
+INFO:     10.64.128.140:54076 - "GET /api/surveys HTTP/1.1" 200 OK
+INFO:     10.64.128.138:60388 - "GET /api/admin/users HTTP/1.1" 200 OK
+INFO:     10.64.130.70:37862 - "GET /api/suggestions HTTP/1.1" 200 OK
+INFO:     10.64.130.71:45754 - "GET /api/team-applications HTTP/1.1" 200 OK
+INFO:     10.64.128.140:54064 - "GET /api/surveys HTTP/1.1" 200 OK
+INFO:     10.64.130.70:37862 - "GET /api/surveys/my HTTP/1.1" 200 OK
+INFO:     10.64.130.71:45754 - "GET /api/surveys/my HTTP/1.1" 200 OK
+INFO:     10.64.130.72:38804 - "PUT /api/auth/change-password HTTP/1.1" 422 Unprocessable Entity
+INFO:     10.64.128.140:58426 - "PUT /api/auth/change-password HTTP/1.1" 422 Unprocessable Entity
+INFO:     10.64.128.138:60456 - "PUT /api/auth/change-password HTTP/1.1" 422 Unprocessable Entity
+INFO:     10.64.128.140:48310 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     10.64.130.72:33686 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.130.72:33686 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     10.64.129.73:42226 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.129.73:55128 - "PUT /api/auth/change-password HTTP/1.1" 422 Unprocessable Entity
+INFO:     10.64.134.88:38242 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.134.75:48926 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     10.64.134.88:38242 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.132.202:55432 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     10.64.132.205:39790 - "GET /api/surveys/my HTTP/1.1" 200 OK
+INFO:     10.64.132.205:39790 - "GET /api/surveys/my HTTP/1.1" 200 OK
+INFO:     10.64.134.75:48926 - "GET /api/suggestions HTTP/1.1" 200 OK
+INFO:     10.64.132.205:39790 - "GET /api/admin/users HTTP/1.1" 200 OK
+INFO:     10.64.134.75:55458 - "GET /api/team-applications HTTP/1.1" 200 OK
+INFO:     10.64.134.75:55464 - "GET /api/surveys HTTP/1.1" 200 OK
+INFO:     10.64.134.75:55458 - "GET /api/suggestions HTTP/1.1" 200 OK
+INFO:     10.64.132.202:55432 - "GET /api/team-applications HTTP/1.1" 200 OK
+INFO:     10.64.134.88:38242 - "GET /api/admin/users HTTP/1.1" 200 OK
+INFO:     10.64.134.75:48926 - "GET /api/surveys HTTP/1.1" 200 OK
+INFO:     10.64.131.7:57988 - "PUT /api/auth/change-password HTTP/1.1" 422 Unprocessable Entity
+INFO:     10.64.130.70:50424 - "PUT /api/auth/profile HTTP/1.1" 200 OK
+INFO:     10.64.131.8:39172 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.132.205:44906 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.132.205:35566 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     10.64.134.75:53086 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     10.64.132.205:58328 - "PUT /api/auth/profile HTTP/1.1" 200 OK
+INFO:     10.64.132.205:58328 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.134.75:48204 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     10.64.132.205:58328 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     10.64.134.88:60210 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.132.205:40160 - "POST /api/auth/login HTTP/1.1" 401 Unauthorized
+INFO:     10.64.132.202:48298 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     10.64.132.205:36770 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     10.64.134.88:33264 - "GET /api/surveys/my HTTP/1.1" 200 OK
+INFO:     10.64.134.75:47928 - "GET /api/surveys/my HTTP/1.1" 200 OK
+INFO:     10.64.132.202:48298 - "GET /api/suggestions HTTP/1.1" 200 OK
+INFO:     10.64.134.88:33264 - "GET /api/admin/users HTTP/1.1" 200 OK
+INFO:     10.64.132.202:48312 - "GET /api/team-applications HTTP/1.1" 200 OK
+INFO:     10.64.132.205:36770 - "GET /api/surveys HTTP/1.1" 200 OK
+INFO:     10.64.132.205:36770 - "GET /api/suggestions HTTP/1.1" 200 OK
+INFO:     10.64.134.88:33264 - "GET /api/team-applications HTTP/1.1" 200 OK
+INFO:     10.64.134.75:47928 - "GET /api/admin/users HTTP/1.1" 200 OK
+INFO:     10.64.132.205:36774 - "GET /api/surveys HTTP/1.1" 200 OK
+INFO:     10.64.134.88:38600 - "PUT /api/auth/change-password HTTP/1.1" 400 Bad Request
+INFO:     10.64.132.202:33484 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.134.75:36104 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     10.64.134.75:36104 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.134.88:42272 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     10.64.129.73:34072 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     10.64.130.72:42340 - "PUT /api/auth/change-password HTTP/1.1" 200 OK
+INFO:     10.64.129.73:51244 - "POST /api/auth/login HTTP/1.1" 401 Unauthorized
+INFO:     10.64.128.140:45994 - "POST /api/auth/login HTTP/1.1" 200 OK
+INFO:     10.64.130.71:52196 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     10.64.128.138:58046 - "GET /api/surveys/my HTTP/1.1" 200 OK
+INFO:     10.64.128.140:45994 - "GET /api/surveys/my HTTP/1.1" 200 OK
+INFO:     10.64.130.70:39084 - "PUT /api/auth/change-password HTTP/1.1" 200 OK
+INFO:     10.64.130.71:36978 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.130.71:36978 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.131.10:51446 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.131.7:38518 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     10.64.131.10:51446 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     10.64.131.9:44002 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.131.10:46022 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK
+INFO:     10.64.131.10:46022 - "GET /api/surveys?published=true&featured=true HTTP/1.1" 200 OK immediately after a failed attempt from the UI.
+    - User Testing Done: Y (User confirmed the bug still exists)
 
 **All Pending/In progress Issue list**:
-  - Issue 1: Finalize hiding survey management features from the non-admin dashboard (P0)
+  - Issue 1: User password change from profile page is not working (P0)
   
   Issues Detail:
   - Issue 1: 
-     - Attempted fixes: The agent started editing  to conditionally render components based on user role.
+     - Attempted fixes:
+        1. Corrected frontend response handling to avoid reading the response body twice.
+        2. Modified the backend endpoint () to use a Pydantic model and accept a JSON body instead of form data.
+        3. Tested the endpoint successfully with , suggesting the issue is in the frontend-backend communication.
+        4. Added more detailed error handling on the frontend.
      - Next debug checklist:
-        1. View the current state of .
-        2. Ensure the logic correctly uses the  flag from the  context.
-        3. Conditionally remove or hide the statistics cards (total surveys, published surveys), the Criar Inquérito button, and the list of user-created surveys for non-admins.
-        4. Implement alternative content for regular users on their dashboard, such as a welcome message and links to view active surveys or their past responses.
-     - Why fix this issue and what will be achieved with the fix? This is a core requirement from the user to enforce role permissions, ensuring only admins can create and manage surveys.
+        1. Review , specifically the  function.
+        2. Add  to print the , , and the caught  object to get more details from the browser console.
+        3. Review  and the  endpoint again. Ensure the  logic is correct.
+        4. After a failed attempt from the UI, immediately check the backend logs for any unhandled exceptions or errors.
+     - Why fix this issue and what will be achieved with the fix? This is a critical user-facing feature and a recurring blocker reported by the user multiple times. Fixing it is essential for user account management.
      - Status:  IN PROGRESS
-     - Is recurring issue? N
-     - Should Test frontend/backend/both after fix? Frontend
+     - Is recurring issue? Y
+     - Should Test frontend/backend/both after fix? Both
      - Blocked on other issue: None
 
 **In progress Task List**:
-  - Task 1: Complete and verify the full feature set from recent user requests (P0)
-
- Task Detail:
-  - Task 1: 
-     - Where to resume: Immediately after fixing Issue #1 (the dashboard permissions), a comprehensive end-to-end test of all recently implemented features is required.
-     - What will be achieved with this? This will ensure all interconnected features (admin-only creation, 5 question types, end dates, featured surveys, response visibility, correct numbering, and vote count privacy) work together as a cohesive system, fulfilling all recent user requirements.
-     - Status:  IN PROGRESS
-     - Should Test frontend/backend/both after fix? Both
-     - Blocked on something: Issue 1.
+  - None
 
 **Upcoming and Future Tasks**
 Upcoming Tasks:
-- **Implement Social Sharing (P1):** A  component exists but needs to be fully integrated and tested across the site.
-- **Comprehensive User Profile Management (P2):** The current profile page is mostly for data display. This task involves expanding it with more user settings and account management options.
+- **Comprehensive End-to-End Testing (P1):** After fixing the password change bug, a full test of all recent features (profile editing, admin password reset, CSV export, survey deletion) should be conducted.
 
 Future Tasks:
 - Email invitation system to invite users to surveys.
@@ -76,59 +273,57 @@ Future Tasks:
 - Ability to embed surveys on external websites via iframes.
 
 **Completed work in this session**
-- **Feature: Join Team Application Flow:**
-  - Implemented a modal on the  for users to submit applications.
-  - Created backend models and endpoints in  to handle submissions.
-  - Added a new tab to the  for admins to review and manage applications.
-- **Feature: Extended Registration and Profile:**
-  - The registration form () and user model () were updated to include numerous fields (location, demographics, etc.).
-- **Feature: Backend Overhaul for New Rules:**
-  -  was heavily modified to:
-    - Restrict survey creation to admins.
-    - Add new question types (, ) and an optional  for surveys.
-    - Implement a  endpoint for admins.
-    - Add a fixed, chronological  to all survey data.
-    - Create a  endpoint for users to view their answers alongside global results.
-    - Enforce chronological sorting for surveys and responses.
-- **Feature: Frontend Implementation for New Rules:**
-  - : UI for all 5 question types and end date picker.
-  - : Logic to render and submit new question types.
-  - : Respondida badge and admin-only featured star button.
-  - : Now filters to show only featured surveys.
-  - : Fully rewritten to use the new  endpoint.
-  -  & : Logic added to hide vote counts for non-admin users.
-  - All relevant pages updated to display the fixed .
-- **Bug Fix:** Fixed a duplicate variable declaration in  that was breaking the preview.
+- **Dashboard & Permissions:**
+    - Restricted the user dashboard, hiding admin-specific sections.
+    - Moved the Join Team feature from the Profile page to the User Dashboard.
+- **Admin Panel Features:**
+    - Implemented a detailed view for user suggestions in a dialog.
+    - Added a Sondagens tab where admins can view and delete surveys.
+    - Added a feature to export all user data as a CSV file.
+    - Implemented an admin-driven password reset for users.
+- **User Profile & Auth:**
+    - Rewrote the  to allow users to edit their personal data and change their password (though the password change is buggy).
+    - Implemented route protection, forcing login for all pages except the landing page.
+    - Modified the landing page to show non-interactive surveys for logged-out users, with clear calls-to-action to log in or register.
+- **Survey & Response Logic:**
+    - Ensured survey numbers are displayed correctly and consistently across all relevant pages (, , etc.).
+    - Modified the backend to enforce only one response per user per survey (subsequent attempts update the existing response).
+- **Registration Form:**
+    - Overhauled the location fields to use dynamic, dependent dropdowns for District -> Council -> Parish.
+    - Updated form options for gender and education level as per user request.
+- **Bug Fixes:**
+    - Fixed the CSV download by using  to handle the blob response.
+    - Fixed the  endpoint to correctly hide vote counts from non-admins.
+    - Corrected minor text issues (Participa to Participe).
+- **UI/UX:**
+    - Renamed Definições to Dados pessoais in the user profile navigation menu.
 
 **Earlier issues found/mentioned but not fixed**
-- None.
+   - **Password Change Bug:** The user reported continua a dar erro (it still gives an error) for the password change feature on the profile page. This issue was raised multiple times and remains unresolved.
 
 **Known issue recurrence from previous fork**
-- N/A
+  - N/A
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
 - **Backend:** FastAPI, Motor (async MongoDB driver), Pydantic
-- **Frontend:** React, React Router, TailwindCSS,  for toasts
+- **Frontend:** React, React Router, TailwindCSS,  for API calls,  for toasts.
 - **Database:** MongoDB
-- **Authentication:** JWT with role-based access control (owner vs user)
+- **Authentication:** JWT with role-based access control (owner vs user).  logic in .
 
 **key DB schema**
-- **users**: 
-- **surveys**: 
-- **questions**:  enum now includes , , , , .
-- **responses**: 
-- **suggestions**: 
-- **team_applications**:  (New collection)
+- **suggestions**: The  text field was replaced by structured fields: , , , .
+- **users**: No schema changes.
 
 **changes in tech stack**
-- None.
+- The  library was added to the frontend dependencies to handle file downloads.
 
 **All files of reference**
-- **Currently being modified:** 
-- **Heavily modified this session:**
+- **File with recurring bug:** 
+- **Backend endpoint for bug:**  in 
+- **Other heavily modified files:**
     - 
     - 
     - 
@@ -136,64 +331,57 @@ Future Tasks:
     - 
     - 
     - 
-    - 
-- **Key context file:**  (provides  and  state)
 
 **Areas that need refactoring**:
--  was completely overwritten with . A quick review for code quality and adherence to project patterns would be beneficial.
+- The  file was completely rewritten and is the source of a persistent bug. It needs careful debugging and potentially a refactor of the  function.
 
 **key api endpoints**
 - **New Endpoints:**
-  - 
-  - 
-  - 
-  - 
+    - : Allows an admin to set a new password for a user.
+    - : Allows an admin to delete a survey and its associated responses.
+    - : Provides a CSV file of all registered users.
+    - : Allows a logged-in user to change their own password (CURRENTLY BUGGED).
 - **Modified Endpoints:**
-  - : Now accepts many new user fields.
-  - : Now admin-only.
-  - : Now returns  and .
-  - : Now accepts a more structured suggestion format.
-  - : Now processes new question types.
+    - : Logic updated to replace existing responses instead of creating duplicates.
+    - : Now accepts a structured JSON object instead of a formatted string.
 
 **Critical Info for New Agent**
-- **Communicate in Portuguese.**
-- The immediate task is to finish the conditional logic in  to hide admin-only features from regular users.
-- After finishing the dashboard fix, it is **critical** to perform a thorough end-to-end test of the entire feature set implemented recently. Log in as both an admin and a regular user to verify all permissions, data display, and functionalities are working correctly.
+- **You MUST communicate in Portuguese.**
+- Your **absolute top priority (P0)** is to fix the password change bug on the user's profile page. The user has reported this multiple times, and the previous agent's fixes were unsuccessful. Do not proceed to other tasks until this is resolved and verified.
+- The password recovery feature is an admin-driven password reset from the admin panel, not a self-serve email flow. This is an intentional design decision.
+- The application now has strict route protection. Almost all pages require authentication. Test functionalities by logging in as both  and .
 
 **documents and test reports created in this job**
-- 
-
-**Last 10 User Messages and any pending HUMAN messages**
-1.  **User (402):** Remove survey creation/stats from the user dashboard. (In Progress)
-2.  **User (375):** Hide vote counts from non-admins. (Completed)
-3.  **User (347):** Make survey numbering fixed and chronological. (Completed)
-4.  **User (299):** Continue all implementations and fix results not showing. (In Progress)
-5.  **User (272):** Continue. (Approval to proceed). (Completed)
-6.  **User (256):** Update the Suggest page with question types. (Completed)
-7.  **User (199):** Large request for features/fixes (admin-only creation, 5 question types, end dates, featured surveys, etc.). (In Progress)
-8.  **User (190):** Add poll images to the About page. (Completed)
-9.  **User (128):** Implement the Join the team feature. (Completed)
-10. **User (message before #83):** Fix preview error. (Completed)
-
-**Project Health Check:**
-- **Broken**: Potentially. The  is mid-edit and might cause rendering errors for users until the changes are completed and tested.
-- **Mocked**: No.
-- **Inconsistent UI**: The primary visual redesign is complete. Current inconsistencies are functional (role-based permissions), which the last agent was actively fixing.
-
-**3rd Party Integrations**
 - None.
 
+**Last 10 User Messages and any pending HUMAN messages**
+1.  **User (424):** Add recover password feature. (Implemented as admin reset)
+2.  **User (411):** it still gives an error (re: password change). (IN PROGRESS - BLOCKER)
+3.  **User (400):** it still gives an error (re: password change). (IN PROGRESS - BLOCKER)
+4.  **User (395):** Failed to execute json on Response: body stream already read (re: password change). (Attempted Fix)
+5.  **User (382):** All users should be able to edit their profile and change their password. (Implemented)
+6.  **User (371):** Confirmed admin permission system. (Completed)
+7.  **User (348):** Require login to access site pages other than landing. (Implemented)
+8.  **User (333):** CSV download doesn't work; social sharing is buggy. (Fixed)
+9.  **User (306):** Add feature for admin to download CSV of all users. (Implemented)
+10. **User (261):** Admins need to be able to delete surveys. (Implemented)
+
+**Project Health Check:**
+- **Broken**: Yes. A core user-facing feature (password change) is confirmed broken by the user and is a recurring issue.
+- **Mocked**: No.
+
+**3rd Party Integrations**
+- **axios**: Used in the frontend for API calls, particularly for handling the CSV file download.
+
 **Testing status**
-  - Testing agent used after significant changes: YES (but not for the most recent, large batch of features).
+  - Testing agent used after significant changes: NO (The agent used manual testing methods like curl and screenshots, which failed to catch the persistent password change bug).
   - Troubleshoot agent used after agent stuck in loop: NO
-  - Test files created: None.
-  - Known regressions: None are known, but the risk is high due to the volume of recent, interconnected changes that have not been tested as a whole.
+  - Test files created: []
+  - Known regressions: The password change functionality is broken.
 
 **Credentials to test flow:**
-Execute the script  to create fresh test users.
 - **Admin:**  / 
 - **User:**  / 
 
 **What agent forgot to execute**
-- The agent did not perform a final, comprehensive end-to-end test of all the interconnected features requested in message #199. They were implemented individually but their interactions have not been validated.
-- The social sharing feature from the original product requirements remains unimplemented.</analysis>
+- The agent failed to resolve the recurring password change bug. After the second user report (), the agent should have escalated to the  or employed more systematic debugging (e.g., adding detailed logs on both client and server) instead of repeating similar checks.</analysis>
