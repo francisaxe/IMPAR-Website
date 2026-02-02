@@ -439,15 +439,26 @@ const AdminPage = () => {
                         {isOwner && (
                           <TableCell className="text-right">
                             {user.role !== 'owner' && (
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => setDeleteDialog({ open: true, type: 'user', item: user })}
-                                className="text-red-500 hover:text-red-600 hover:bg-red-50"
-                                data-testid={`delete-user-${user.id}`}
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
+                              <div className="flex items-center justify-end gap-2">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => setResetPasswordDialog({ open: true, user, newPassword: '' })}
+                                  className="text-blue-500 hover:text-blue-600 hover:bg-blue-50"
+                                  title="Resetar palavra-passe"
+                                >
+                                  <Key className="w-4 h-4" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => setDeleteDialog({ open: true, type: 'user', item: user })}
+                                  className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                                  data-testid={`delete-user-${user.id}`}
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </Button>
+                              </div>
                             )}
                           </TableCell>
                         )}
