@@ -392,6 +392,17 @@ const AdminPage = () => {
               </div>
             </CardContent>
           </Card>
+          <Card className="rounded-none border border-zinc-200 dark:border-zinc-800">
+            <CardContent className="p-4 flex items-center gap-3">
+              <CheckCircle2 className="w-5 h-5 text-zinc-500" />
+              <div>
+                <p className="text-2xl font-medium">
+                  {surveys.reduce((total, survey) => total + (survey.response_count || 0), 0)}
+                </p>
+                <p className="text-xs text-zinc-500">Total de Respostas</p>
+              </div>
+            </CardContent>
+          </Card>
           {/* Password Recovery Pending - Highlighted */}
           {passwordRecoveryRequests.filter((r) => r.status === 'pending').length > 0 && (
             <Card className="rounded-none border-2 border-yellow-400 bg-yellow-50 dark:border-yellow-600 dark:bg-yellow-900/20">
