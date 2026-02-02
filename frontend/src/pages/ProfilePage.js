@@ -90,37 +90,28 @@ const ProfilePage = () => {
 
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/change-password`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('impar_token')}`
-        },
-        body: JSON.stringify({
+      const token = localStorage.getItem('impar_token');
+      const response = await axios.put(
+        `${process.env.REACT_APP_BACKEND_URL}/api/auth/change-password`,
+        {
           current_password: passwordData.current_password,
           new_password: passwordData.new_password
-        })
-      });
-
-      // Tentar ler como JSON
-      let data;
-      try {
-        data = await response.json();
-      } catch (jsonError) {
-        console.error('Erro ao fazer parse do JSON:', jsonError);
-        throw new Error('Resposta inválida do servidor');
-      }
-
-      if (!response.ok) {
-        throw new Error(data.detail || 'Erro ao mudar palavra-passe');
-      }
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
 
       toast.success('Palavra-passe atualizada com sucesso!');
       setPasswordData({ current_password: '', new_password: '', confirm_password: '' });
       setShowPasswordChange(false);
     } catch (error) {
       console.error('Erro na mudança de password:', error);
-      toast.error(error.message || 'Falha ao mudar palavra-passe');
+      const errorMessage = error.response?.data?.detail || 'Falha ao mudar palavra-passe';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
