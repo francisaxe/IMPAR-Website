@@ -32,6 +32,14 @@ const LandingPage = () => {
     return new Date(dateString).toLocaleDateString('pt-PT');
   };
 
+  const handleSurveyClick = (surveyId) => {
+    if (!user) {
+      navigate('/login', { state: { from: `/surveys/${surveyId}/take` } });
+    } else {
+      navigate(`/surveys/${surveyId}/take`);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#f5f5f5]" data-testid="landing-page">
       {/* Hero Section */}
