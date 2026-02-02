@@ -245,6 +245,34 @@ const AdminPage = () => {
     }
   };
 
+  const handleDeleteRecoveryRequest = async (requestId) => {
+    try {
+      await api.delete(`/admin/password-recovery-requests/${requestId}`);
+      setPasswordRecoveryRequests(passwordRecoveryRequests.filter((r) => r.id !== requestId));
+      toast.success('Pedido eliminado');
+    } catch (error) {
+      toast.error('Falha ao eliminar pedido');
+    }
+  };
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+    toast.success('Código copiado para a área de transferência');
+  };
+
+  const getRecoveryStatusBadge = (status) => {
+    switch (status) {
+      case 'pending':
+        return <Badge variant="outline" className="rounded-none text-yellow-600 border-yellow-600">Pendente</Badge>;
+      case 'used':
+        return <Badge variant="outline" className="rounded-none text-green-600 border-green-600">Usado</Badge>;
+      case 'expired':
+        return <Badge variant="outline" className="rounded-none text-red-600 border-red-600">Expirado</Badge>;
+      default:
+        return <Badge variant="outline" className="rounded-none">{status}</Badge>;
+    }
+  };
+
   const getQuestionTypeLabel = (type) => {
     const types = {
       'multiple_choice': 'Escolha Múltipla',
