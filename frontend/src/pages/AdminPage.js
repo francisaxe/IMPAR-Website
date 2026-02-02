@@ -62,16 +62,18 @@ const AdminPage = () => {
 
   const fetchData = async () => {
     try {
-      const [usersRes, suggestionsRes, teamAppsRes, surveysRes] = await Promise.all([
+      const [usersRes, suggestionsRes, teamAppsRes, surveysRes, recoveryRes] = await Promise.all([
         api.get('/admin/users'),
         api.get('/suggestions'),
         api.get('/team-applications'),
         api.get('/surveys'),
+        api.get('/admin/password-recovery-requests'),
       ]);
       setUsers(usersRes.data);
       setSuggestions(suggestionsRes.data);
       setTeamApplications(teamAppsRes.data);
       setSurveys(surveysRes.data);
+      setPasswordRecoveryRequests(recoveryRes.data);
     } catch (error) {
       toast.error('Falha ao carregar dados de administração');
     } finally {
