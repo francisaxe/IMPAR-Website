@@ -215,6 +215,31 @@ const AdminPage = () => {
     }
   };
 
+  const handleResetPassword = async () => {
+    if (!resetPasswordDialog.user || !resetPasswordDialog.newPassword) {
+      toast.error('Por favor, insira uma nova palavra-passe');
+      return;
+    }
+
+    if (resetPasswordDialog.newPassword.length < 6) {
+      toast.error('A palavra-passe deve ter pelo menos 6 caracteres');
+      return;
+    }
+
+    try {
+      const response = await api.put(
+        `/admin/users/${resetPasswordDialog.user.id}/reset-password`,
+        null,
+        { params: { new_password: resetPasswordDialog.newPassword } }
+      );
+      
+      toast.success(`Password resetada com sucesso para ${resetPasswordDialog.user.email}`);
+      setResetPasswordDialog({ open: false, user: null, newPassword: '' });
+    } catch (error) {
+      toast.error(error.response?.data?.detail || 'Falha ao resetar password');
+    }
+  };
+
   const getQuestionTypeLabel = (type) => {
     const types = {
       'multiple_choice': 'Escolha Múltipla',
