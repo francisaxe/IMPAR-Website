@@ -982,6 +982,28 @@ async def delete_user(user_id: str, admin: dict = Depends(get_admin_user)):
     await db.users.delete_one({"id": user_id})
     return {"message": "User deleted"}
 
+@api_router.put("/admin/users/{user_id}/reset-password")
+async def reset_user_password(user_id: str, new_password: str, admin: dict = Depends(get_admin_user)):
+    """Permite que admin/owner resete a password de um utilizador"""
+    # Verificar se user existe
+    user = await db.users.find_one({"id": user_id}, {"_id": 0})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Apenas owner pode resetar password de outros admins/owners
+    if user["role"] in ["admin", "owner"] and admin["role"] != "owner":
+        raise HTTPException(status_code=403, detail="Only owner can reset admin passwords")
+    
+    # Validar nova password
+    if len(new_password) < 6:
+        raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
+    
+    # Atualizar password
+    hashed_password = hash_password(new_password)
+    await db.users.update_one({"id": user_id}, {"$set": {"password": hashed_password}})
+    
+    return {"message": "Password reset successfully", "email": user["email"]}
+
 # ===================== SUGGESTION ROUTES =====================
 
 @api_router.post("/suggestions", response_model=Suggestion)
