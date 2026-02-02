@@ -196,7 +196,7 @@ const LandingPage = () => {
               </div>
 
               {/* Lista de Benefícios */}
-              <div className="space-y-4">
+              <div className="space-y-4 mb-6">
                 <div className="flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0" />
                   <p className="text-zinc-600">Partilhe as suas opiniões valiosas</p>
@@ -210,6 +210,30 @@ const LandingPage = () => {
                   <p className="text-zinc-600">Veja resultados em tempo real</p>
                 </div>
               </div>
+
+              {/* CTA Buttons for non-authenticated users */}
+              {!user && (
+                <div className="pt-4 border-t border-zinc-100">
+                  <p className="text-sm text-zinc-500 mb-3">
+                    Crie uma conta gratuitamente para começar a participar:
+                  </p>
+                  <div className="flex gap-3">
+                    <Button
+                      onClick={() => navigate('/register')}
+                      className="rounded-sm bg-zinc-900 text-white hover:bg-zinc-800"
+                    >
+                      Criar Conta
+                    </Button>
+                    <Button
+                      onClick={() => navigate('/login')}
+                      variant="outline"
+                      className="rounded-sm border-zinc-300 text-zinc-700 hover:bg-zinc-100"
+                    >
+                      Já tenho conta
+                    </Button>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
