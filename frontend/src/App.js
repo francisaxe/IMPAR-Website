@@ -102,6 +102,14 @@ function AppRoutes() {
         }
       />
       <Route
+        path="/forgot-password"
+        element={
+          <PublicRoute>
+            <ForgotPasswordPage />
+          </PublicRoute>
+        }
+      />
+      <Route
         path="/surveys"
         element={
           <ProtectedRoute>
