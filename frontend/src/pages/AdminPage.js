@@ -395,7 +395,7 @@ const AdminPage = () => {
 
         {/* Tabs */}
         <Tabs defaultValue="users" className="space-y-6">
-          <TabsList className="rounded-none bg-zinc-100 dark:bg-zinc-800 p-1">
+          <TabsList className="rounded-none bg-zinc-100 dark:bg-zinc-800 p-1 flex-wrap">
             <TabsTrigger value="users" className="rounded-none data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-950">
               <Users className="w-4 h-4 mr-2" />
               Utilizadores
@@ -411,6 +411,10 @@ const AdminPage = () => {
             <TabsTrigger value="team-applications" className="rounded-none data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-950">
               <Shield className="w-4 h-4 mr-2" />
               Candidaturas
+            </TabsTrigger>
+            <TabsTrigger value="password-recovery" className="rounded-none data-[state=active]:bg-white dark:data-[state=active]:bg-zinc-950">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Recuperação
             </TabsTrigger>
           </TabsList>
 
