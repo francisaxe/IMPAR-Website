@@ -113,9 +113,14 @@ const Navbar = () => {
                   {isAdmin && (
                     <>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => navigate('/admin')} data-testid="menu-admin">
+                      <DropdownMenuItem onClick={() => navigate('/admin')} data-testid="menu-admin" className="relative">
                         <Shield className="w-4 h-4 mr-2" />
                         Administração
+                        {pendingRecoveries > 0 && (
+                          <span className="ml-auto bg-yellow-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                            {pendingRecoveries}
+                          </span>
+                        )}
                       </DropdownMenuItem>
                     </>
                   )}
