@@ -125,6 +125,10 @@ class ProfileUpdate(BaseModel):
     bio: Optional[str] = None
     avatar_url: Optional[str] = None
 
+class PasswordChange(BaseModel):
+    current_password: str
+    new_password: str
+
 # Question Models
 class QuestionOption(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
