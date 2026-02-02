@@ -114,6 +114,16 @@ const LoginPage = () => {
                 Criar conta
               </Link>
             </div>
+
+            {/* Password Recovery Info */}
+            <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <p className="text-sm text-blue-900">
+                <strong>Esqueceu-se da palavra-passe?</strong>
+              </p>
+              <p className="text-xs text-blue-700 mt-1">
+                Contacte um administrador do sistema para resetar a sua palavra-passe. Os administradores podem definir uma palavra-passe temporária que poderá alterar após fazer login.
+              </p>
+            </div>
           </CardContent>
         </Card>
 
