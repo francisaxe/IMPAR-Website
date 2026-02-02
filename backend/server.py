@@ -451,6 +451,99 @@ async def change_password(
     
     return {"message": "Palavra-passe atualizada com sucesso"}
 
+# ===================== PASSWORD RECOVERY ROUTES =====================
+
+@api_router.post("/auth/request-recovery")
+async def request_password_recovery(data: PasswordRecoveryRequest):
+    """Solicita recuperação de password - gera código para o admin fornecer"""
+    # Verificar se o email existe
+    user = await db.users.find_one({"email": data.email}, {"_id": 0, "password": 0})
+    if not user:
+        # Por segurança, não revelamos se o email existe ou não
+        return {"message": "Se o email estiver registado, um pedido de recuperação foi criado. Contacte um administrador para obter o código."}
+    
+    # Invalidar pedidos anteriores do mesmo utilizador
+    await db.password_recovery.update_many(
+        {"user_id": user["id"], "status": "pending"},
+        {"$set": {"status": "expired"}}
+    )
+    
+    # Criar novo pedido de recuperação
+    recovery = PasswordRecovery(
+        user_id=user["id"],
+        user_email=user["email"],
+        user_name=user["name"],
+        recovery_code=generate_recovery_code()
+    )
+    await db.password_recovery.insert_one(recovery.model_dump())
+    
+    return {"message": "Se o email estiver registado, um pedido de recuperação foi criado. Contacte um administrador para obter o código."}
+
+@api_router.post("/auth/reset-with-code")
+async def reset_password_with_code(data: PasswordRecoveryReset):
+    """Permite redefinir password usando código de recuperação"""
+    # Buscar pedido de recuperação válido
+    recovery = await db.password_recovery.find_one({
+        "user_email": data.email,
+        "recovery_code": data.recovery_code,
+        "status": "pending"
+    }, {"_id": 0})
+    
+    if not recovery:
+        raise HTTPException(status_code=400, detail="Código de recuperação inválido ou expirado")
+    
+    # Verificar se não expirou
+    expires_at = datetime.fromisoformat(recovery["expires_at"].replace('Z', '+00:00'))
+    if datetime.now(timezone.utc) > expires_at:
+        await db.password_recovery.update_one(
+            {"id": recovery["id"]},
+            {"$set": {"status": "expired"}}
+        )
+        raise HTTPException(status_code=400, detail="Código de recuperação expirado")
+    
+    # Validar nova password
+    if len(data.new_password) < 6:
+        raise HTTPException(status_code=400, detail="A palavra-passe deve ter pelo menos 6 caracteres")
+    
+    # Atualizar password
+    hashed_password = hash_password(data.new_password)
+    await db.users.update_one({"email": data.email}, {"$set": {"password": hashed_password}})
+    
+    # Marcar código como usado
+    await db.password_recovery.update_one(
+        {"id": recovery["id"]},
+        {"$set": {"status": "used"}}
+    )
+    
+    return {"message": "Palavra-passe redefinida com sucesso"}
+
+@api_router.get("/admin/password-recovery-requests")
+async def get_password_recovery_requests(admin: dict = Depends(get_admin_user)):
+    """Lista pedidos de recuperação de password para admins"""
+    requests = await db.password_recovery.find({}, {"_id": 0}).sort("created_at", -1).to_list(100)
+    
+    # Verificar e atualizar pedidos expirados
+    now = datetime.now(timezone.utc)
+    for req in requests:
+        if req["status"] == "pending":
+            expires_at = datetime.fromisoformat(req["expires_at"].replace('Z', '+00:00'))
+            if now > expires_at:
+                await db.password_recovery.update_one(
+                    {"id": req["id"]},
+                    {"$set": {"status": "expired"}}
+                )
+                req["status"] = "expired"
+    
+    return requests
+
+@api_router.delete("/admin/password-recovery-requests/{request_id}")
+async def delete_password_recovery_request(request_id: str, admin: dict = Depends(get_admin_user)):
+    """Elimina um pedido de recuperação"""
+    result = await db.password_recovery.delete_one({"id": request_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Pedido não encontrado")
+    return {"message": "Pedido eliminado"}
+
 # ===================== SURVEY ROUTES =====================
 
 @api_router.post("/surveys", response_model=SurveyResponse)
