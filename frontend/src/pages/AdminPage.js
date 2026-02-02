@@ -51,6 +51,7 @@ const AdminPage = () => {
   const [newSuggestion, setNewSuggestion] = useState('');
   const [deleteDialog, setDeleteDialog] = useState({ open: false, type: '', item: null });
   const [suggestionDialog, setSuggestionDialog] = useState({ open: false, suggestion: null });
+  const [resetPasswordDialog, setResetPasswordDialog] = useState({ open: false, user: null, newPassword: '' });
 
   useEffect(() => {
     fetchData();
