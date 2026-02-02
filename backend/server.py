@@ -396,6 +396,32 @@ async def update_profile(update: ProfileUpdate, current_user: dict = Depends(get
     updated_user = await db.users.find_one({"id": current_user["id"]}, {"_id": 0, "password": 0})
     return UserResponse(**updated_user)
 
+@api_router.put("/auth/change-password")
+async def change_password(
+    current_password: str,
+    new_password: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """Permite que o utilizador mude sua própria password"""
+    # Buscar user completo (com password)
+    user = await db.users.find_one({"id": current_user["id"]})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Verificar password atual
+    if not bcrypt.checkpw(current_password.encode('utf-8'), user["password"].encode('utf-8')):
+        raise HTTPException(status_code=400, detail="Palavra-passe atual incorreta")
+    
+    # Validar nova password
+    if len(new_password) < 6:
+        raise HTTPException(status_code=400, detail="Nova palavra-passe deve ter pelo menos 6 caracteres")
+    
+    # Atualizar password
+    hashed_password = hash_password(new_password)
+    await db.users.update_one({"id": current_user["id"]}, {"$set": {"password": hashed_password}})
+    
+    return {"message": "Palavra-passe atualizada com sucesso"}
+
 # ===================== SURVEY ROUTES =====================
 
 @api_router.post("/surveys", response_model=SurveyResponse)
