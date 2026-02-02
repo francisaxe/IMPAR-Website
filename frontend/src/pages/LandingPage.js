@@ -95,50 +95,85 @@ const LandingPage = () => {
                 </p>
               ) : (
                 <div className="space-y-4">
-                  {featuredSurveys.map((survey, index) => (
-                    <Link
-                      key={survey.id}
-                      to={`/surveys/${survey.id}/take`}
-                      className="block"
-                    >
-                      <div className="border border-zinc-100 hover:border-zinc-200 transition-colors p-4 rounded-lg bg-white hover:bg-zinc-50">
-                        <div className="flex items-start gap-3">
-                          {/* Tag Sondagem */}
-                          <span className="inline-flex items-center gap-1 text-xs bg-zinc-100 text-zinc-600 px-2 py-1 rounded">
-                            <Smartphone className="w-3 h-3" />
-                            Sondagem
-                          </span>
-                          
-                          <div className="flex-1">
-                            {/* Título */}
-                            <div className="flex items-start justify-between gap-2">
-                              <h3 className="font-medium text-zinc-900">
-                                {survey.survey_number}. {survey.title}
-                              </h3>
-                              {survey.is_featured && (
-                                <Star className="w-4 h-4 fill-amber-400 text-amber-400 flex-shrink-0" />
-                              )}
-                            </div>
-                            
-                            {/* Descrição */}
-                            {survey.description && (
-                              <p className="text-sm text-zinc-500 mt-1">
-                                {survey.description}
-                              </p>
-                            )}
-                            
-                            {/* Meta */}
-                            <div className="flex items-center justify-between mt-3 text-xs text-zinc-400">
-                              <span>{formatDate(survey.created_at)}</span>
-                              <span className="flex items-center gap-1">
-                                <Users className="w-3 h-3" />
-                                {survey.response_count || 0}
-                              </span>
-                            </div>
+                  {!user && (
+                    <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                      <div className="flex items-start gap-3">
+                        <Lock className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-sm text-amber-900 font-medium mb-2">
+                            Faça login para participar nas sondagens
+                          </p>
+                          <div className="flex gap-2">
+                            <Button
+                              onClick={() => navigate('/login')}
+                              className="rounded-sm bg-zinc-900 text-white hover:bg-zinc-800 text-sm h-8 px-4"
+                            >
+                              Iniciar Sessão
+                            </Button>
+                            <Button
+                              onClick={() => navigate('/register')}
+                              variant="outline"
+                              className="rounded-sm border-zinc-300 text-zinc-700 hover:bg-zinc-100 text-sm h-8 px-4"
+                            >
+                              Registar
+                            </Button>
                           </div>
                         </div>
                       </div>
-                    </Link>
+                    </div>
+                  )}
+                  {featuredSurveys.map((survey, index) => (
+                    <div
+                      key={survey.id}
+                      onClick={() => handleSurveyClick(survey.id)}
+                      className={`border border-zinc-100 transition-colors p-4 rounded-lg bg-white ${
+                        user ? 'hover:border-zinc-200 hover:bg-zinc-50 cursor-pointer' : 'opacity-75 cursor-not-allowed relative'
+                      }`}
+                    >
+                      {!user && (
+                        <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] rounded-lg flex items-center justify-center">
+                          <div className="flex items-center gap-2 text-zinc-600">
+                            <Lock className="w-4 h-4" />
+                            <span className="text-sm font-medium">Login necessário</span>
+                          </div>
+                        </div>
+                      )}
+                      <div className="flex items-start gap-3">
+                        {/* Tag Sondagem */}
+                        <span className="inline-flex items-center gap-1 text-xs bg-zinc-100 text-zinc-600 px-2 py-1 rounded">
+                          <Smartphone className="w-3 h-3" />
+                          Sondagem
+                        </span>
+                        
+                        <div className="flex-1">
+                          {/* Título */}
+                          <div className="flex items-start justify-between gap-2">
+                            <h3 className="font-medium text-zinc-900">
+                              {survey.survey_number}. {survey.title}
+                            </h3>
+                            {survey.is_featured && (
+                              <Star className="w-4 h-4 fill-amber-400 text-amber-400 flex-shrink-0" />
+                            )}
+                          </div>
+                          
+                          {/* Descrição */}
+                          {survey.description && (
+                            <p className="text-sm text-zinc-500 mt-1">
+                              {survey.description}
+                            </p>
+                          )}
+                          
+                          {/* Meta */}
+                          <div className="flex items-center justify-between mt-3 text-xs text-zinc-400">
+                            <span>{formatDate(survey.created_at)}</span>
+                            <span className="flex items-center gap-1">
+                              <Users className="w-3 h-3" />
+                              {survey.response_count || 0}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   ))}
                 </div>
               )}
