@@ -288,6 +288,10 @@ def hash_password(password: str) -> str:
 def verify_password(password: str, hashed: str) -> bool:
     return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
 
+def generate_recovery_code() -> str:
+    """Gera um código de recuperação de 8 caracteres alfanuméricos"""
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+
 def create_token(user_id: str, email: str, role: str) -> str:
     payload = {
         "sub": user_id,
