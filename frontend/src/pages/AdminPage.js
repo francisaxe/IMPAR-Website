@@ -392,6 +392,20 @@ const AdminPage = () => {
               </div>
             </CardContent>
           </Card>
+          {/* Password Recovery Pending - Highlighted */}
+          {passwordRecoveryRequests.filter((r) => r.status === 'pending').length > 0 && (
+            <Card className="rounded-none border-2 border-yellow-400 bg-yellow-50 dark:border-yellow-600 dark:bg-yellow-900/20">
+              <CardContent className="p-4 flex items-center gap-3">
+                <RefreshCw className="w-5 h-5 text-yellow-600" />
+                <div>
+                  <p className="text-2xl font-medium text-yellow-700 dark:text-yellow-400">
+                    {passwordRecoveryRequests.filter((r) => r.status === 'pending').length}
+                  </p>
+                  <p className="text-xs text-yellow-600 dark:text-yellow-500 font-medium">Recuperações Pendentes</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Tabs */}
