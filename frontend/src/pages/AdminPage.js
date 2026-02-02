@@ -41,7 +41,7 @@ import {
   AlertDialogTitle,
 } from '../components/ui/alert-dialog';
 import { toast } from 'sonner';
-import { Users, MessageSquare, Shield, Trash2, Send, Eye, FileText, HelpCircle, Tag, ClipboardList, Download, Key } from 'lucide-react';
+import { Users, MessageSquare, Shield, Trash2, Send, Eye, FileText, HelpCircle, Tag, ClipboardList, Download, Key, RefreshCw, Copy } from 'lucide-react';
 
 const AdminPage = () => {
   const { api, isOwner } = useAuth();
