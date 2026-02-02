@@ -101,9 +101,10 @@ const ProfilePage = () => {
         })
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.detail || 'Erro ao mudar palavra-passe');
+        throw new Error(data.detail || 'Erro ao mudar palavra-passe');
       }
 
       toast.success('Palavra-passe atualizada com sucesso!');
